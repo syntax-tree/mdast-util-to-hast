@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+- '0.11'
+- '0.12'
+- '4.0'
+- '5.0'
+- '6.0'
+after_success: bash <(curl -s https://codecov.io/bash)
+deploy:
+  - provider: npm
+    email: tituswormer@gmail.com
+    api_key:
+      secure: uzCwl47vMVgSYbju4YshfX6OczBg/UgFAl0ie3Ia36eV219ZqL2R8LbJluOvVrZUjPiFRZEAxtzmahZ2OrfYt8VVRGWKChE6lyIaGQjuJ+4puWVylcOg+cTeIEgo9VwTd4iccrmBYfLxfpE0gdge/eaeyOdp55okFyCgUJ8kH/WORnA3pOcR1ZHa0fK3FBAVeCjmnXqvSVvg3pSD6NR755+kWid4715Deg4nfO+IskvHSpLc9e3y1iaAxB8yrwNDty+OX/R8USYm5ExiZM3RBII6fk+I+Ww2AXn4u02evrIhMW9sYoZKEQFjnponKCodT04Q2W1lFAMYr1KynL1Dba2/h8cM92WYSUqjiQ48U1ElFw5sPSzscQV5eE+tqf/O5wHQsmR5dpMzbkaj9oSYs9XtHRjovHT2+6LvADv/RR/Hul5LmZLTAN7lscJeGUbR7ii0sOPLVecCHbdmrVusx+PXr+Rspxk6dCGG253NOcpJ4iuC+lc+lip6EjNYLEr7gudaJHPw7DkuJujtmX3pWb/wWmjpcDlJUs6ZkUdFdUdlmEzzMzipCCvqKne9WVpptaoSymVIYujPUjMFPQK1xmcv97UCgRFCBmZ5eACccI3uJD3MBTCDPltGCOyNMiouARn+bHoTBYZu4F0jXnwMp4nFnPO7NUHwmXaUDLMX0kE=
+    on:
+      tags: true
+      node: '5.0'
+  - provider: releases
+    api_key:
+      secure: hbGcDb6txAxrFau23UjHFKkMDNGZ+F1H4F6ERe4UQpOGBV9CkBz1AU/N1yXcuPpaHRaZmCvGXfviD1l4c1vlLmIDIO4kF/pjAxHJClXDYfYBXwGNLr4m+8tS6Re0+2MRVRdWm7WrKl4cRNSzbU8VcgUbXG+2ElFaWkT5q/SpeHlYwsqRVlcdCW6fATFxe9LKST6wIn3sBbs9KQ0g6aErrP/7mKJXdE7Zjhpy6IzooWLUDE49W9SDNv2LbeJHWI3c9FSP9yOKX5sEgomMXAlSwchXPVnE66jF7OHb4gmtszV27r2AsuzyItAirTgC1AXo/o9wYgQhIQUyvKrJ8begHNU1lg1RMAdV+V7JUQf9Qm1eiI1T1C0tDkPLe20VsNTK9bL7tY8ELky4ICZkIhVmWHsaOLqZvhQs2GCYt/CDgkEq2lbU9KaX0cJJBlQNNqBeorN8k3nMW0v2yyEKl4DgP4O2yZAH8+5is1MbS3XiWpMgCZAhojORaDRJNodR/Y6u4XV1yjjmljnv3UCS7g6lA+0zbTy1qp7cr0fPe5NFCAMo6/NaVOuzkBb4J8MSx1Xkn6X0Zn4aZePOf/6w8iZBoIguC7aVV9ShEdSkec37oqMv4AUCDVHMZgPixdYEWMSHsGYoCMs7jSK8fpNGCh48U7EQU89NZHFFmzVDm7pfmUw=
+    file:
+      - "mdast-util-to-hast.js"
+      - "mdast-util-to-hast.min.js"
+    on:
+      tags: true
+      node: '6.0'

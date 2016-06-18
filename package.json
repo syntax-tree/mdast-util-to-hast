@@ -1,0 +1,64 @@
+{
+  "name": "mdast-util-to-hast",
+  "version": "0.0.0",
+  "description": "Transform MDAST to HAST",
+  "license": "MIT",
+  "keywords": [
+    "mdast",
+    "util",
+    "hast"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/mdast-util-to-hast.git"
+  },
+  "bugs": "https://github.com/wooorm/mdast-util-to-hast/issues",
+  "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "dependencies": {
+    "collapse-white-space": "^1.0.0",
+    "detab": "^1.0.2",
+    "mdast-util-definitions": "^1.1.1",
+    "normalize-uri": "^1.0.0",
+    "trim": "0.0.1",
+    "trim-lines": "^1.0.0",
+    "unist-builder": "^1.0.1",
+    "unist-util-position": "^2.0.1",
+    "unist-util-visit": "^1.1.0",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "eslint": "^2.0.0",
+    "esmangle": "^1.0.1",
+    "istanbul": "^0.4.0",
+    "jscs": "^3.0.0",
+    "jscs-jsdoc": "^2.0.0",
+    "remark": "^5.0.1",
+    "remark-cli": "^1.0.0",
+    "remark-comment-config": "^4.0.0",
+    "remark-github": "^5.0.0",
+    "remark-lint": "^4.0.0",
+    "remark-usage": "^4.0.0",
+    "remark-validate-links": "^4.0.0",
+    "tape": "^4.0.0",
+    "unist-util-inspect": "^4.0.0"
+  },
+  "scripts": {
+    "build-md": "remark . --quiet --frail",
+    "build-bundle": "browserify index.js --bare -s mdastUtilToHAST > mdast-util-to-hast.js",
+    "build-mangle": "esmangle mdast-util-to-hast.js > mdast-util-to-hast.min.js",
+    "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
+    "lint-api": "eslint .",
+    "lint-style": "jscs --reporter inline .",
+    "lint": "npm run lint-api && npm run lint-style",
+    "test-api": "node test.js",
+    "test-coverage": "istanbul cover test.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
+  }
+}
