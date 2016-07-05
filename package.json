@@ -50,8 +50,8 @@
     "build-mangle": "esmangle mdast-util-to-hast.js > mdast-util-to-hast.min.js",
     "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
     "lint": "xo",
-    "test-api": "node test.js",
-    "test-coverage": "istanbul cover test.js",
+    "test-api": "node test",
+    "test-coverage": "istanbul cover test",
     "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "xo": {
