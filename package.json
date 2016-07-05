@@ -11,10 +11,7 @@
   "files": [
     "index.js"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wooorm/mdast-util-to-hast.git"
-  },
+  "repository": "https://github.com/wooorm/mdast-util-to-hast",
   "bugs": "https://github.com/wooorm/mdast-util-to-hast/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
@@ -34,11 +31,8 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
-    "eslint": "^2.0.0",
     "esmangle": "^1.0.1",
     "istanbul": "^0.4.0",
-    "jscs": "^3.0.0",
-    "jscs-jsdoc": "^2.0.0",
     "remark": "^5.0.1",
     "remark-cli": "^1.0.0",
     "remark-comment-config": "^4.0.0",
@@ -47,18 +41,49 @@
     "remark-usage": "^4.0.0",
     "remark-validate-links": "^4.0.0",
     "tape": "^4.0.0",
-    "unist-util-inspect": "^4.0.0"
+    "unist-util-inspect": "^4.0.0",
+    "xo": "^0.16.0"
   },
   "scripts": {
     "build-md": "remark . --quiet --frail",
     "build-bundle": "browserify index.js --bare -s mdastUtilToHAST > mdast-util-to-hast.js",
     "build-mangle": "esmangle mdast-util-to-hast.js > mdast-util-to-hast.min.js",
     "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
-    "lint-api": "eslint .",
-    "lint-style": "jscs --reporter inline .",
-    "lint": "npm run lint-api && npm run lint-style",
+    "lint": "xo",
     "test-api": "node test.js",
     "test-coverage": "istanbul cover test.js",
     "test": "npm run build && npm run lint && npm run test-coverage"
+  },
+  "xo": {
+    "space": true,
+    "rules": {
+      "guard-for-in": [
+        0
+      ],
+      "eqeqeq": [
+        0,
+        "allow-null"
+      ],
+      "no-eq-null": [
+        0
+      ]
+    },
+    "ignores": [
+      "mdast-util-to-hast.js",
+      "mdast-util-to-hast.min.js"
+    ]
+  },
+  "remarkConfig": {
+    "output": true,
+    "plugins": [
+      "comment-config",
+      "github",
+      "lint",
+      "usage",
+      "validate-links"
+    ],
+    "settings": {
+      "bullet": "*"
+    }
   }
 }

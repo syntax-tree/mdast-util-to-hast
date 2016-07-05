@@ -45,12 +45,11 @@ root[1] (1:1-1:20, 0-19)
 
 Transform the given [MDAST][] tree to a [HAST][] tree.
 
-###### Parameters
+###### `options.allowDangerousHTML`
 
-*   `node` ([`MDASTNode`][mdast]).
-*   `options.allowDangerousHTML` (`boolean`, default: `false`)
-    — Whether to allow `html` nodes and inject them as raw HTML.
-    Only do this when compiling later with `hast-util-to-html`.
+Whether to allow `html` nodes and inject them as raw HTML (`boolean`,
+default: `false`). Only do this when compiling later with
+`hast-util-to-html`.
 
 ###### Returns
 
