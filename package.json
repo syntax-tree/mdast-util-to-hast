@@ -9,6 +9,7 @@
     "hast"
   ],
   "files": [
+    "lib",
     "index.js"
   ],
   "repository": "https://github.com/wooorm/mdast-util-to-hast",
@@ -20,6 +21,7 @@
   "dependencies": {
     "collapse-white-space": "^1.0.0",
     "detab": "^1.0.2",
+    "has": "^1.0.1",
     "mdast-util-definitions": "^1.1.1",
     "normalize-uri": "^1.0.0",
     "trim": "0.0.1",
