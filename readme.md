@@ -24,6 +24,7 @@ Transform:
 
 ```javascript
 var hast = toHAST(remark().parse('## Hello **World**!'));
+console.log(inspect(hast));
 ```
 
 Yields:
