@@ -50,7 +50,7 @@ test('ListItem', function (t) {
     to(u('listItem', {checked: true}, [
       u('paragraph', [u('text', 'québec')])
     ])),
-    u('element', {tagName: 'li', properties: {}}, [
+    u('element', {tagName: 'li', properties: {className: 'task-list-item'}}, [
       u('element', {
         tagName: 'input',
         properties: {
@@ -70,7 +70,7 @@ test('ListItem', function (t) {
       u('paragraph', [u('text', 'romeo')]),
       u('paragraph', [u('text', 'sierra')])
     ])),
-    u('element', {tagName: 'li', properties: {}}, [
+    u('element', {tagName: 'li', properties: {className: 'task-list-item'}}, [
       u('text', '\n'),
       u('element', {tagName: 'p', properties: {}}, [
         u('element', {
@@ -97,7 +97,7 @@ test('ListItem', function (t) {
     to(u('listItem', {checked: true}, [
       u('html', '<!--tango-->')
     ])),
-    u('element', {tagName: 'li', properties: {}}, [
+    u('element', {tagName: 'li', properties: {className: 'task-list-item'}}, [
       u('text', '\n'),
       u('element', {tagName: 'p', properties: {}}, [
         u('element', {
