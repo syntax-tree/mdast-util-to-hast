@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "collapse-white-space": "^1.0.0",
-    "detab": "^1.0.2",
+    "detab": "^2.0.0",
     "has": "^1.0.1",
     "mdast-util-definitions": "^1.1.1",
     "normalize-uri": "^1.0.0",
@@ -34,16 +34,10 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "esmangle": "^1.0.1",
-    "istanbul": "^0.4.0",
-    "remark": "^5.0.1",
-    "remark-cli": "^1.0.0",
-    "remark-comment-config": "^4.0.0",
-    "remark-github": "^5.0.0",
-    "remark-lint": "^4.0.0",
-    "remark-usage": "^4.0.0",
-    "remark-validate-links": "^4.0.0",
+    "nyc": "^8.3.0",
+    "remark-cli": "^2.0.0",
+    "remark-preset-wooorm": "^1.0.0",
     "tape": "^4.0.0",
-    "unist-util-inspect": "^4.0.0",
     "xo": "^0.16.0"
   },
   "scripts": {
@@ -53,39 +47,25 @@
     "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
     "lint": "xo",
     "test-api": "node test",
-    "test-coverage": "istanbul cover test",
+    "test-coverage": "nyc --reporter lcov tape test/index.js",
     "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "xo": {
     "space": true,
     "rules": {
-      "guard-for-in": [
-        0
-      ],
+      "guard-for-in": "off",
       "eqeqeq": [
-        0,
+        "off",
         "allow-null"
       ],
-      "no-eq-null": [
-        0
-      ]
+      "no-eq-null": "off"
     },
     "ignores": [
-      "mdast-util-to-hast.js",
-      "mdast-util-to-hast.min.js"
+      "mdast-util-to-hast.js"
     ]
   },
   "remarkConfig": {
     "output": true,
-    "plugins": [
-      "comment-config",
-      "github",
-      "lint",
-      "usage",
-      "validate-links"
-    ],
-    "settings": {
-      "bullet": "*"
-    }
+    "presets": "wooorm"
   }
 }

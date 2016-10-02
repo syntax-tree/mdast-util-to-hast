@@ -1,7 +1,5 @@
 # mdast-util-to-hast [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-<!--lint disable heading-increment list-item-spacing-->
-
 Transform [MDAST][] to [HAST][].
 
 ## Installation
@@ -48,7 +46,7 @@ Transform the given [MDAST][] tree to a [HAST][] tree.
 ###### `options.allowDangerousHTML`
 
 Whether to allow `html` nodes and inject them as raw HTML (`boolean`,
-default: `false`). Only do this when compiling later with
+default: `false`).  Only do this when compiling later with
 `hast-util-to-html`.
 
 ###### Returns
