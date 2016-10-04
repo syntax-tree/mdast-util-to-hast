@@ -33,3 +33,4 @@ require('./table.js');
 require('./text.js');
 require('./thematic-break.js');
 require('./yaml.js');
+require('./custom-handlers.js');
