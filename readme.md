@@ -50,6 +50,34 @@ Whether to allow `html` nodes and inject them as raw HTML (`boolean`,
 default: `false`).  Only do this when compiling later with
 `hast-util-to-html`.
 
+###### `options.customHandlers`
+
+It allows to define customized node handlers.
+You can customize how to transform a MDAST node to a HAST node for
+each type of node.
+
+Below is an example to add some properties to `text` node.
+
+```javascript
+var trimLines = require('trim-lines');
+var u = require('unist-builder');
+
+var handlers = {};
+handlers.text = function(h, node) {
+  var value = trimLines(node.value);
+
+  if (node.className) {
+    return h.augment(node, u('span', {className: node.className}, [u('text', value)]));
+  }
+
+  return h.augment(node, u('text', value));
+};
+
+var hast = toHAST(node, {customHandlers: handlers});
+```
+
+To see default node handlers, please see [lib/handlers](lib/handlers).
+
 ###### Returns
 
 [`HASTNode`][hast].
