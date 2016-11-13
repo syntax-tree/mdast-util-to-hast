@@ -1,12 +1,7 @@
-/**
- * @author Titus Wormer
- * @copyright 2016 Titus Wormer
- * @license MIT
- * @module mdast-util-to-hast
- * @fileoverview Test suite for `mdast-util-to-hast`.
- */
+'use strict';
 
-/* Subtests */
+/* eslint-disable import/no-unassigned-import */
+
 require('./core.js');
 require('./blockquote.js');
 require('./break.js');
