@@ -4,7 +4,7 @@ Transform [MDAST][] to [HAST][].
 
 ## Installation
 
-[npm][npm-install]:
+[npm][]:
 
 ```bash
 npm install mdast-util-to-hast
@@ -12,17 +12,11 @@ npm install mdast-util-to-hast
 
 ## Usage
 
-Dependencies:
-
 ```javascript
 var inspect = require('unist-util-inspect');
 var remark = require('remark');
 var toHAST = require('mdast-util-to-hast');
-```
 
-Transform:
-
-```javascript
 var hast = toHAST(remark().parse('## Hello **World**!'));
 console.log(inspect(hast));
 ```
@@ -84,7 +78,7 @@ default: `false`).  Only do this when compiling later with
 
 [codecov]: https://codecov.io/github/wooorm/mdast-util-to-hast
 
-[npm-install]: https://docs.npmjs.com/cli/install
+[npm]: https://docs.npmjs.com/cli/install
 
 [license]: LICENSE
 
