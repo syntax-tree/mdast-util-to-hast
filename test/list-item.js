@@ -103,5 +103,11 @@ test('ListItem', function (t) {
     'should support checkboxes in `listItem`s without paragraph'
   );
 
+  t.deepEqual(
+    to(u('listItem', [])),
+    u('element', {tagName: 'li', properties: {}}, []),
+    'should support `listItem`s without children'
+  );
+
   t.end();
 });
