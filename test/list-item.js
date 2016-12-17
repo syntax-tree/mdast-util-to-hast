@@ -109,5 +109,24 @@ test('ListItem', function (t) {
     'should support `listItem`s without children'
   );
 
+  t.deepEqual(
+    to(u('listItem', {checked: true}, [])),
+    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
+      u('text', '\n'),
+      u('element', {tagName: 'p', properties: {}}, [
+        u('element', {
+          tagName: 'input',
+          properties: {
+            type: 'checkbox',
+            checked: true,
+            disabled: true
+          }
+        }, [])
+      ]),
+      u('text', '\n')
+    ]),
+    'should support checkboxes in `listItem`s without children'
+  );
+
   t.end();
 });
