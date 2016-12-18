@@ -44,6 +44,11 @@ Whether to allow `html` nodes and inject them as raw HTML (`boolean`,
 default: `false`).  Only do this when compiling later with
 `hast-util-to-html`.
 
+###### `options.commonmark`
+
+Set to `true` (default: `false`) to prefer the first when duplicate definitions
+are found.  The default behaviour is to prefer the last duplicate definition.
+
 ###### Returns
 
 [`HASTNode`][hast].
