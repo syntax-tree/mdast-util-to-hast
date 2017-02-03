@@ -12,8 +12,8 @@
     "lib",
     "index.js"
   ],
-  "repository": "https://github.com/wooorm/mdast-util-to-hast",
-  "bugs": "https://github.com/wooorm/mdast-util-to-hast/issues",
+  "repository": "https://github.com/syntax-tree/mdast-util-to-hast",
+  "bugs": "https://github.com/syntax-tree/mdast-util-to-hast/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"

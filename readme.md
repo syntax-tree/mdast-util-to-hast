@@ -75,13 +75,13 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/mdast-util-to-hast.svg
+[travis-badge]: https://img.shields.io/travis/syntax-tree/mdast-util-to-hast.svg
 
-[travis]: https://travis-ci.org/wooorm/mdast-util-to-hast
+[travis]: https://travis-ci.org/syntax-tree/mdast-util-to-hast
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/mdast-util-to-hast.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
 
-[codecov]: https://codecov.io/github/wooorm/mdast-util-to-hast
+[codecov]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -89,14 +89,14 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 [author]: http://wooorm.com
 
-[mdast]: https://github.com/wooorm/mdast
+[mdast]: https://github.com/syntax-tree/mdast
 
-[hast]: https://github.com/wooorm/hast
+[hast]: https://github.com/syntax-tree/hast
 
-[mdast-yaml]: https://github.com/wooorm/mdast#yaml
+[mdast-yaml]: https://github.com/syntax-tree/mdast#yaml
 
-[mdast-html]: https://github.com/wooorm/mdast#html
+[mdast-html]: https://github.com/syntax-tree/mdast#html
 
-[unist-position]: https://github.com/wooorm/unist#location
+[unist-position]: https://github.com/syntax-tree/unist#location
 
-[hast-util-sanitize]: https://github.com/wooorm/hast-util-sanitize
+[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
