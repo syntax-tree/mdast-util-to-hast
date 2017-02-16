@@ -51,8 +51,9 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
-Object mapping [MDAST nodes](https://github.com/syntax-tree/mdast) to functions handling those elements.
-Take a look at [`lib/handlers/`][lib/handlers] for examples.
+Object mapping [MDAST nodes][mdast] to functions 
+handling those elements.
+Take a look at [`lib/handlers/`][handlers] for examples.
 
 ###### Returns
 
@@ -105,3 +106,5 @@ Take a look at [`lib/handlers/`][lib/handlers] for examples.
 [unist-position]: https://github.com/syntax-tree/unist#location
 
 [hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+
+[handlers]: lib/handlers
