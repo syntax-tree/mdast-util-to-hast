@@ -49,6 +49,12 @@ default: `false`).  Only do this when compiling later with
 Set to `true` (default: `false`) to prefer the first when duplicate definitions
 are found.  The default behaviour is to prefer the last duplicate definition.
 
+###### `options.handlers`
+
+Object mapping [MDAST nodes][mdast] to functions 
+handling those elements.
+Take a look at [`lib/handlers/`][handlers] for examples.
+
 ###### Returns
 
 [`HASTNode`][hast].
@@ -100,3 +106,5 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 [unist-position]: https://github.com/syntax-tree/unist#location
 
 [hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+
+[handlers]: lib/handlers
