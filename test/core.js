@@ -91,15 +91,21 @@ test('toHAST()', function (t) {
   );
 
   t.deepEqual(
-    to(u('foo', {data: {hName: 'code', hProperties: {className: 'tango'}, hChildren: [u('text', 'tango')]}}, 'tango')),
-    u('element', {tagName: 'code', properties: {className: 'tango'}}, [u('text', 'tango')]),
-    'should transform unknown nodes with `data.h*` properties to `element` node'
+    to(u('foo', {data: {hName: 'code', hProperties: {className: 'charlie'}, hChildren: [u('text', 'tango')]}}, 'tango')),
+    u('element', {tagName: 'code', properties: {className: 'charlie'}}, [u('text', 'tango')]),
+    'should transform unknown nodes with `data.h*` properties'
   );
 
   t.deepEqual(
     to(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
     u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
-    'should transform unknown nodes with `data.h*` except `data.hName` to `element` node with `div` as a `tagName`'
+    'should transform unknown nodes with `data.hChildren` only to `div`'
+  );
+
+  t.deepEqual(
+    to(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
+    u('element', {tagName: 'div', properties: {className: 'charlie'}}, []),
+    'should transform unknown nodes with `data.hProperties` only to a `element` node'
   );
 
   t.end();
