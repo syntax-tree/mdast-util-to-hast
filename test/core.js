@@ -90,5 +90,23 @@ test('toHAST()', function (t) {
     'should transform unknown nodes to `div`'
   );
 
+  t.deepEqual(
+    to(u('foo', {data: {hName: 'code', hProperties: {className: 'charlie'}, hChildren: [u('text', 'tango')]}}, 'tango')),
+    u('element', {tagName: 'code', properties: {className: 'charlie'}}, [u('text', 'tango')]),
+    'should transform unknown nodes with `data.h*` properties'
+  );
+
+  t.deepEqual(
+    to(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
+    u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
+    'should transform unknown nodes with `data.hChildren` only to `div`'
+  );
+
+  t.deepEqual(
+    to(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
+    u('element', {tagName: 'div', properties: {className: 'charlie'}}, []),
+    'should transform unknown nodes with `data.hProperties` only to a `element` node'
+  );
+
   t.end();
 });
