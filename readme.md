@@ -74,15 +74,15 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 
 ###### Note
 
-*   [`yaml`][mdast-yaml] and [`html`][mdast-html] nodes are ignored;
-*   [`position`][unist-position]s are properly patched;
-*   Unknown nodes with `children` are transformed to `div` elements;
-*   Unknown nodes with `value` are transformed to `text` nodes;
-*   If `node.data.hName` is set, it’s used as the HAST element’s tag-name;
+*   [`yaml`][mdast-yaml] and [`html`][mdast-html] nodes are ignored
+*   [`position`][unist-position]s are properly patched
+*   Unknown nodes with `children` are transformed to `div` elements
+*   Unknown nodes with `value` are transformed to `text` nodes
+*   If `node.data.hName` is set, it’s used as the HAST element’s tag-name
 *   If `node.data.hProperties` is set, it’s mixed into the HAST element’s
-    properties;
+    properties
 *   If `node.data.hChildren` is set, it’s used as the element’s HAST
-    children;
+    children
 
 ## Related
 
