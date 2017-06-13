@@ -21,7 +21,6 @@
   "dependencies": {
     "collapse-white-space": "^1.0.0",
     "detab": "^2.0.0",
-    "has": "^1.0.1",
     "mdast-util-definitions": "^1.2.0",
     "normalize-uri": "^1.0.0",
     "trim": "0.0.1",
