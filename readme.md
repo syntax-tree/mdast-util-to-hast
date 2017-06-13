@@ -14,19 +14,30 @@ npm install mdast-util-to-hast
 
 ## Usage
 
-```javascript
-var inspect = require('unist-util-inspect');
-var remark = require('remark');
-var toHAST = require('mdast-util-to-hast');
+Say we have the following `example.md`:
 
-var hast = toHAST(remark().parse('## Hello **World**!'));
-console.log(inspect(hast));
+```markdown
+## Hello **World**!
 ```
 
-Yields:
+...and next to it, `example.js`:
+
+```javascript
+var inspect = require('unist-util-inspect');
+var unified = require('unified');
+var parse = require('remark-parse');
+var vfile = require('to-vfile');
+var toHAST = require('mdast-util-to-hast');
+
+var tree = unified().use(parse).parse(vfile.readSync('example.md'));
+
+console.log(inspect(toHAST(tree)));
+```
+
+Which when running with `node example` yields:
 
 ```txt
-root[1] (1:1-1:20, 0-19)
+root[1] (1:1-2:1, 0-20)
 └─ element[3] (1:1-1:20, 0-19) [tagName="h2"]
    ├─ text: "Hello " (1:4-1:10, 3-9)
    ├─ element[1] (1:10-1:19, 9-18) [tagName="strong"]
