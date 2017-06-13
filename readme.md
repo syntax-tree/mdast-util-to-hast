@@ -86,7 +86,16 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 
 ## Related
 
-*   [`hast-util-sanitize`][hast-util-sanitize]
+*   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
+    — Transform MDAST to NLCST
+*   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
+    — Sanitize HAST nodes
+*   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
+    — Transform HAST to MDAST
+*   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
+    — rehype support for remark
+*   [`rehype-remark`](https://github.com/wooorm/remark-remark)
+    — remark support for rehype
 
 ## License
 
@@ -117,8 +126,6 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 [mdast-html]: https://github.com/syntax-tree/mdast#html
 
 [unist-position]: https://github.com/syntax-tree/unist#location
-
-[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
 [handlers]: lib/handlers
 
