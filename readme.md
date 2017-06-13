@@ -2,6 +2,8 @@
 
 Transform [MDAST][] to [HAST][].
 
+> **Note** You probably want to use [remark-rehype][].
+
 ## Installation
 
 [npm][]:
@@ -51,7 +53,7 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
-Object mapping [MDAST nodes][mdast] to functions 
+Object mapping [MDAST nodes][mdast] to functions
 handling those elements.
 Take a look at [`lib/handlers/`][handlers] for examples.
 
@@ -108,3 +110,5 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 [hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
 [handlers]: lib/handlers
+
+[remark-rehype]: https://github.com/wooorm/remark-rehype
