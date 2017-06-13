@@ -8,15 +8,15 @@
     "util",
     "hast"
   ],
-  "files": [
-    "lib",
-    "index.js"
-  ],
-  "repository": "https://github.com/syntax-tree/mdast-util-to-hast",
+  "repository": "syntax-tree/mdast-util-to-hast",
   "bugs": "https://github.com/syntax-tree/mdast-util-to-hast/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "files": [
+    "lib",
+    "index.js"
   ],
   "dependencies": {
     "collapse-white-space": "^1.0.0",
@@ -54,12 +54,7 @@
     "space": true,
     "esnext": false,
     "rules": {
-      "guard-for-in": "off",
-      "eqeqeq": [
-        "off",
-        "allow-null"
-      ],
-      "no-eq-null": "off"
+      "guard-for-in": "off"
     },
     "ignores": [
       "mdast-util-to-hast.js"
