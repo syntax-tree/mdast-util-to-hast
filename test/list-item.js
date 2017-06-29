@@ -128,5 +128,29 @@ test('ListItem', function (t) {
     'should support checkboxes in `listItem`s without children'
   );
 
+  t.deepEqual(
+    to(u('listItem', [
+      u('list', {ordered: false}, [
+        u('listItem', [
+          u('paragraph', [
+            u('text', 'Alpha')
+          ])
+        ])
+      ])
+    ])),
+    u('element', {tagName: 'li', properties: {}}, [
+      u('text', '\n'),
+      u('element', {tagName: 'ul', properties: {}}, [
+        u('text', '\n'),
+        u('element', {tagName: 'li', properties: {}}, [
+          u('text', 'Alpha')
+        ]),
+        u('text', '\n')
+      ]),
+      u('text', '\n')
+    ]),
+    'should support lists in `listItem`s'
+  );
+
   t.end();
 });
