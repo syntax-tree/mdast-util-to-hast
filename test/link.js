@@ -27,5 +27,15 @@ test('Link', function (t) {
     'should transform `link` to `a` (missing `title`)'
   );
 
+  t.deepEqual(
+    to(u('link', {
+      url: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
+    }, [u('text', 'Alpha')])),
+    u('element', {tagName: 'a', properties: {
+      href: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
+    }}, [u('text', 'Alpha')]),
+    'should correctly decode/encode urls'
+  );
+
   t.end();
 });
