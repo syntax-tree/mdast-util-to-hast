@@ -27,6 +27,7 @@ require('./strong.js');
 require('./table.js');
 require('./text.js');
 require('./thematic-break.js');
+require('./toml.js');
 require('./yaml.js');
 
 require('./handlers-option.js');
