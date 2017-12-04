@@ -33,7 +33,7 @@ test('Footnote', function (t) {
             properties: {id: 'fn-1'}
           }, [
             u('text', '\n'),
-            u('text', 'bravo'),
+            u('element', {tagName: 'p', properties: {}}, [u('text', 'bravo')]),
             u('text', '\n'),
             u('element', {
               tagName: 'a',
@@ -108,7 +108,7 @@ test('Footnote', function (t) {
             properties: {id: 'fn-2'}
           }, [
             u('text', '\n'),
-            u('text', 'charlie'),
+            u('element', {tagName: 'p', properties: {}}, [u('text', 'charlie')]),
             u('text', '\n'),
             u('element', {
               tagName: 'a',
