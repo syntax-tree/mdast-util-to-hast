@@ -92,9 +92,9 @@ Take a look at [`lib/handlers/`][handlers] for examples.
     — Sanitize HAST nodes
 *   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
     — Transform HAST to MDAST
-*   [`remark-rehype`](https://github.com/wooorm/remark-rehype)
+*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
     — rehype support for remark
-*   [`rehype-remark`](https://github.com/wooorm/remark-remark)
+*   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
     — remark support for rehype
 
 ## Contribute
@@ -137,7 +137,7 @@ repository, organisation, or community you agree to abide by its terms.
 
 [handlers]: lib/handlers
 
-[remark-rehype]: https://github.com/wooorm/remark-rehype
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
 
 [contribute]: https://github.com/syntax-tree/mdast/blob/master/contributing.md
 
