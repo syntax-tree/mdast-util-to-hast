@@ -74,7 +74,8 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 
 ###### Note
 
-*   [`yaml`][mdast-yaml] and [`html`][mdast-html] nodes are ignored
+*   `yaml` and `toml` nodes are ignored
+*   [`html`][mdast-html] nodes are ignored if `allowDangerousHTML` is `false`
 *   [`position`][unist-position]s are properly patched
 *   Unknown nodes with `children` are transformed to `div` elements
 *   Unknown nodes with `value` are transformed to `text` nodes
@@ -128,8 +129,6 @@ repository, organisation, or community you agree to abide by its terms.
 [mdast]: https://github.com/syntax-tree/mdast
 
 [hast]: https://github.com/syntax-tree/hast
-
-[mdast-yaml]: https://github.com/syntax-tree/mdast#yaml
 
 [mdast-html]: https://github.com/syntax-tree/mdast#html
 
