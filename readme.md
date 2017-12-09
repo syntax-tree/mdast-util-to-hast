@@ -2,7 +2,7 @@
 
 Transform [MDAST][] to [HAST][].
 
-> **Note** You probably want to use [remark-rehype][].
+> **Note**: You probably want to use [remark-rehype][].
 
 ## Installation
 
@@ -51,11 +51,12 @@ root[1] (1:1-2:1, 0-20)
 
 Transform the given [MDAST][] tree to a [HAST][] tree.
 
+##### Options
+
 ###### `options.allowDangerousHTML`
 
-Whether to allow `html` nodes and inject them as raw HTML (`boolean`,
-default: `false`).  Only do this when compiling later with
-`hast-util-to-html`.
+Whether to allow `html` nodes and inject them as raw HTML (`boolean`, default:
+`false`).  Only do this when compiling later with `hast-util-to-html`.
 
 ###### `options.commonmark`
 
@@ -64,15 +65,14 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
-Object mapping [MDAST nodes][mdast] to functions
-handling those elements.
+Object mapping [MDAST nodes][mdast] to functions handling those elements.
 Take a look at [`lib/handlers/`][handlers] for examples.
 
-###### Returns
+##### Returns
 
 [`HASTNode`][hast].
 
-###### Note
+##### Notes
 
 *   `yaml` and `toml` nodes are ignored
 *   [`html`][mdast-html] nodes are ignored if `allowDangerousHTML` is `false`
@@ -84,6 +84,111 @@ Take a look at [`lib/handlers/`][handlers] for examples.
     properties
 *   If `node.data.hChildren` is set, it’s used as the element’s HAST
     children
+
+##### Examples
+
+###### `hName`
+
+`node.data.hName` in MDAST sets the tag-name of an element in HAST.
+The following [MDAST][]:
+
+```js
+{
+  type: 'strong',
+  data: {hName: 'b'},
+  children: [{type: 'text', value: 'Alpha'}]
+}
+```
+
+Yields, in HAST:
+
+```js
+{
+  type: 'element',
+  tagName: 'b',
+  properties: {},
+  children: [{type: 'text', value: 'Alpha'}]
+}
+```
+
+###### `hProperties`
+
+`node.data.hProperties` in MDAST sets the properties of an element in HAST.
+The following [MDAST][]:
+
+```js
+{
+  type: 'image',
+  src: 'circle.svg',
+  alt: 'Big red circle on a black background',
+  title: null
+  data: {hProperties: {className: ['responsive']}}
+}
+```
+
+Yields, in HAST:
+
+```js
+{
+  type: 'element',
+  tagName: 'img',
+  properties: {
+    src: 'circle.svg',
+    alt: 'Big red circle on a black background',
+    className: ['responsive']
+  },
+  children: []
+}
+```
+
+###### `hChildren`
+
+`node.data.hChildren` in MDAST sets the children of an element in HAST.
+The following [MDAST][]:
+
+```js
+{
+  type: 'code',
+  lang: 'js',
+  data: {
+    hChildren: [
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: {className: ['hljs-meta']},
+        children: [{type: 'text', value: '"use strict"'}]
+      },
+      {type: 'text', value: ';'}
+    ]
+  },
+  value: '"use strict";'
+}
+```
+
+Yields, in HAST (**note**: the `pre` and `language-js` class are added
+normal `mdast-util-to-hast` functionality):
+
+```js
+{
+  type: 'element',
+  tagName: 'pre',
+  properties: {},
+  children: [{
+    type: 'element',
+    tagName: 'code',
+    properties: {className: ['language-js']},
+    children: [
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: {className: ['hljs-meta']},
+        children: [{type: 'text', value: '"use strict"'}]
+      },
+      {type: 'text', value: ';'}
+    ]
+  }]
+}
+```
 
 ## Related
 
