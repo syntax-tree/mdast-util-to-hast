@@ -20,7 +20,7 @@ Say we have the following `example.md`:
 ## Hello **World**!
 ```
 
-...and next to it, `example.js`:
+…and next to it, `example.js`:
 
 ```javascript
 var inspect = require('unist-util-inspect');
@@ -79,17 +79,16 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 *   [`position`][unist-position]s are properly patched
 *   Unknown nodes with `children` are transformed to `div` elements
 *   Unknown nodes with `value` are transformed to `text` nodes
-*   If `node.data.hName` is set, it’s used as the HAST element’s tag-name
-*   If `node.data.hProperties` is set, it’s mixed into the HAST element’s
+*   [`node.data.hName`][hname] configures the HAST element’s tag-name
+*   [`node.data.hProperties`][hproperties] is mixed into the HAST element’s
     properties
-*   If `node.data.hChildren` is set, it’s used as the element’s HAST
-    children
+*   [`node.data.hChildren`][hchildren] configures the HAST element’s children
 
 ##### Examples
 
 ###### `hName`
 
-`node.data.hName` in MDAST sets the tag-name of an element in HAST.
+`node.data.hName` sets the tag-name of an element.
 The following [MDAST][]:
 
 ```js
@@ -100,7 +99,7 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in HAST:
+Yields, in [HAST][]:
 
 ```js
 {
@@ -113,7 +112,7 @@ Yields, in HAST:
 
 ###### `hProperties`
 
-`node.data.hProperties` in MDAST sets the properties of an element in HAST.
+`node.data.hProperties` in sets the properties of an element.
 The following [MDAST][]:
 
 ```js
@@ -126,7 +125,7 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in HAST:
+Yields, in [HAST][]:
 
 ```js
 {
@@ -143,7 +142,7 @@ Yields, in HAST:
 
 ###### `hChildren`
 
-`node.data.hChildren` in MDAST sets the children of an element in HAST.
+`node.data.hChildren` sets the children of an element.
 The following [MDAST][]:
 
 ```js
@@ -165,8 +164,8 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in HAST (**note**: the `pre` and `language-js` class are added
-normal `mdast-util-to-hast` functionality):
+Yields, in [HAST][] (**note**: the `pre` and `language-js` class are normal
+`mdast-util-to-hast` functionality):
 
 ```js
 {
@@ -246,3 +245,9 @@ repository, organisation, or community you agree to abide by its terms.
 [contribute]: https://github.com/syntax-tree/mdast/blob/master/contributing.md
 
 [coc]: https://github.com/syntax-tree/mdast/blob/master/code-of-conduct.md
+
+[hname]: #hname
+
+[hproperties]: #hproperties
+
+[hchildren]: #hchildren
