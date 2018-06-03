@@ -5,3 +5,4 @@ coverage/
 node_modules/
 mdast-util-to-hast.js
 mdast-util-to-hast.min.js
+yarn.lock
