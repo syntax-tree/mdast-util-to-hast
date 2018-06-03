@@ -9,12 +9,16 @@ test('Table', function (t) {
     to(u('table', {align: ['left', 'right']}, [
       u('tableRow', [
         u('tableCell', [u('text', 'yankee')]),
-        u('tableCell', [u('text', 'zulu')])
+        u('tableCell', [
+          u('html', '<code>'),
+          u('text', 'zulu'),
+          u('html', '</code>')
+        ])
       ]),
       u('tableRow', [
         u('tableCell', [u('text', 'alpha')])
       ])
-    ])),
+    ]), {allowDangerousHTML: true}),
     u('element', {tagName: 'table', properties: {}}, [
       u('text', '\n'),
       u('element', {tagName: 'thead', properties: {}}, [
@@ -26,7 +30,9 @@ test('Table', function (t) {
           ]),
           u('text', '\n'),
           u('element', {tagName: 'th', properties: {align: 'right'}}, [
-            u('text', 'zulu')
+            u('raw', '<code>'),
+            u('text', 'zulu'),
+            u('raw', '</code>')
           ]),
           u('text', '\n')
         ]),
