@@ -23,15 +23,17 @@ Say we have the following `example.md`:
 …and next to it, `example.js`:
 
 ```javascript
-var inspect = require('unist-util-inspect');
-var unified = require('unified');
-var parse = require('remark-parse');
-var vfile = require('to-vfile');
-var toHAST = require('mdast-util-to-hast');
+var inspect = require('unist-util-inspect')
+var unified = require('unified')
+var parse = require('remark-parse')
+var vfile = require('to-vfile')
+var toHAST = require('mdast-util-to-hast')
 
-var tree = unified().use(parse).parse(vfile.readSync('example.md'));
+var tree = unified()
+  .use(parse)
+  .parse(vfile.readSync('example.md'))
 
-console.log(inspect(toHAST(tree)));
+console.log(inspect(toHAST(tree)))
 ```
 
 Which when running with `node example` yields:

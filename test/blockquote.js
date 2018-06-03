@@ -1,15 +1,17 @@
-'use strict';
+'use strict'
 
-var test = require('tape');
-var u = require('unist-builder');
-var to = require('..');
+var test = require('tape')
+var u = require('unist-builder')
+var to = require('..')
 
-test('Blockquote', function (t) {
+test('Blockquote', function(t) {
   t.deepEqual(
-    to(u('blockquote', [
-      u('paragraph', [u('text', 'charlie')]),
-      u('paragraph', [u('text', 'delta')])
-    ])),
+    to(
+      u('blockquote', [
+        u('paragraph', [u('text', 'charlie')]),
+        u('paragraph', [u('text', 'delta')])
+      ])
+    ),
     u('element', {tagName: 'blockquote', properties: {}}, [
       u('text', '\n'),
       u('element', {tagName: 'p', properties: {}}, [u('text', 'charlie')]),
@@ -18,7 +20,7 @@ test('Blockquote', function (t) {
       u('text', '\n')
     ]),
     'should transform `blockquote` to a `blockquote` element'
-  );
+  )
 
-  t.end();
-});
+  t.end()
+})
