@@ -24,18 +24,8 @@ test('ImageReference', function(t) {
         alt: 'golf'
       })
     ),
-    u(
-      'element',
-      {
-        tagName: 'img',
-        properties: {
-          src: '',
-          alt: 'golf'
-        }
-      },
-      []
-    ),
-    'should not fall back on full `imageReference`s'
+    u('text', '![golf][foxtrot]'),
+    'should fall back on full `imageReference`s'
   )
 
   t.deepEqual(
@@ -46,18 +36,8 @@ test('ImageReference', function(t) {
         alt: 'india'
       })
     ),
-    u(
-      'element',
-      {
-        tagName: 'img',
-        properties: {
-          src: '',
-          alt: 'india'
-        }
-      },
-      []
-    ),
-    'should not fall back on collapsed `imageReference`s'
+    u('text', '![india][]'),
+    'should fall back on collapsed `imageReference`s'
   )
 
   t.deepEqual(

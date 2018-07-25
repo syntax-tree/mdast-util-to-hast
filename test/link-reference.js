@@ -30,17 +30,8 @@ test('LinkReference', function(t) {
         [u('text', 'echo')]
       )
     ),
-    u(
-      'element',
-      {
-        tagName: 'a',
-        properties: {
-          href: ''
-        }
-      },
-      [u('text', 'echo')]
-    ),
-    'should not fall back on full `linkReference`s'
+    [u('text', '['), u('text', 'echo'), u('text', '][delta]')],
+    'should fall back on full `linkReference`s'
   )
 
   t.deepEqual(
@@ -54,17 +45,8 @@ test('LinkReference', function(t) {
         [u('text', 'hotel')]
       )
     ),
-    u(
-      'element',
-      {
-        tagName: 'a',
-        properties: {
-          href: ''
-        }
-      },
-      [u('text', 'hotel')]
-    ),
-    'should not fall back on collapsed `linkReference`s'
+    [u('text', '['), u('text', 'hotel'), u('text', '][]')],
+    'should fall back on collapsed `linkReference`s'
   )
 
   t.deepEqual(
