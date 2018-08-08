@@ -20,7 +20,20 @@ test('ImageReference', function(t) {
       })
     ),
     u('text', '![golf][foxtrot]'),
-    'should fall back on full `imageReference`s'
+    'should fall back on full `imageReference`s - reference not present'
+  )
+
+  t.deepEqual(
+    to(
+      u('imageReference', {
+        identifier: 'foxtrot',
+        reference: 'Foxtrot',
+        referenceType: 'full',
+        alt: 'golf'
+      })
+    ),
+    u('text', '![golf][Foxtrot]'),
+    'should fall back on full `imageReference`s - reference is present'
   )
 
   t.deepEqual(

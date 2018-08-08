@@ -18,7 +18,19 @@ test('LinkReference', function(t) {
       ])
     ),
     [u('text', '[echo][delta]')],
-    'should fall back on full `linkReference`s'
+    'should fall back on full `linkReference`s - original reference not present'
+  )
+
+  t.deepEqual(
+    to(
+      u('linkReference',
+        {identifier: 'delta', reference: 'Delta', referenceType: 'full'}, [
+          u('text', 'echo')
+        ]
+      )
+    ),
+    [u('text', '[echo][Delta]')],
+    'should fall back on full `linkReference`s - original reference is present'
   )
 
   t.deepEqual(
