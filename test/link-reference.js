@@ -71,6 +71,19 @@ test('LinkReference', function(t) {
 
   t.deepEqual(
     to(
+      u('paragraph', [
+        u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
+        u('definition', {identifier: 'juliett', url: ''})
+      ])
+    ),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('element', {tagName: 'a', properties: {href: ''}}, [u('text', 'kilo')])
+    ]),
+    'should transform `linkReference`s with an empty defined url to `a`s'
+  )
+
+  t.deepEqual(
+    to(
       u(
         'linkReference',
         {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},

@@ -7,13 +7,9 @@ var to = require('..')
 test('FootnoteDefinition', function(t) {
   t.equal(
     to(
-      u(
-        'footnoteDefinition',
-        {
-          identifier: 'zulu'
-        },
-        [u('paragraph', [u('text', 'alpha')])]
-      )
+      u('footnoteDefinition', {identifier: 'zulu'}, [
+        u('paragraph', [u('text', 'alpha')])
+      ])
     ),
     null,
     'should ignore `footnoteDefinition`'
