@@ -85,8 +85,6 @@ test('ListItem', function(t) {
   t.deepEqual(
     to(u('listItem', {checked: true}, [u('html', '<!--tango-->')])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [
         u(
           'element',
           {
@@ -99,8 +97,6 @@ test('ListItem', function(t) {
           },
           []
         )
-      ]),
-      u('text', '\n')
     ]),
     'should support checkboxes in `listItem`s without paragraph'
   )
@@ -114,8 +110,6 @@ test('ListItem', function(t) {
   t.deepEqual(
     to(u('listItem', {checked: true}, [])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [
         u(
           'element',
           {
@@ -128,8 +122,6 @@ test('ListItem', function(t) {
           },
           []
         )
-      ]),
-      u('text', '\n')
     ]),
     'should support checkboxes in `listItem`s without children'
   )
@@ -143,13 +135,11 @@ test('ListItem', function(t) {
       ])
     ),
     u('element', {tagName: 'li', properties: {}}, [
-      u('text', '\n'),
       u('element', {tagName: 'ul', properties: {}}, [
         u('text', '\n'),
         u('element', {tagName: 'li', properties: {}}, [u('text', 'Alpha')]),
         u('text', '\n')
       ]),
-      u('text', '\n')
     ]),
     'should support lists in `listItem`s'
   )
