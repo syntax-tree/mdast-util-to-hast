@@ -85,18 +85,18 @@ test('ListItem', function(t) {
   t.deepEqual(
     to(u('listItem', {checked: true}, [u('html', '<!--tango-->')])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-        u(
-          'element',
-          {
-            tagName: 'input',
-            properties: {
-              type: 'checkbox',
-              checked: true,
-              disabled: true
-            }
-          },
-          []
-        )
+      u(
+        'element',
+        {
+          tagName: 'input',
+          properties: {
+            type: 'checkbox',
+            checked: true,
+            disabled: true
+          }
+        },
+        []
+      )
     ]),
     'should support checkboxes in `listItem`s without paragraph'
   )
@@ -110,18 +110,18 @@ test('ListItem', function(t) {
   t.deepEqual(
     to(u('listItem', {checked: true}, [])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-        u(
-          'element',
-          {
-            tagName: 'input',
-            properties: {
-              type: 'checkbox',
-              checked: true,
-              disabled: true
-            }
-          },
-          []
-        )
+      u(
+        'element',
+        {
+          tagName: 'input',
+          properties: {
+            type: 'checkbox',
+            checked: true,
+            disabled: true
+          }
+        },
+        []
+      )
     ]),
     'should support checkboxes in `listItem`s without children'
   )
@@ -139,7 +139,7 @@ test('ListItem', function(t) {
         u('text', '\n'),
         u('element', {tagName: 'li', properties: {}}, [u('text', 'Alpha')]),
         u('text', '\n')
-      ]),
+      ])
     ]),
     'should support lists in `listItem`s'
   )
