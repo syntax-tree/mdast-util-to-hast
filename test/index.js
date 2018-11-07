@@ -1,6 +1,6 @@
 'use strict'
 
-/* eslint-disable import/no-unassigned-import */
+/* eslint-disable import/no-unassigned-import, ava/no-import-test-files */
 
 require('./core.js')
 require('./blockquote.js')
