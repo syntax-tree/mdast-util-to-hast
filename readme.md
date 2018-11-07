@@ -1,4 +1,9 @@
-# mdast-util-to-hast [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# mdast-util-to-hast
+
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Chat][chat-badge]][chat]
 
 Transform [MDAST][] to [HAST][].
 
@@ -218,13 +223,21 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/syntax-tree/mdast-util-to-hast.svg
+[build-badge]: https://img.shields.io/travis/syntax-tree/hast-util-to-hast.svg
 
-[travis]: https://travis-ci.org/syntax-tree/mdast-util-to-hast
+[build]: https://travis-ci.org/syntax-tree/hast-util-to-hast
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-hast.svg
 
-[codecov]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
+[coverage]: https://codecov.io/github/syntax-tree/hast-util-to-hast
+
+[downloads-badge]: https://img.shields.io/npm/dm/hast-util-to-hast.svg
+
+[downloads]: https://www.npmjs.com/package/hast-util-to-hast
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified/rehype
 
 [npm]: https://docs.npmjs.com/cli/install
 
