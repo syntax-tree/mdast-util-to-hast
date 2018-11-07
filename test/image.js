@@ -8,7 +8,7 @@ test('Image', function(t) {
   t.deepEqual(
     to(
       u('image', {
-        url: 'http://november.oscar',
+        url: 'https://november.oscar',
         alt: 'papa',
         title: 'québec'
       })
@@ -18,7 +18,7 @@ test('Image', function(t) {
       {
         tagName: 'img',
         properties: {
-          src: 'http://november.oscar',
+          src: 'https://november.oscar',
           alt: 'papa',
           title: 'québec'
         }
@@ -31,7 +31,7 @@ test('Image', function(t) {
   t.deepEqual(
     to(
       u('image', {
-        url: 'http://romeo.sierra',
+        url: 'https://romeo.sierra',
         alt: 'tango'
       })
     ),
@@ -40,7 +40,7 @@ test('Image', function(t) {
       {
         tagName: 'img',
         properties: {
-          src: 'http://romeo.sierra',
+          src: 'https://romeo.sierra',
           alt: 'tango'
         }
       },

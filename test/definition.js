@@ -8,7 +8,7 @@ test('Definition', function(t) {
   t.equal(
     to(
       u('definition', {
-        url: 'http://uniform.whiskey',
+        url: 'https://uniform.whiskey',
         identifier: 'x-ray',
         title: 'yankee'
       })
@@ -21,12 +21,12 @@ test('Definition', function(t) {
     to(
       u('paragraph', [
         u('linkReference', {identifier: 'alpha'}, [u('text', 'bravo')]),
-        u('definition', {identifier: 'alpha', url: 'http://charlie.com'}),
-        u('definition', {identifier: 'alpha', url: 'http://delta.com'})
+        u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
+        u('definition', {identifier: 'alpha', url: 'https://delta.com'})
       ])
     ),
     u('element', {tagName: 'p', properties: {}}, [
-      u('element', {tagName: 'a', properties: {href: 'http://delta.com'}}, [
+      u('element', {tagName: 'a', properties: {href: 'https://delta.com'}}, [
         u('text', 'bravo')
       ])
     ]),
@@ -37,13 +37,13 @@ test('Definition', function(t) {
     to(
       u('paragraph', [
         u('linkReference', {identifier: 'alpha'}, [u('text', 'bravo')]),
-        u('definition', {identifier: 'alpha', url: 'http://charlie.com'}),
-        u('definition', {identifier: 'alpha', url: 'http://delta.com'})
+        u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
+        u('definition', {identifier: 'alpha', url: 'https://delta.com'})
       ]),
       {commonmark: true}
     ),
     u('element', {tagName: 'p', properties: {}}, [
-      u('element', {tagName: 'a', properties: {href: 'http://charlie.com'}}, [
+      u('element', {tagName: 'a', properties: {href: 'https://charlie.com'}}, [
         u('text', 'bravo')
       ])
     ]),

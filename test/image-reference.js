@@ -44,7 +44,7 @@ test('ImageReference', function(t) {
         }),
         u('definition', {
           identifier: 'november',
-          url: 'http://papa.québec/romeo',
+          url: 'https://papa.québec/romeo',
           title: 'sierra'
         })
       ])
@@ -55,7 +55,7 @@ test('ImageReference', function(t) {
         {
           tagName: 'img',
           properties: {
-            src: 'http://papa.qu%C3%A9bec/romeo',
+            src: 'https://papa.qu%C3%A9bec/romeo',
             alt: 'oscar',
             title: 'sierra'
           }

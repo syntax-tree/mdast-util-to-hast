@@ -51,7 +51,7 @@ test('LinkReference', function(t) {
         u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
         u('definition', {
           identifier: 'juliett',
-          url: 'http://kilo.lima/mike',
+          url: 'https://kilo.lima/mike',
           title: 'november'
         })
       ])
@@ -61,7 +61,7 @@ test('LinkReference', function(t) {
         'element',
         {
           tagName: 'a',
-          properties: {href: 'http://kilo.lima/mike', title: 'november'}
+          properties: {href: 'https://kilo.lima/mike', title: 'november'}
         },
         [u('text', 'kilo')]
       )

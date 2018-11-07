@@ -10,7 +10,7 @@ test('Link', function(t) {
       u(
         'link',
         {
-          url: 'http://golf.hotel',
+          url: 'https://golf.hotel',
           title: 'India'
         },
         [u('text', 'juliett')]
@@ -21,7 +21,7 @@ test('Link', function(t) {
       {
         tagName: 'a',
         properties: {
-          href: 'http://golf.hotel',
+          href: 'https://golf.hotel',
           title: 'India'
         }
       },
@@ -35,7 +35,7 @@ test('Link', function(t) {
       u(
         'link',
         {
-          url: 'http://kilo.lima'
+          url: 'https://kilo.lima'
         },
         [u('text', 'mike')]
       )
@@ -45,7 +45,7 @@ test('Link', function(t) {
       {
         tagName: 'a',
         properties: {
-          href: 'http://kilo.lima'
+          href: 'https://kilo.lima'
         }
       },
       [u('text', 'mike')]
