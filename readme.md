@@ -223,21 +223,21 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/syntax-tree/hast-util-to-hast.svg
+[build-badge]: https://img.shields.io/travis/syntax-tree/mdast-util-to-hast.svg
 
-[build]: https://travis-ci.org/syntax-tree/hast-util-to-hast
+[build]: https://travis-ci.org/syntax-tree/mdast-util-to-hast
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/hast-util-to-hast.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
 
-[coverage]: https://codecov.io/github/syntax-tree/hast-util-to-hast
+[coverage]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
 
-[downloads-badge]: https://img.shields.io/npm/dm/hast-util-to-hast.svg
+[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-to-hast.svg
 
-[downloads]: https://www.npmjs.com/package/hast-util-to-hast
+[downloads]: https://www.npmjs.com/package/mdast-util-to-hast
 
 [chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
 
-[chat]: https://spectrum.chat/unified/rehype
+[chat]: https://spectrum.chat/unified/remark
 
 [npm]: https://docs.npmjs.com/cli/install
 
