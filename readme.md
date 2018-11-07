@@ -5,7 +5,7 @@
 [![Downloads][downloads-badge]][downloads]
 [![Chat][chat-badge]][chat]
 
-Transform [MDAST][] to [HAST][].
+Transform [mdast][] to [hast][].
 
 > **Note**: You probably want to use [remark-rehype][].
 
@@ -32,13 +32,13 @@ var inspect = require('unist-util-inspect')
 var unified = require('unified')
 var parse = require('remark-parse')
 var vfile = require('to-vfile')
-var toHAST = require('mdast-util-to-hast')
+var toHast = require('mdast-util-to-hast')
 
 var tree = unified()
   .use(parse)
   .parse(vfile.readSync('example.md'))
 
-console.log(inspect(toHAST(tree)))
+console.log(inspect(toHast(tree)))
 ```
 
 Which when running with `node example` yields:
@@ -54,9 +54,9 @@ root[1] (1:1-2:1, 0-20)
 
 ## API
 
-### `toHAST(node[, options])`
+### `toHast(node[, options])`
 
-Transform the given [MDAST][] tree to a [HAST][] tree.
+Transform the given [mdast][] tree to a [hast][] tree.
 
 ##### Options
 
@@ -72,7 +72,7 @@ are found.  The default behaviour is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
-Object mapping [MDAST nodes][mdast] to functions handling those elements.
+Object mapping [mdast nodes][mdast] to functions handling those elements.
 Take a look at [`lib/handlers/`][handlers] for examples.
 
 ##### Returns
@@ -86,17 +86,17 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 *   [`position`][unist-position]s are properly patched
 *   Unknown nodes with `children` are transformed to `div` elements
 *   Unknown nodes with `value` are transformed to `text` nodes
-*   [`node.data.hName`][hname] configures the HAST element’s tag-name
-*   [`node.data.hProperties`][hproperties] is mixed into the HAST element’s
+*   [`node.data.hName`][hname] configures the hast element’s tag-name
+*   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
     properties
-*   [`node.data.hChildren`][hchildren] configures the HAST element’s children
+*   [`node.data.hChildren`][hchildren] configures the hast element’s children
 
 ##### Examples
 
 ###### `hName`
 
 `node.data.hName` sets the tag-name of an element.
-The following [MDAST][]:
+The following [mdast][]:
 
 ```js
 {
@@ -106,7 +106,7 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in [HAST][]:
+Yields, in [hast][]:
 
 ```js
 {
@@ -120,7 +120,7 @@ Yields, in [HAST][]:
 ###### `hProperties`
 
 `node.data.hProperties` in sets the properties of an element.
-The following [MDAST][]:
+The following [mdast][]:
 
 ```js
 {
@@ -132,7 +132,7 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in [HAST][]:
+Yields, in [hast][]:
 
 ```js
 {
@@ -150,7 +150,7 @@ Yields, in [HAST][]:
 ###### `hChildren`
 
 `node.data.hChildren` sets the children of an element.
-The following [MDAST][]:
+The following [mdast][]:
 
 ```js
 {
@@ -171,7 +171,7 @@ The following [MDAST][]:
 }
 ```
 
-Yields, in [HAST][] (**note**: the `pre` and `language-js` class are normal
+Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 `mdast-util-to-hast` functionality):
 
 ```js
@@ -199,11 +199,11 @@ Yields, in [HAST][] (**note**: the `pre` and `language-js` class are normal
 ## Related
 
 *   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
-    — Transform MDAST to NLCST
+    — Transform mdast to nlcst
 *   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
-    — Sanitize HAST nodes
+    — Sanitize hast nodes
 *   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
-    — Transform HAST to MDAST
+    — Transform hast to mdast
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
     — rehype support for remark
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)

@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('toHAST()', function(t) {
+test('toHast()', function(t) {
   t.throws(
     function() {
       to(u('bar', [true]))

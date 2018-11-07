@@ -1,7 +1,7 @@
 {
   "name": "mdast-util-to-hast",
   "version": "3.0.3",
-  "description": "Transform MDAST to HAST",
+  "description": "Transform mdast to hast",
   "license": "MIT",
   "keywords": [
     "mdast",
@@ -43,8 +43,8 @@
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
-    "build-bundle": "browserify index.js -s mdastUtilToHAST > mdast-util-to-hast.js",
-    "build-mangle": "browserify index.js -s mdastUtilToHAST -p tinyify > mdast-util-to-hast.min.js",
+    "build-bundle": "browserify index.js -s mdastUtilToHast > mdast-util-to-hast.js",
+    "build-mangle": "browserify index.js -s mdastUtilToHast -p tinyify > mdast-util-to-hast.min.js",
     "build": "npm run build-bundle && npm run build-mangle",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test/index.js",
