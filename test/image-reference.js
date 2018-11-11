@@ -66,5 +66,18 @@ test('ImageReference', function(t) {
     'should transform `imageReference`s to `img`s'
   )
 
+  t.deepEqual(
+    to(
+      u('imageReference', {
+        identifier: 'tango',
+        label: 'Tango',
+        referenceType: 'full',
+        alt: 'uniform'
+      })
+    ),
+    u('text', '![uniform][Tango]'),
+    'should fall back on the label on a full `imageReference` (GH-22)'
+  )
+
   t.end()
 })

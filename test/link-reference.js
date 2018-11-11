@@ -69,5 +69,17 @@ test('LinkReference', function(t) {
     'should transform `linkReference`s to `a`s'
   )
 
+  t.deepEqual(
+    to(
+      u(
+        'linkReference',
+        {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},
+        [u('text', 'papa')]
+      )
+    ),
+    [u('text', '[papa][Oscar]')],
+    'should fall back on the label on a full `linkReference` (GH-22)'
+  )
+
   t.end()
 })
