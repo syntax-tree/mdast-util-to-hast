@@ -50,6 +50,12 @@
     "test-coverage": "nyc --reporter lcov tape test/index.js",
     "test": "npm run format && npm run build && npm run test-coverage"
   },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
+  },
   "prettier": {
     "tabWidth": 2,
     "useTabs": false,
