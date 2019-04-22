@@ -50,7 +50,7 @@ test('Footnote', function(t) {
         u('footnoteDefinition', {identifier: '1'}, [
           u('paragraph', [u('text', 'bravo')])
         ]),
-        u('footnoteReference', {identifier: '1', label: '1'}),
+        u('footnoteReference', {identifier: '1'}),
         u('footnote', [u('text', 'charlie')])
       ])
     ),
@@ -120,7 +120,7 @@ test('Footnote', function(t) {
         u('footnoteDefinition', {identifier: '1'}, [
           u('blockquote', [u('paragraph', [u('text', 'alpha')])])
         ]),
-        u('paragraph', [u('footnoteReference', {identifier: '1', label: '1'})])
+        u('paragraph', [u('footnoteReference', {identifier: '1'})])
       ])
     ),
     u('root', [

@@ -8,8 +8,7 @@ test('FootnoteReference', function(t) {
   t.deepEqual(
     to(
       u('footnoteReference', {
-        identifier: 'alpha',
-        label: 'alpha'
+        identifier: 'alpha'
       })
     ),
     u(
