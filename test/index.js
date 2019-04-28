@@ -31,3 +31,5 @@ require('./toml.js')
 require('./yaml.js')
 
 require('./handlers-option.js')
+
+/* eslint-enable import/no-unassigned-import, ava/no-import-test-files */
