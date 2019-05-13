@@ -56,18 +56,6 @@ test('Footnote', function(t) {
       u('text', '\n'),
       u('element', {tagName: 'ol', properties: {}}, [
         u('text', '\n'),
-        u('element', {tagName: 'li', properties: {id: 'fn-x'}}, [
-          u('text', 'Delta'),
-          u(
-            'element',
-            {
-              tagName: 'a',
-              properties: {href: '#fnref-x', className: ['footnote-backref']}
-            },
-            [u('text', '↩')]
-          )
-        ]),
-        u('text', '\n'),
         u('element', {tagName: 'li', properties: {id: 'fn-1'}}, [
           u('text', 'Charlie'),
           u(
@@ -75,6 +63,18 @@ test('Footnote', function(t) {
             {
               tagName: 'a',
               properties: {href: '#fnref-1', className: ['footnote-backref']}
+            },
+            [u('text', '↩')]
+          )
+        ]),
+        u('text', '\n'),
+        u('element', {tagName: 'li', properties: {id: 'fn-x'}}, [
+          u('text', 'Delta'),
+          u(
+            'element',
+            {
+              tagName: 'a',
+              properties: {href: '#fnref-x', className: ['footnote-backref']}
             },
             [u('text', '↩')]
           )
