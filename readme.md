@@ -3,17 +3,20 @@
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Transform [mdast][] to [hast][].
+[**mdast**][mdast] utility to transform to [**hast**][hast].
 
-> **Note**: You probably want to use [remark-rehype][].
+> **Note**: You probably want to use [`remark-rehype`][remark-rehype].
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install mdast-util-to-hast
 ```
 
@@ -27,7 +30,7 @@ Say we have the following `example.md`:
 
 …and next to it, `example.js`:
 
-```javascript
+```js
 var inspect = require('unist-util-inspect')
 var unified = require('unified')
 var parse = require('remark-parse')
@@ -56,36 +59,42 @@ root[1] (1:1-2:1, 0-20)
 
 ### `toHast(node[, options])`
 
-Transform the given [mdast][] tree to a [hast][] tree.
+Transform the given [mdast][] [tree][] to a [hast][] [tree][].
 
 ##### Options
 
 ###### `options.allowDangerousHTML`
 
-Whether to allow `html` nodes and inject them as raw HTML (`boolean`, default:
-`false`).  Only do this when compiling later with `hast-util-to-html`.
+Whether to allow [`html`][mdast-html] nodes and inject them as raw HTML
+(`boolean`, default: `false`).
+Only do this when using [`hast-util-to-html`][to-html]
+([`rehype-stringify`][rehype-stringify]) or [`hast-util-raw`][raw]
+([`rehype-raw`][rehype-raw]) later: `raw` nodes are not a standard part of
+[hast][].
 
 ###### `options.commonmark`
 
 Set to `true` (default: `false`) to prefer the first when duplicate definitions
-are found.  The default behaviour is to prefer the last duplicate definition.
+are found.
+The default behaviour is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
-Object mapping [mdast nodes][mdast] to functions handling those elements.
+Object mapping [mdast][] [nodes][mdast-node] to functions handling them.
 Take a look at [`lib/handlers/`][handlers] for examples.
 
 ##### Returns
 
-[`HASTNode`][hast].
+[`HastNode`][hast-node].
 
 ##### Notes
 
-*   `yaml` and `toml` nodes are ignored
+*   [`yaml`][mdast-yaml] and `toml` nodes are ignored (created by
+    [`remark-frontmatter`][remark-frontmatter])
 *   [`html`][mdast-html] nodes are ignored if `allowDangerousHTML` is `false`
-*   [`position`][unist-position]s are properly patched
-*   Unknown nodes with `children` are transformed to `div` elements
-*   Unknown nodes with `value` are transformed to `text` nodes
+*   [`position`][position]s are properly patched
+*   Unknown nodes with [`children`][child] are transformed to `div` elements
+*   Unknown nodes with `value` are transformed to [`text`][hast-text] nodes
 *   [`node.data.hName`][hname] configures the hast element’s tag-name
 *   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
     properties
@@ -211,11 +220,13 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/mdast`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -235,9 +246,19 @@ repository, organisation, or community you agree to abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/mdast-util-to-hast
 
+[size-badge]: https://img.shields.io/bundlephobia/minzip/mdast-util-to-hast.svg
+
+[size]: https://bundlephobia.com/result?p=mdast-util-to-hast
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
 [chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
 
-[chat]: https://spectrum.chat/unified/remark
+[chat]: https://spectrum.chat/unified/syntax-tree
 
 [npm]: https://docs.npmjs.com/cli/install
 
@@ -245,21 +266,45 @@ repository, organisation, or community you agree to abide by its terms.
 
 [author]: https://wooorm.com
 
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
+
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
+
+[position]: https://github.com/syntax-tree/unist#positional-information
+
+[tree]: https://github.com/syntax-tree/unist#tree
+
+[child]: https://github.com/syntax-tree/unist#child
+
 [mdast]: https://github.com/syntax-tree/mdast
 
-[hast]: https://github.com/syntax-tree/hast
+[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+
+[mdast-yaml]: https://github.com/syntax-tree/mdast#yaml
 
 [mdast-html]: https://github.com/syntax-tree/mdast#html
 
-[unist-position]: https://github.com/syntax-tree/unist#location
+[hast]: https://github.com/syntax-tree/hast
 
-[handlers]: lib/handlers
+[hast-text]: https://github.com/syntax-tree/hast#text
+
+[hast-node]: https://github.com/syntax-tree/hast#nodes
+
+[to-html]: https://github.com/syntax-tree/hast-util-to-html
+
+[raw]: https://github.com/syntax-tree/hast-util-raw
 
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[contributing]: https://github.com/syntax-tree/mdast/blob/master/contributing.md
+[remark-frontmatter]: https://github.com/remarkjs/remark-frontmatter
 
-[coc]: https://github.com/syntax-tree/mdast/blob/master/code-of-conduct.md
+[rehype-raw]: https://github.com/rehypejs/rehype-raw
+
+[rehype-stringify]: https://github.com/rehypejs/rehype/tree/master/packages/rehype-stringify
+
+[handlers]: lib/handlers
 
 [hname]: #hname
 
