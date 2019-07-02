@@ -35,5 +35,20 @@ test('Code', function(t) {
     'should transform `code` to a `pre` element with language class'
   )
 
+  t.deepEqual(
+    to(u('code', {lang: 'js', meta: 'foo bar'}, 'india()')),
+    u('element', {tagName: 'pre', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'code',
+          properties: {className: ['language-js'], 'data-meta': 'foo bar'}
+        },
+        [u('text', 'india()\n')]
+      )
+    ]),
+    'should transform `code` to a `pre` element with language class and meta data'
+  )
+
   t.end()
 })
