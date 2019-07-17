@@ -205,6 +205,75 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 }
 ```
 
+## Security
+
+Use of `mdast-util-to-hast` can open you up to a
+[cross-site scripting (XSS)][xss] attack.
+Embedded hast properties (`hName`, `hProperties`, `hChildren`), custom handlers,
+and the `allowDangerousHTML` option all provide openings.
+
+The following example shows how a script is injected where a benign code block
+is expected with embedded hast properties:
+
+```js
+var code = {type: 'code', value: 'alert(1)'}
+
+code.data = {hName: 'script'}
+```
+
+Yields:
+
+```html
+<script>alert(1)</script>
+```
+
+The following example shows how an image is changed to fail loading and
+therefore run code in a browser.
+
+```js
+var image = {type: 'image', url: 'existing.png'}
+
+image.data = {hProperties: {src: 'missing', onError: 'alert(2)'}}
+```
+
+Yields:
+
+```html
+<img src="missing" onerror="alert(2)">
+```
+
+The following example shows the default handling of embedded HTML:
+
+```markdown
+# Hello
+
+<script>alert(3)</script>
+```
+
+Yields:
+
+```html
+<h1>Hello</h1>
+```
+
+Passing `allowDangerousHTML: true` to `mdast-util-to-hast` is typically still
+not enough to run unsafe code:
+
+```html
+<h1>Hello</h1>
+&#x3C;script>alert(3)&#x3C;/script>
+```
+
+If `allowDangerousHTML: true` is also given to `hast-util-to-html` (or
+`rehype-stringify`), the unsafe code runs:
+
+```html
+<h1>Hello</h1>
+<script>alert(3)</script>
+```
+
+Use [`hast-util-santize`][sanitize] to make the hast tree safe.
+
 ## Related
 
 *   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
@@ -296,6 +365,8 @@ abide by its terms.
 
 [raw]: https://github.com/syntax-tree/hast-util-raw
 
+[sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
 [remark-frontmatter]: https://github.com/remarkjs/remark-frontmatter
@@ -311,3 +382,5 @@ abide by its terms.
 [hproperties]: #hproperties
 
 [hchildren]: #hchildren
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
