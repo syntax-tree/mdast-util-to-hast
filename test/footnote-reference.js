@@ -35,5 +35,20 @@ test('FootnoteReference', function(t) {
     'should render `footnoteReference`s (#2)'
   )
 
+  t.deepEqual(
+    to(u('footnoteReference', {identifier: 1})),
+    u('element', {tagName: 'sup', properties: {id: 'fnref-1'}}, [
+      u(
+        'element',
+        {
+          tagName: 'a',
+          properties: {href: '#fn-1', className: ['footnote-ref']}
+        },
+        [u('text', '1')]
+      )
+    ]),
+    'should not fail on non-string identifiers'
+  )
+
   t.end()
 })
