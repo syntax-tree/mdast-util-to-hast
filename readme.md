@@ -272,7 +272,7 @@ If `allowDangerousHTML: true` is also given to `hast-util-to-html` (or
 <script>alert(3)</script>
 ```
 
-Use [`hast-util-santize`][sanitize] to make the hast tree safe.
+Use [`hast-util-sanitize`][sanitize] to make the hast tree safe.
 
 ## Related
 
