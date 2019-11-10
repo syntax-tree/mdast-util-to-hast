@@ -10,6 +10,10 @@
   ],
   "repository": "syntax-tree/mdast-util-to-hast",
   "bugs": "https://github.com/syntax-tree/mdast-util-to-hast/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
