@@ -1,6 +1,6 @@
 'use strict'
 
-/* eslint-disable import/no-unassigned-import, ava/no-import-test-files */
+/* eslint-disable import/no-unassigned-import */
 
 require('./core.js')
 require('./blockquote.js')
@@ -33,4 +33,4 @@ require('./yaml.js')
 
 require('./handlers-option.js')
 
-/* eslint-enable import/no-unassigned-import, ava/no-import-test-files */
+/* eslint-enable import/no-unassigned-import */
