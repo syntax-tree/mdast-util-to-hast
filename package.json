@@ -28,8 +28,8 @@
     "mdast-util-definitions": "^1.2.0",
     "mdurl": "^1.0.1",
     "trim-lines": "^1.0.0",
-    "unist-builder": "^1.0.1",
-    "unist-util-generated": "^1.1.0",
+    "unist-builder": "^2.0.0",
+    "unist-util-generated": "^1.0.0",
     "unist-util-position": "^3.0.0",
     "unist-util-visit": "^1.1.0"
   },
