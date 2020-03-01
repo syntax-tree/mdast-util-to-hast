@@ -277,11 +277,13 @@ Use [`hast-util-sanitize`][sanitize] to make the hast tree safe.
 ## Related
 
 *   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
-    — Transform mdast to nlcst
-*   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
-    — Sanitize hast nodes
+    — transform mdast to nlcst
 *   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
-    — Transform hast to mdast
+    — transform hast to mdast
+*   [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
+    — transform hast to xast
+*   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
+    — sanitize hast nodes
 *   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
     — rehype support for remark
 *   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
