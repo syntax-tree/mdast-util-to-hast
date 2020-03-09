@@ -19,5 +19,32 @@ test('handlers option', function(t) {
     'should override default handler'
   )
 
+  var mdastWithMetaNode = u('paragraph', [
+    u('meta-node', 'meta'),
+    u('text', 'bravo')
+  ])
+
+  t.deepEqual(
+    to(mdastWithMetaNode, {}),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('text', 'meta'),
+      u('text', 'bravo')
+    ]),
+    'should use default unknown-handler'
+  )
+
+  t.deepEqual(
+    to(mdastWithMetaNode, {
+      unknownHandler: function(n, node) {
+        return node
+      }
+    }),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('meta-node', 'meta'),
+      u('text', 'bravo')
+    ]),
+    'should use custom unknown-handler'
+  )
+
   t.end()
 })
