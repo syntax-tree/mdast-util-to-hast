@@ -21,7 +21,7 @@ test('handlers option', function(t) {
 
   var customMdast = u('paragraph', [
     u('custom', 'with value'),
-    u('custom', [u('img', {src: 'with-children.png'})]),
+    u('custom', [u('image', {url: 'with-children.png'})]),
     u('text', 'bravo')
   ])
 
@@ -30,7 +30,14 @@ test('handlers option', function(t) {
     u('element', {tagName: 'p', properties: {}}, [
       u('text', 'with value'),
       u('element', {tagName: 'div', properties: {}}, [
-        u('element', {tagName: 'div', properties: {}}, [])
+        u(
+          'element',
+          {
+            tagName: 'img',
+            properties: {src: 'with-children.png', alt: undefined}
+          },
+          []
+        )
       ]),
       u('text', 'bravo')
     ]),
@@ -45,7 +52,7 @@ test('handlers option', function(t) {
     }),
     u('element', {tagName: 'p', properties: {}}, [
       u('custom', 'with value'),
-      u('custom', [u('img', {src: 'with-children.png'})]),
+      u('custom', [u('image', {url: 'with-children.png'})]),
       u('text', 'bravo')
     ]),
     'should use custom unknown-handler'
