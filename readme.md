@@ -76,7 +76,7 @@ Only do this when using [`hast-util-to-html`][to-html]
 
 Set to `true` (default: `false`) to prefer the first when duplicate definitions
 are found.
-The default behaviour is to prefer the last duplicate definition.
+The default behavior is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
@@ -87,7 +87,7 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 
 Handler for all unknown nodes.
 
-Default behaviour:
+Default behavior:
 
 *   Unknown nodes with [`children`][child] are transformed to `div` elements
 *   Unknown nodes with `value` are transformed to [`text`][hast-text] nodes
