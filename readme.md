@@ -76,12 +76,21 @@ Only do this when using [`hast-util-to-html`][to-html]
 
 Set to `true` (default: `false`) to prefer the first when duplicate definitions
 are found.
-The default behaviour is to prefer the last duplicate definition.
+The default behavior is to prefer the last duplicate definition.
 
 ###### `options.handlers`
 
 Object mapping [mdast][] [nodes][mdast-node] to functions handling them.
 Take a look at [`lib/handlers/`][handlers] for examples.
+
+###### `options.unknownHandler`
+
+Handler for all unknown nodes.
+
+Default behavior:
+
+*   Unknown nodes with [`children`][child] are transformed to `div` elements
+*   Unknown nodes with `value` are transformed to [`text`][hast-text] nodes
 
 ##### Returns
 
@@ -93,8 +102,6 @@ Take a look at [`lib/handlers/`][handlers] for examples.
     [`remark-frontmatter`][remark-frontmatter])
 *   [`html`][mdast-html] nodes are ignored if `allowDangerousHTML` is `false`
 *   [`position`][position]s are properly patched
-*   Unknown nodes with [`children`][child] are transformed to `div` elements
-*   Unknown nodes with `value` are transformed to [`text`][hast-text] nodes
 *   [`node.data.hName`][hname] configures the hast element’s tag-name
 *   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
     properties

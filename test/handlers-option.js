@@ -19,5 +19,44 @@ test('handlers option', function(t) {
     'should override default handler'
   )
 
+  var customMdast = u('paragraph', [
+    u('custom', 'with value'),
+    u('custom', [u('image', {url: 'with-children.png'})]),
+    u('text', 'bravo')
+  ])
+
+  t.deepEqual(
+    to(customMdast, {}),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('text', 'with value'),
+      u('element', {tagName: 'div', properties: {}}, [
+        u(
+          'element',
+          {
+            tagName: 'img',
+            properties: {src: 'with-children.png', alt: undefined}
+          },
+          []
+        )
+      ]),
+      u('text', 'bravo')
+    ]),
+    'should use default unknown-handler'
+  )
+
+  t.deepEqual(
+    to(customMdast, {
+      unknownHandler: function(n, node) {
+        return node
+      }
+    }),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('custom', 'with value'),
+      u('custom', [u('image', {url: 'with-children.png'})]),
+      u('text', 'bravo')
+    ]),
+    'should use custom unknown-handler'
+  )
+
   t.end()
 })
