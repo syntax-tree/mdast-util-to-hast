@@ -18,7 +18,7 @@ test('Table', function(t) {
         ]),
         u('tableRow', [u('tableCell', [u('text', 'alpha')])])
       ]),
-      {allowDangerousHTML: true}
+      {allowDangerousHtml: true}
     ),
     u('element', {tagName: 'table', properties: {}}, [
       u('text', '\n'),
