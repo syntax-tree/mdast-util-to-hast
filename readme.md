@@ -63,7 +63,7 @@ Transform the given [mdast][] [tree][] to a [hast][] [tree][].
 
 ##### Options
 
-###### `options.allowDangerousHTML`
+###### `options.allowDangerousHtml`
 
 Whether to allow [`html`][mdast-html] nodes and inject them as raw HTML
 (`boolean`, default: `false`).
@@ -100,7 +100,7 @@ Default behavior:
 
 *   [`yaml`][mdast-yaml] and `toml` nodes are ignored (created by
     [`remark-frontmatter`][remark-frontmatter])
-*   [`html`][mdast-html] nodes are ignored if `allowDangerousHTML` is `false`
+*   [`html`][mdast-html] nodes are ignored if `allowDangerousHtml` is `false`
 *   [`position`][position]s are properly patched
 *   [`node.data.hName`][hname] configures the hast element’s tag-name
 *   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
@@ -217,7 +217,7 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 Use of `mdast-util-to-hast` can open you up to a
 [cross-site scripting (XSS)][xss] attack.
 Embedded hast properties (`hName`, `hProperties`, `hChildren`), custom handlers,
-and the `allowDangerousHTML` option all provide openings.
+and the `allowDangerousHtml` option all provide openings.
 
 The following example shows how a script is injected where a benign code block
 is expected with embedded hast properties:
@@ -263,7 +263,7 @@ Yields:
 <h1>Hello</h1>
 ```
 
-Passing `allowDangerousHTML: true` to `mdast-util-to-hast` is typically still
+Passing `allowDangerousHtml: true` to `mdast-util-to-hast` is typically still
 not enough to run unsafe code:
 
 ```html
@@ -271,7 +271,7 @@ not enough to run unsafe code:
 &#x3C;script>alert(3)&#x3C;/script>
 ```
 
-If `allowDangerousHTML: true` is also given to `hast-util-to-html` (or
+If `allowDangerousHtml: true` is also given to `hast-util-to-html` (or
 `rehype-stringify`), the unsafe code runs:
 
 ```html
