@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('Footnote', function(t) {
+test('Footnote', function (t) {
   var mdast = to(
     u('root', [
       u('paragraph', [

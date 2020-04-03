@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('FootnoteReference', function(t) {
+test('FootnoteReference', function (t) {
   t.deepEqual(
     to(u('footnoteReference', {identifier: 'alpha'})),
     u('element', {tagName: 'sup', properties: {id: 'fnref-alpha'}}, [

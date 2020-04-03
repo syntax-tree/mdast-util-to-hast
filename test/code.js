@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('Code', function(t) {
+test('Code', function (t) {
   t.deepEqual(
     to(u('code', 'foxtrot()\ngolf.hotel()')),
     u('element', {tagName: 'pre', properties: {}}, [

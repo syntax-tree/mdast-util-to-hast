@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('FootnoteDefinition', function(t) {
+test('FootnoteDefinition', function (t) {
   t.deepEqual(
     to(
       u('root', [

@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('Link', function(t) {
+test('Link', function (t) {
   t.deepEqual(
     to(
       u(

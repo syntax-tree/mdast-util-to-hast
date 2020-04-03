@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('ListItem', function(t) {
+test('ListItem', function (t) {
   t.deepEqual(
     to(u('listItem', [u('paragraph', [u('text', 'november')])])),
     u('element', {tagName: 'li', properties: {}}, [u('text', 'november')]),

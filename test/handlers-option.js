@@ -5,9 +5,9 @@ var u = require('unist-builder')
 var all = require('../lib/all')
 var to = require('..')
 
-test('handlers option', function(t) {
+test('handlers option', function (t) {
   var handlers = {
-    paragraph: function(h, node) {
+    paragraph: function (h, node) {
       node.children[0].value = 'changed'
       return h(node, 'p', all(h, node))
     }
@@ -46,7 +46,7 @@ test('handlers option', function(t) {
 
   t.deepEqual(
     to(customMdast, {
-      unknownHandler: function(n, node) {
+      unknownHandler: function (n, node) {
         return node
       }
     }),

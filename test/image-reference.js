@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('ImageReference', function(t) {
+test('ImageReference', function (t) {
   t.deepEqual(
     to(u('imageReference', {identifier: 'charlie', alt: 'charlie'})),
     u('text', '![charlie]'),

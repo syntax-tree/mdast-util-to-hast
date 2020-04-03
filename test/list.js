@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('List', function(t) {
+test('List', function (t) {
   t.deepEqual(
     to(
       u('list', {ordered: true}, [

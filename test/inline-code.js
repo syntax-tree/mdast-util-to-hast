@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('InlineCode', function(t) {
+test('InlineCode', function (t) {
   t.deepEqual(
     to(u('inlineCode', 'juliett()')),
     u('element', {tagName: 'code', properties: {}}, [u('text', 'juliett()')]),

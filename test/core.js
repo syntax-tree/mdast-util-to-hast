@@ -4,9 +4,9 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('toHast()', function(t) {
+test('toHast()', function (t) {
   t.throws(
-    function() {
+    function () {
       to(u('bar', [true]))
     },
     /Expected node, got `true`/,

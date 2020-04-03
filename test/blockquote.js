@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('Blockquote', function(t) {
+test('Blockquote', function (t) {
   t.deepEqual(
     to(
       u('blockquote', [

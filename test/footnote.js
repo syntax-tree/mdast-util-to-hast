@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('Footnote', function(t) {
+test('Footnote', function (t) {
   t.deepEqual(
     to(u('root', [u('footnote', [u('text', 'bravo')])])),
     u('root', [

@@ -4,7 +4,7 @@ var test = require('tape')
 var u = require('unist-builder')
 var to = require('..')
 
-test('LinkReference', function(t) {
+test('LinkReference', function (t) {
   t.deepEqual(
     to(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
     [u('text', '[bravo]')],
