@@ -80,6 +80,7 @@
     "prettier": true,
     "esnext": false,
     "ignores": [
+      "**/*.ts",
       "mdast-util-to-hast.js"
     ],
     "rules": {

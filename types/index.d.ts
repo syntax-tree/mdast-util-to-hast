@@ -2,7 +2,22 @@
 import {Node} from 'unist'
 
 declare namespace toHast {
-  type Handler = (h: any, node: Node) => any
+  interface H {
+    dangerous?: boolean
+    definitions: any
+    footNoteById: object
+    footnoreOrder: string[]
+    handlers: Handlers
+    unknownHandler: Handler
+    (node: Node, tagName: string, props?: object, children?: Node[]): Node
+    augment(left: Node, right: Node): Node
+  }
+
+  type Handler = (h: H, node: Node) => any
+
+  interface Handlers {
+    [type: string]: Handler
+  }
 
   interface Options {
     /**
@@ -34,7 +49,7 @@ declare namespace toHast {
      * [`lib/handlers/`](https://github.com/syntax-tree/mdast-util-to-hast/blob/master/lib/handlers)
      * for examples.
      */
-    handlers?: {[type: string]: Handler}
+    handlers?: Handlers
 
     /**
      * Handler for all unknown nodes.
