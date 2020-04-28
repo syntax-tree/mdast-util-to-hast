@@ -1,11 +1,13 @@
 // Minimum TypeScript Version: 3.2
+import {Definition} from 'mdast'
+import {DefinitionCache} from 'mdast-util-definitions'
 import {Node} from 'unist'
 
 declare namespace toHast {
   interface H {
     dangerous?: boolean
-    definitions: any
-    footNoteById: object
+    definition: DefinitionCache
+    footNoteById: Definition
     footnoreOrder: string[]
     handlers: Handlers
     unknownHandler: Handler

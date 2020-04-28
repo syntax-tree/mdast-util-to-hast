@@ -31,10 +31,11 @@
   ],
   "types": "types/index.d.ts",
   "dependencies": {
+    "@types/mdast": "^3.0.3",
     "collapse-white-space": "^1.0.0",
     "detab": "^2.0.0",
     "dtslint": "^3.4.1",
-    "mdast-util-definitions": "^2.0.0",
+    "mdast-util-definitions": "^3.0.0",
     "mdurl": "^1.0.0",
     "trim-lines": "^1.0.0",
     "unist-builder": "^2.0.0",
