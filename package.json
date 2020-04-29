@@ -26,12 +26,16 @@
   ],
   "files": [
     "lib",
-    "index.js"
+    "index.js",
+    "types/index.d.ts"
   ],
+  "types": "types/index.d.ts",
   "dependencies": {
+    "@types/mdast": "^3.0.3",
     "collapse-white-space": "^1.0.0",
     "detab": "^2.0.0",
-    "mdast-util-definitions": "^2.0.0",
+    "dtslint": "^3.4.1",
+    "mdast-util-definitions": "^3.0.0",
     "mdurl": "^1.0.0",
     "trim-lines": "^1.0.0",
     "unist-builder": "^2.0.0",
@@ -50,13 +54,14 @@
     "xo": "^0.28.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
+    "format": "remark . -qfo && prettier --write . && xo --fix",
     "build-bundle": "browserify index.js -s mdastUtilToHast > mdast-util-to-hast.js",
     "build-mangle": "browserify index.js -s mdastUtilToHast -p tinyify > mdast-util-to-hast.min.js",
     "build": "npm run build-bundle && npm run build-mangle",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test/index.js",
-    "test": "npm run format && npm run build && npm run test-coverage"
+    "test-types": "dtslint types",
+    "test": "npm run format && npm run build && npm run test-coverage && npm run test-types"
   },
   "nyc": {
     "check-coverage": true,
@@ -76,6 +81,7 @@
     "prettier": true,
     "esnext": false,
     "ignores": [
+      "**/*.ts",
       "mdast-util-to-hast.js"
     ],
     "rules": {
