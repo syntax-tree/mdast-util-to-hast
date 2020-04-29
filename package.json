@@ -31,10 +31,9 @@
   ],
   "types": "types/index.d.ts",
   "dependencies": {
-    "@types/mdast": "^3.0.3",
+    "@types/mdast": "^3.0.0",
     "collapse-white-space": "^1.0.0",
     "detab": "^2.0.0",
-    "dtslint": "^3.4.1",
     "mdast-util-definitions": "^3.0.0",
     "mdurl": "^1.0.0",
     "trim-lines": "^1.0.0",
@@ -45,13 +44,14 @@
   },
   "devDependencies": {
     "browserify": "^16.0.0",
+    "dtslint": "^3.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "remark-cli": "^8.0.0",
     "remark-preset-wooorm": "^7.0.0",
-    "tape": "^4.0.0",
+    "tape": "^5.0.0",
     "tinyify": "^2.0.0",
-    "xo": "^0.28.0"
+    "xo": "^0.30.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write . && xo --fix",
