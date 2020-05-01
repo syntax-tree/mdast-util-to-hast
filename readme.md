@@ -20,6 +20,12 @@
 npm install mdast-util-to-hast
 ```
 
+[npm][] with [TypeScript][] support:
+
+```sh
+npm install mdast-util-to-hast @types/mdast
+```
+
 ## Use
 
 Say we have the following `example.md`:
@@ -339,6 +345,8 @@ abide by its terms.
 [chat]: https://spectrum.chat/unified/syntax-tree
 
 [npm]: https://docs.npmjs.com/cli/install
+
+[typescript]: https://www.typescriptlang.org
 
 [license]: license
 
