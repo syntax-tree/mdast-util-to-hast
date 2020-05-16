@@ -20,12 +20,6 @@
 npm install mdast-util-to-hast
 ```
 
-[npm][] with [TypeScript][] support:
-
-```sh
-npm install mdast-util-to-hast @types/mdast
-```
-
 ## Use
 
 Say we have the following `example.md`:
