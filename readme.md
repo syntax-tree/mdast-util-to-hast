@@ -340,8 +340,6 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[typescript]: https://www.typescriptlang.org
-
 [license]: license
 
 [author]: https://wooorm.com
