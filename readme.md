@@ -106,6 +106,10 @@ Default behavior:
 *   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
     properties
 *   [`node.data.hChildren`][hchildren] configures the hast element’s children
+*   GFM (and this project) uses the obsolete `align` attribute on `td` and `th`
+    elements; combine this utility with
+    [`@mapbox/hast-util-table-cell-style`][hast-util-table-cell-style]
+    to use `style` instead
 
 ##### Examples
 
@@ -363,6 +367,8 @@ abide by its terms.
 [mdast-yaml]: https://github.com/syntax-tree/mdast#yaml
 
 [mdast-html]: https://github.com/syntax-tree/mdast#html
+
+[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
 
 [hast]: https://github.com/syntax-tree/hast
 
