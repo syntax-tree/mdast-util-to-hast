@@ -348,11 +348,11 @@ abide by its terms.
 
 [author]: https://wooorm.com
 
-[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
+[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
 
-[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md
+[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
 
 [position]: https://github.com/syntax-tree/unist#positional-information
 
@@ -388,7 +388,7 @@ abide by its terms.
 
 [rehype-raw]: https://github.com/rehypejs/rehype-raw
 
-[rehype-stringify]: https://github.com/rehypejs/rehype/tree/master/packages/rehype-stringify
+[rehype-stringify]: https://github.com/rehypejs/rehype/tree/HEAD/packages/rehype-stringify
 
 [handlers]: lib/handlers
 

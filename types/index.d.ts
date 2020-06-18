@@ -26,7 +26,7 @@ declare namespace toHast {
      * Whether to allow [`html`](https://github.com/syntax-tree/mdast#html) nodes and inject them as raw HTML
      *
      * Only do this when using [`hast-util-to-html`](https://github.com/syntax-tree/hast-util-to-html)
-     * ([`rehype-stringify`](https://github.com/rehypejs/rehype/tree/master/packages/rehype-stringify)) or
+     * ([`rehype-stringify`](https://github.com/rehypejs/rehype/tree/HEAD/packages/rehype-stringify)) or
      * [`hast-util-raw`](https://github.com/syntax-tree/hast-util-raw)
      * ([`rehype-raw`](https://github.com/rehypejs/rehype-raw)) later: `raw` nodes are not a standard part of
      * [hast](https://github.com/syntax-tree/hast).
@@ -48,7 +48,7 @@ declare namespace toHast {
      * Object mapping [mdast](https://github.com/syntax-tree/mdast)
      * [nodes](https://github.com/syntax-tree/mdast#nodes) to functions handling them.
      * Take a look at
-     * [`lib/handlers/`](https://github.com/syntax-tree/mdast-util-to-hast/blob/master/lib/handlers)
+     * [`lib/handlers/`](https://github.com/syntax-tree/mdast-util-to-hast/blob/HEAD/lib/handlers)
      * for examples.
      */
     handlers?: Handlers
