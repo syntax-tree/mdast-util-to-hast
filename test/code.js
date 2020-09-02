@@ -35,5 +35,13 @@ test('Code', function (t) {
     'should transform `code` to a `pre` element with language class'
   )
 
+  t.deepEqual(
+    to(u('code', '\ta')),
+    u('element', {tagName: 'pre', properties: {}}, [
+      u('element', {tagName: 'code', properties: {}}, [u('text', '\ta\n')])
+    ]),
+    'should support tabs in code'
+  )
+
   t.end()
 })
