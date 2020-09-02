@@ -11,5 +11,17 @@ test('InlineCode', function (t) {
     'should transform `inlineCode` to a `code` element'
   )
 
+  t.deepEqual(
+    to(u('inlineCode', 'a\tb')),
+    u('element', {tagName: 'code', properties: {}}, [u('text', 'a\tb')]),
+    'should support tabs in inline code'
+  )
+
+  t.deepEqual(
+    to(u('inlineCode', 'a\nb')),
+    u('element', {tagName: 'code', properties: {}}, [u('text', 'a b')]),
+    'should change eols to spaces in inline code'
+  )
+
   t.end()
 })

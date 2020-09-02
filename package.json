@@ -33,7 +33,6 @@
   "dependencies": {
     "@types/mdast": "^3.0.0",
     "@types/unist": "^2.0.3",
-    "collapse-white-space": "^1.0.0",
     "detab": "^2.0.0",
     "mdast-util-definitions": "^3.0.0",
     "mdurl": "^1.0.0",
