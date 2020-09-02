@@ -35,7 +35,6 @@
     "@types/unist": "^2.0.3",
     "mdast-util-definitions": "^3.0.0",
     "mdurl": "^1.0.0",
-    "trim-lines": "^1.0.0",
     "unist-builder": "^2.0.0",
     "unist-util-generated": "^1.0.0",
     "unist-util-position": "^3.0.0",
