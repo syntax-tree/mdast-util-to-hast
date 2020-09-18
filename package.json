@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "browserify": "^16.0.0",
-    "dtslint": "^3.0.0",
+    "dtslint": "^4.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "remark-cli": "^8.0.0",
