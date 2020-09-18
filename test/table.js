@@ -60,7 +60,7 @@ test('Table', function (t) {
 
   t.deepEqual(
     to(
-      u('table', {align: ['left', 'right']}, [
+      u('table', [
         u('tableRow', [
           u('tableCell', [u('text', 'a')]),
           u('tableCell', [u('text', 'b')])
@@ -73,11 +73,11 @@ test('Table', function (t) {
         u('text', '\n'),
         u('element', {tagName: 'tr', properties: {}}, [
           u('text', '\n'),
-          u('element', {tagName: 'th', properties: {align: 'left'}}, [
+          u('element', {tagName: 'th', properties: {align: undefined}}, [
             u('text', 'a')
           ]),
           u('text', '\n'),
-          u('element', {tagName: 'th', properties: {align: 'right'}}, [
+          u('element', {tagName: 'th', properties: {align: undefined}}, [
             u('text', 'b')
           ]),
           u('text', '\n')
