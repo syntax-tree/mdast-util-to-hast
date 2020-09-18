@@ -58,5 +58,36 @@ test('Table', function (t) {
     'should transform `table`'
   )
 
+  t.deepEqual(
+    to(
+      u('table', {align: ['left', 'right']}, [
+        u('tableRow', [
+          u('tableCell', [u('text', 'a')]),
+          u('tableCell', [u('text', 'b')])
+        ])
+      ])
+    ),
+    u('element', {tagName: 'table', properties: {}}, [
+      u('text', '\n'),
+      u('element', {tagName: 'thead', properties: {}}, [
+        u('text', '\n'),
+        u('element', {tagName: 'tr', properties: {}}, [
+          u('text', '\n'),
+          u('element', {tagName: 'th', properties: {align: 'left'}}, [
+            u('text', 'a')
+          ]),
+          u('text', '\n'),
+          u('element', {tagName: 'th', properties: {align: 'right'}}, [
+            u('text', 'b')
+          ]),
+          u('text', '\n')
+        ]),
+        u('text', '\n')
+      ]),
+      u('text', '\n')
+    ]),
+    'should not add a `tbody` if w/o second row'
+  )
+
   t.end()
 })
