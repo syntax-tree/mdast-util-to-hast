@@ -7,8 +7,8 @@ declare namespace toHast {
   interface H {
     dangerous?: boolean
     definition: DefinitionCache
-    footNoteById: Definition
-    footnoreOrder: string[]
+    footnoteById: Definition
+    footnoteOrder: string[]
     handlers: Handlers
     unknownHandler: Handler
     (node: Node, tagName: string, props?: object, children?: Node[]): Node
