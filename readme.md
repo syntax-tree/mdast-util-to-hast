@@ -72,12 +72,6 @@ Only do this when using [`hast-util-to-html`][to-html]
 ([`rehype-raw`][rehype-raw]) later: `raw` nodes are not a standard part of
 [hast][].
 
-###### `options.commonmark`
-
-Set to `true` (default: `false`) to prefer the first when duplicate definitions
-are found.
-The default behavior is to prefer the last duplicate definition.
-
 ###### `options.handlers`
 
 Object mapping [mdast][] [nodes][mdast-node] to functions handling them.

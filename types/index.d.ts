@@ -36,15 +36,6 @@ declare namespace toHast {
     allowDangerousHtml?: boolean
 
     /**
-     * Set to `true` to prefer the first when duplicate definitions are found.
-     *
-     * The default behavior is to prefer the last duplicate definition.
-     *
-     * @default false
-     */
-    commonmark?: boolean
-
-    /**
      * Object mapping [mdast](https://github.com/syntax-tree/mdast)
      * [nodes](https://github.com/syntax-tree/mdast#nodes) to functions handling them.
      * Take a look at

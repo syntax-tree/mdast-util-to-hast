@@ -26,28 +26,11 @@ test('Definition', function (t) {
       ])
     ),
     u('element', {tagName: 'p', properties: {}}, [
-      u('element', {tagName: 'a', properties: {href: 'https://delta.com'}}, [
-        u('text', 'bravo')
-      ])
-    ]),
-    'should prefer the last definition by default'
-  )
-
-  t.deepEqual(
-    to(
-      u('paragraph', [
-        u('linkReference', {identifier: 'alpha'}, [u('text', 'bravo')]),
-        u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
-        u('definition', {identifier: 'alpha', url: 'https://delta.com'})
-      ]),
-      {commonmark: true}
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
       u('element', {tagName: 'a', properties: {href: 'https://charlie.com'}}, [
         u('text', 'bravo')
       ])
     ]),
-    'should prefer the first definition in commonmark mode'
+    'should prefer the first definition by default'
   )
 
   t.end()

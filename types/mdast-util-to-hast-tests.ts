@@ -2,7 +2,6 @@ import toHast = require('mdast-util-to-hast')
 
 toHast({type: ''})
 toHast({type: ''}, {allowDangerousHtml: true})
-toHast({type: ''}, {commonmark: true})
 toHast(
   {type: ''},
   {

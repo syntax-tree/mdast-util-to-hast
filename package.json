@@ -33,7 +33,7 @@
   "dependencies": {
     "@types/mdast": "^3.0.0",
     "@types/unist": "^2.0.0",
-    "mdast-util-definitions": "^3.0.0",
+    "mdast-util-definitions": "^4.0.0",
     "mdurl": "^1.0.0",
     "unist-builder": "^2.0.0",
     "unist-util-generated": "^1.0.0",
