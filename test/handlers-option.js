@@ -55,7 +55,26 @@ test('handlers option', function (t) {
       u('custom', [u('image', {url: 'with-children.png'})]),
       u('text', 'bravo')
     ]),
-    'should use custom unknown-handler'
+    'should use an `unknownHandler`'
+  )
+
+  t.deepEqual(
+    to(customMdast, {passThrough: ['custom']}),
+    u('element', {tagName: 'p', properties: {}}, [
+      u('custom', 'with value'),
+      u('custom', [
+        u(
+          'element',
+          {
+            tagName: 'img',
+            properties: {src: 'with-children.png', alt: undefined}
+          },
+          []
+        )
+      ]),
+      u('text', 'bravo')
+    ]),
+    'should use `passThrough`'
   )
 
   t.end()

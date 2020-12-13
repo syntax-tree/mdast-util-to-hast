@@ -45,6 +45,13 @@ declare namespace toHast {
     handlers?: Handlers
 
     /**
+     * List of custom mdast node types to pass through (keep) in hast.
+     * If the passed through nodes have children, those children are expected to
+     * be mdast and will be handled.
+     */
+    passThrough?: string[]
+
+    /**
      * Handler for all unknown nodes.
      *
      * Default behavior:

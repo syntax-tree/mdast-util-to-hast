@@ -77,9 +77,16 @@ Only do this when using [`hast-util-to-html`][to-html]
 Object mapping [mdast][] [nodes][mdast-node] to functions handling them.
 Take a look at [`lib/handlers/`][handlers] for examples.
 
+###### `options.passThrough`
+
+List of custom mdast node types to pass through (keep) in hast
+(`Array.<string>`, default: `[]`).
+If the passed through nodes have children, those children are expected to be
+mdast and will be handled.
+
 ###### `options.unknownHandler`
 
-Handler for all unknown nodes.
+Handler for unknown nodes (that aren’t in `handlers` or `passThrough`).
 
 Default behavior:
 

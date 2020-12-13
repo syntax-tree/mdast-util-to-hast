@@ -40,3 +40,9 @@ toHast(
     }
   }
 )
+toHast(
+  {type: 'custom'},
+  {
+    passThrough: ['custom']
+  }
+)
