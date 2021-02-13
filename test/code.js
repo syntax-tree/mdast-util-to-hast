@@ -36,6 +36,22 @@ test('Code', function (t) {
   )
 
   t.deepEqual(
+    to(u('code', {lang: 'js', meta: 'juliett'}, 'kilo()')),
+    u('element', {tagName: 'pre', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'code',
+          properties: {className: ['language-js']},
+          data: {meta: 'juliett'}
+        },
+        [u('text', 'kilo()\n')]
+      )
+    ]),
+    'should support `meta`'
+  )
+
+  t.deepEqual(
     to(u('code', '\ta')),
     u('element', {tagName: 'pre', properties: {}}, [
       u('element', {tagName: 'code', properties: {}}, [u('text', '\ta\n')])
