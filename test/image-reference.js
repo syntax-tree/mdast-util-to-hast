@@ -1,18 +1,16 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('ImageReference', function (t) {
   t.deepEqual(
-    to(u('imageReference', {identifier: 'charlie', alt: 'charlie'})),
+    toHast(u('imageReference', {identifier: 'charlie', alt: 'charlie'})),
     u('text', '![charlie]'),
     'should fall back on `imageReference`s without definition'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('imageReference', {
         identifier: 'foxtrot',
         referenceType: 'full',
@@ -24,7 +22,7 @@ test('ImageReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('imageReference', {
         identifier: 'india',
         referenceType: 'collapsed',
@@ -36,7 +34,7 @@ test('ImageReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('imageReference', {
           identifier: 'november',
@@ -67,7 +65,7 @@ test('ImageReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('imageReference', {identifier: 'november', alt: 'oscar'}),
         u('definition', {identifier: 'november', url: ''})
@@ -80,7 +78,7 @@ test('ImageReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('imageReference', {
         identifier: 'tango',
         label: 'Tango',

@@ -1,18 +1,16 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('ListItem', function (t) {
   t.deepEqual(
-    to(u('listItem', [u('paragraph', [u('text', 'november')])])),
+    toHast(u('listItem', [u('paragraph', [u('text', 'november')])])),
     u('element', {tagName: 'li', properties: {}}, [u('text', 'november')]),
     'should transform tight `listItem`s to a `li` element'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('listItem', {spread: true}, [u('paragraph', [u('text', 'november')])])
     ),
     u('element', {tagName: 'li', properties: {}}, [
@@ -24,7 +22,7 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('listItem', [
         u('paragraph', [u('text', 'oscar')]),
         u('paragraph', [u('text', 'papa')])
@@ -41,7 +39,9 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(u('listItem', {checked: true}, [u('paragraph', [u('text', 'québec')])])),
+    toHast(
+      u('listItem', {checked: true}, [u('paragraph', [u('text', 'québec')])])
+    ),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
       u(
         'element',
@@ -58,7 +58,7 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('listItem', {checked: false}, [
         u('paragraph', [u('text', 'romeo')]),
         u('paragraph', [u('text', 'sierra')])
@@ -86,7 +86,7 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(u('listItem', {checked: true}, [u('html', '<!--tango-->')])),
+    toHast(u('listItem', {checked: true}, [u('html', '<!--tango-->')])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
       u(
         'element',
@@ -101,7 +101,7 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('listItem', {checked: false}, [
         u('blockquote', [u('paragraph', [u('text', 'romeo')])]),
         u('paragraph', [u('text', 'sierra')])
@@ -133,13 +133,13 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(u('listItem', [])),
+    toHast(u('listItem', [])),
     u('element', {tagName: 'li', properties: {}}, []),
     'should support `listItem`s without children'
   )
 
   t.deepEqual(
-    to(u('listItem', {checked: true}, [])),
+    toHast(u('listItem', {checked: true}, [])),
     u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
       u(
         'element',
@@ -154,7 +154,7 @@ test('ListItem', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('listItem', [
         u('list', {ordered: false}, [
           u('listItem', [u('paragraph', [u('text', 'Alpha')])])

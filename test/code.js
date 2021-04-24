@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Code', function (t) {
   t.deepEqual(
-    to(u('code', 'foxtrot()\ngolf.hotel()')),
+    toHast(u('code', 'foxtrot()\ngolf.hotel()')),
     u('element', {tagName: 'pre', properties: {}}, [
       u('element', {tagName: 'code', properties: {}}, [
         u('text', 'foxtrot()\ngolf.hotel()\n')
@@ -16,7 +14,7 @@ test('Code', function (t) {
   )
 
   t.deepEqual(
-    to(u('code', '')),
+    toHast(u('code', '')),
     u('element', {tagName: 'pre', properties: {}}, [
       u('element', {tagName: 'code', properties: {}}, [u('text', '')])
     ]),
@@ -24,7 +22,7 @@ test('Code', function (t) {
   )
 
   t.deepEqual(
-    to(u('code', {lang: 'js'}, 'india()')),
+    toHast(u('code', {lang: 'js'}, 'india()')),
     u('element', {tagName: 'pre', properties: {}}, [
       u(
         'element',
@@ -36,7 +34,7 @@ test('Code', function (t) {
   )
 
   t.deepEqual(
-    to(u('code', {lang: 'js', meta: 'juliett'}, 'kilo()')),
+    toHast(u('code', {lang: 'js', meta: 'juliett'}, 'kilo()')),
     u('element', {tagName: 'pre', properties: {}}, [
       u(
         'element',
@@ -52,7 +50,7 @@ test('Code', function (t) {
   )
 
   t.deepEqual(
-    to(u('code', '\ta')),
+    toHast(u('code', '\ta')),
     u('element', {tagName: 'pre', properties: {}}, [
       u('element', {tagName: 'code', properties: {}}, [u('text', '\ta\n')])
     ]),

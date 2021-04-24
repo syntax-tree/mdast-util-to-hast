@@ -1,11 +1,9 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('YAML', function (t) {
-  t.equal(to(u('yaml', 'kilo: "lima"')), null, 'should ignore `yaml`')
+  t.equal(toHast(u('yaml', 'kilo: "lima"')), null, 'should ignore `yaml`')
 
   t.end()
 })

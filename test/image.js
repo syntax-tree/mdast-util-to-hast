@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Image', function (t) {
   t.deepEqual(
-    to(
+    toHast(
       u('image', {
         url: 'https://november.oscar',
         alt: 'papa',
@@ -29,7 +27,7 @@ test('Image', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('image', {
         url: 'https://romeo.sierra',
         alt: 'tango'

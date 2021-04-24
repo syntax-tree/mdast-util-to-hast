@@ -1,26 +1,24 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('toHast()', function (t) {
   t.throws(
     function () {
-      to(u('bar', [true]))
+      toHast(u('bar', [true]))
     },
     /Expected node, got `true`/,
     'should throw on non-nodes'
   )
 
   t.deepEqual(
-    to(u('strong', {data: {hName: 'b'}}, [u('text', 'tango')])),
+    toHast(u('strong', {data: {hName: 'b'}}, [u('text', 'tango')])),
     u('element', {tagName: 'b', properties: {}}, [u('text', 'tango')]),
     'should prefer `data.hName` to tag-names'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'strong',
         {
@@ -40,7 +38,7 @@ test('toHast()', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'emphasis',
         {
@@ -68,7 +66,7 @@ test('toHast()', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'code',
         {
@@ -109,25 +107,25 @@ test('toHast()', function (t) {
   )
 
   t.deepEqual(
-    to(u('foo', 'tango')),
+    toHast(u('foo', 'tango')),
     u('text', 'tango'),
     'should transform unknown texts to `text`'
   )
 
   t.deepEqual(
-    to(u('bar', [u('text', 'tango')])),
+    toHast(u('bar', [u('text', 'tango')])),
     u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
     'should transform unknown parents to `div`'
   )
 
   t.deepEqual(
-    to(u('bar')),
+    toHast(u('bar')),
     u('element', {tagName: 'div', properties: {}}, []),
     'should transform unknown nodes to `div`'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'foo',
         {
@@ -147,13 +145,13 @@ test('toHast()', function (t) {
   )
 
   t.deepEqual(
-    to(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
+    toHast(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
     u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
     'should transform unknown nodes with `data.hChildren` only to `div`'
   )
 
   t.deepEqual(
-    to(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
+    toHast(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
     u('element', {tagName: 'div', properties: {className: 'charlie'}}, []),
     'should transform unknown nodes with `data.hProperties` only to a `element` node'
   )

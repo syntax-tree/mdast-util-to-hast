@@ -1,12 +1,12 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Break', function (t) {
   t.deepEqual(
-    to(u('paragraph', [u('text', 'bravo'), u('break'), u('text', 'charlie')])),
+    toHast(
+      u('paragraph', [u('text', 'bravo'), u('break'), u('text', 'charlie')])
+    ),
     u('element', {tagName: 'p', properties: {}}, [
       u('text', 'bravo'),
       u('element', {tagName: 'br', properties: {}}, []),
@@ -17,7 +17,9 @@ test('Break', function (t) {
   )
 
   t.deepEqual(
-    to(u('paragraph', [u('text', 'alpha'), u('break'), u('text', '  bravo')])),
+    toHast(
+      u('paragraph', [u('text', 'alpha'), u('break'), u('text', '  bravo')])
+    ),
     u('element', {tagName: 'p', properties: {}}, [
       u('text', 'alpha'),
       u('element', {tagName: 'br', properties: {}}, []),
@@ -28,7 +30,7 @@ test('Break', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('text', 'alpha'),
         u('break'),

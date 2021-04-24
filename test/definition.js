@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Definition', function (t) {
   t.equal(
-    to(
+    toHast(
       u('definition', {
         url: 'https://uniform.whiskey',
         identifier: 'x-ray',
@@ -18,7 +16,7 @@ test('Definition', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('linkReference', {identifier: 'alpha'}, [u('text', 'bravo')]),
         u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),

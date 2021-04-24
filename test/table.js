@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Table', function (t) {
   t.deepEqual(
-    to(
+    toHast(
       u('table', {align: ['left', 'right']}, [
         u('tableRow', [
           u('tableCell', [u('text', 'yankee')]),
@@ -59,7 +57,7 @@ test('Table', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('table', [
         u('tableRow', [
           u('tableCell', [u('text', 'a')]),

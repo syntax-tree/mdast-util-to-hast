@@ -1,32 +1,34 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Nodes', function (t) {
-  t.deepEqual(to(u('text', 'alpha')), u('text', 'alpha'), 'should map `text`s')
+  t.deepEqual(
+    toHast(u('text', 'alpha')),
+    u('text', 'alpha'),
+    'should map `text`s'
+  )
 
   t.deepEqual(
-    to(u('text', 'alpha \n \n bravo')),
+    toHast(u('text', 'alpha \n \n bravo')),
     u('text', 'alpha\n\nbravo'),
     'should trim spaces and tabs around eols'
   )
 
   t.deepEqual(
-    to(u('text', {data: {hName: 'span'}}, 'charlie')),
+    toHast(u('text', {data: {hName: 'span'}}, 'charlie')),
     u('element', {tagName: 'span', properties: {}}, []),
     'should transform text nodes w/ `hName` to an `element`'
   )
 
   t.deepEqual(
-    to(u('text', {data: {hProperties: {className: 'delta'}}}, 'echo')),
+    toHast(u('text', {data: {hProperties: {className: 'delta'}}}, 'echo')),
     {type: 'text', value: 'echo'},
     'should not transform text nodes w/ `hProperties` w/o `hName` to an `element`'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'text',
         {data: {hName: 'span', hProperties: {className: ['foxtrot']}}},
@@ -38,7 +40,7 @@ test('Nodes', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('text', {data: {hChildren: [{type: 'text', value: 'hotel'}]}}, 'india')
     ),
     {type: 'text', value: 'india'},
@@ -46,7 +48,7 @@ test('Nodes', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'text',
         {data: {hName: 'span', hChildren: [{type: 'text', value: 'juliett'}]}},

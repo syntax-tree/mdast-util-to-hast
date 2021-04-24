@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('List', function (t) {
   t.deepEqual(
-    to(
+    toHast(
       u('list', {ordered: true}, [
         u('listItem', [u('paragraph', [u('text', 'uniform')])])
       ])
@@ -20,7 +18,7 @@ test('List', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('list', {ordered: false}, [
         u('listItem', [u('paragraph', [u('text', 'whiskey')])])
       ])
@@ -34,7 +32,7 @@ test('List', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('list', {ordered: false}, [
         u('listItem', {checked: true}, [u('paragraph', [u('text', 'todo')])])
       ])
@@ -67,7 +65,7 @@ test('List', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('list', {ordered: true, start: 3}, [
         u('listItem', [u('paragraph', [u('text', 'x-ray')])])
       ])

@@ -14,6 +14,9 @@
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -31,15 +34,15 @@ Say we have the following `example.md`:
 …and next to it, `example.js`:
 
 ```js
-var inspect = require('unist-util-inspect')
-var unified = require('unified')
-var parse = require('remark-parse')
-var vfile = require('to-vfile')
-var toHast = require('mdast-util-to-hast')
+import unified from 'unified'
+import remarkParse from 'remark-parse'
+import toVFile from 'to-vfile'
+import {inspect} from 'unist-util-inspect'
+import {toHast} from 'mdast-util-to-hast'
 
 var tree = unified()
-  .use(parse)
-  .parse(vfile.readSync('example.md'))
+  .use(remarkParse)
+  .parse(toVFile.readSync('example.md'))
 
 console.log(inspect(toHast(tree)))
 ```
@@ -56,6 +59,9 @@ root[1] (1:1-2:1, 0-20)
 ```
 
 ## API
+
+This package exports the following identifiers: `toHast`.
+There is no default export.
 
 ### `toHast(node[, options])`
 

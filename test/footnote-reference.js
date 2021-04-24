@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('FootnoteReference', function (t) {
   t.deepEqual(
-    to(u('footnoteReference', {identifier: 'alpha'})),
+    toHast(u('footnoteReference', {identifier: 'alpha'})),
     u('element', {tagName: 'sup', properties: {id: 'fnref-alpha'}}, [
       u(
         'element',
@@ -21,7 +19,7 @@ test('FootnoteReference', function (t) {
   )
 
   t.deepEqual(
-    to(u('footnoteReference', {identifier: 'alpha', label: 'Alpha'})),
+    toHast(u('footnoteReference', {identifier: 'alpha', label: 'Alpha'})),
     u('element', {tagName: 'sup', properties: {id: 'fnref-alpha'}}, [
       u(
         'element',
@@ -36,7 +34,7 @@ test('FootnoteReference', function (t) {
   )
 
   t.deepEqual(
-    to(u('footnoteReference', {identifier: 1})),
+    toHast(u('footnoteReference', {identifier: 1})),
     u('element', {tagName: 'sup', properties: {id: 'fnref-1'}}, [
       u(
         'element',

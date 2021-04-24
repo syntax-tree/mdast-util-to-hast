@@ -1,11 +1,9 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Footnote', function (t) {
-  var mdast = to(
+  var mdast = toHast(
     u('root', [
       u('paragraph', [
         u('text', 'Alpha'),

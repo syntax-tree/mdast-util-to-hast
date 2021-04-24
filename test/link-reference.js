@@ -1,18 +1,16 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('LinkReference', function (t) {
   t.deepEqual(
-    to(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
+    toHast(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
     [u('text', '[bravo]')],
     'should fall back on `linkReference`s without definition'
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('linkReference', {identifier: 'delta', referenceType: 'full'}, [
         u('text', 'echo')
       ])
@@ -22,7 +20,7 @@ test('LinkReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('linkReference', {identifier: 'hotel', referenceType: 'collapsed'}, [
         u('text', 'hotel')
       ])
@@ -32,7 +30,7 @@ test('LinkReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('linkReference', {identifier: 'bravo', referenceType: 'full'}, [
         u('inlineCode', 'alpha')
       ])
@@ -46,7 +44,7 @@ test('LinkReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
         u('definition', {
@@ -70,7 +68,7 @@ test('LinkReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u('paragraph', [
         u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
         u('definition', {identifier: 'juliett', url: ''})
@@ -83,7 +81,7 @@ test('LinkReference', function (t) {
   )
 
   t.deepEqual(
-    to(
+    toHast(
       u(
         'linkReference',
         {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},

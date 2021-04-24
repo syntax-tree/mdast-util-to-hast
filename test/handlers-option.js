@@ -1,20 +1,18 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var all = require('../lib/all')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
+import {all} from '../lib/all.js'
 
 test('handlers option', function (t) {
   var handlers = {
-    paragraph: function (h, node) {
+    paragraph(h, node) {
       node.children[0].value = 'changed'
       return h(node, 'p', all(h, node))
     }
   }
 
   t.deepEqual(
-    to(u('paragraph', [u('text', 'bravo')]), {handlers: handlers}),
+    toHast(u('paragraph', [u('text', 'bravo')]), {handlers}),
     u('element', {tagName: 'p', properties: {}}, [u('text', 'changed')]),
     'should override default handler'
   )
@@ -26,7 +24,7 @@ test('handlers option', function (t) {
   ])
 
   t.deepEqual(
-    to(customMdast, {}),
+    toHast(customMdast, {}),
     u('element', {tagName: 'p', properties: {}}, [
       u('text', 'with value'),
       u('element', {tagName: 'div', properties: {}}, [
@@ -45,8 +43,8 @@ test('handlers option', function (t) {
   )
 
   t.deepEqual(
-    to(customMdast, {
-      unknownHandler: function (n, node) {
+    toHast(customMdast, {
+      unknownHandler(n, node) {
         return node
       }
     }),
@@ -59,7 +57,7 @@ test('handlers option', function (t) {
   )
 
   t.deepEqual(
-    to(customMdast, {passThrough: ['custom']}),
+    toHast(customMdast, {passThrough: ['custom']}),
     u('element', {tagName: 'p', properties: {}}, [
       u('custom', 'with value'),
       u('custom', [

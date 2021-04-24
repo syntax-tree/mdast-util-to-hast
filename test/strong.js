@@ -1,12 +1,10 @@
-'use strict'
-
-var test = require('tape')
-var u = require('unist-builder')
-var to = require('..')
+import test from 'tape'
+import {u} from 'unist-builder'
+import {toHast} from '../index.js'
 
 test('Strong', function (t) {
   t.deepEqual(
-    to(u('strong', [u('text', 'echo')])),
+    toHast(u('strong', [u('text', 'echo')])),
     u('element', {tagName: 'strong', properties: {}}, [u('text', 'echo')]),
     'should transform `strong` to `strong`'
   )

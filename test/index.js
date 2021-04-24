@@ -1,36 +1,31 @@
-'use strict'
-
 /* eslint-disable import/no-unassigned-import */
-
-require('./core.js')
-require('./blockquote.js')
-require('./break.js')
-require('./code.js')
-require('./definition.js')
-require('./delete.js')
-require('./emphasis.js')
-require('./footnote-definition.js')
-require('./footnote-reference.js')
-require('./footnote-mixed.js')
-require('./footnote.js')
-require('./heading.js')
-require('./html.js')
-require('./image-reference.js')
-require('./image.js')
-require('./inline-code.js')
-require('./link-reference.js')
-require('./link.js')
-require('./list-item.js')
-require('./list.js')
-require('./paragraph.js')
-require('./root.js')
-require('./strong.js')
-require('./table.js')
-require('./text.js')
-require('./thematic-break.js')
-require('./toml.js')
-require('./yaml.js')
-
-require('./handlers-option.js')
-
+import './core.js'
+import './blockquote.js'
+import './break.js'
+import './code.js'
+import './definition.js'
+import './delete.js'
+import './emphasis.js'
+import './footnote-definition.js'
+import './footnote-reference.js'
+import './footnote-mixed.js'
+import './footnote.js'
+import './heading.js'
+import './html.js'
+import './image-reference.js'
+import './image.js'
+import './inline-code.js'
+import './link-reference.js'
+import './link.js'
+import './list-item.js'
+import './list.js'
+import './paragraph.js'
+import './root.js'
+import './strong.js'
+import './table.js'
+import './text.js'
+import './thematic-break.js'
+import './toml.js'
+import './yaml.js'
+import './handlers-option.js'
 /* eslint-enable import/no-unassigned-import */
