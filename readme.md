@@ -122,7 +122,7 @@ Default behavior:
 
 ###### `hName`
 
-`node.data.hName` sets the tag-name of an element.
+`node.data.hName` sets the tag name of an element.
 The following [mdast][]:
 
 ```js

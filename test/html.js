@@ -12,6 +12,7 @@ test('HTML', function (t) {
   )
 
   t.deepEqual(
+    // @ts-ignore runtime.
     toHast(u('html', '<mike></mike>'), {allowDangerousHTML: true}),
     u('raw', '<mike></mike>'),
     'should still transform `html` to `raw` if deprecated `allowDangerousHTML` is given'

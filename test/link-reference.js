@@ -5,7 +5,7 @@ import {toHast} from '../index.js'
 test('LinkReference', function (t) {
   t.deepEqual(
     toHast(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
-    [u('text', '[bravo]')],
+    u('root', [u('text', '[bravo]')]),
     'should fall back on `linkReference`s without definition'
   )
 
@@ -15,7 +15,7 @@ test('LinkReference', function (t) {
         u('text', 'echo')
       ])
     ),
-    [u('text', '[echo][delta]')],
+    u('root', [u('text', '[echo][delta]')]),
     'should fall back on full `linkReference`s'
   )
 
@@ -25,7 +25,7 @@ test('LinkReference', function (t) {
         u('text', 'hotel')
       ])
     ),
-    [u('text', '[hotel][]')],
+    u('root', [u('text', '[hotel][]')]),
     'should fall back on collapsed `linkReference`s'
   )
 
@@ -35,11 +35,11 @@ test('LinkReference', function (t) {
         u('inlineCode', 'alpha')
       ])
     ),
-    [
+    u('root', [
       u('text', '['),
       u('element', {tagName: 'code', properties: {}}, [u('text', 'alpha')]),
       u('text', '][bravo]')
-    ],
+    ]),
     'should support link references with non-text content'
   )
 
@@ -88,7 +88,7 @@ test('LinkReference', function (t) {
         [u('text', 'papa')]
       )
     ),
-    [u('text', '[papa][Oscar]')],
+    u('root', [u('text', '[papa][Oscar]')]),
     'should fall back on the label on a full `linkReference` (GH-22)'
   )
 

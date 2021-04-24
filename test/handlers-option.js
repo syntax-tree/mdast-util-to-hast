@@ -4,15 +4,15 @@ import {toHast} from '../index.js'
 import {all} from '../lib/all.js'
 
 test('handlers option', function (t) {
-  var handlers = {
-    paragraph(h, node) {
-      node.children[0].value = 'changed'
-      return h(node, 'p', all(h, node))
-    }
-  }
-
   t.deepEqual(
-    toHast(u('paragraph', [u('text', 'bravo')]), {handlers}),
+    toHast(u('paragraph', [u('text', 'bravo')]), {
+      handlers: {
+        paragraph(h, node) {
+          node.children[0].value = 'changed'
+          return h(node, 'p', all(h, node))
+        }
+      }
+    }),
     u('element', {tagName: 'p', properties: {}}, [u('text', 'changed')]),
     'should override default handler'
   )
@@ -44,7 +44,8 @@ test('handlers option', function (t) {
 
   t.deepEqual(
     toHast(customMdast, {
-      unknownHandler(n, node) {
+      // @ts-ignore `hast` expected, but this returns unknown mdast nodes.
+      unknownHandler(_, node) {
         return node
       }
     }),

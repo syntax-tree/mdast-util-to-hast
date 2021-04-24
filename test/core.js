@@ -5,6 +5,7 @@ import {toHast} from '../index.js'
 test('toHast()', function (t) {
   t.throws(
     function () {
+      // @ts-ignore runtime.
       toHast(u('bar', [true]))
     },
     /Expected node, got `true`/,
