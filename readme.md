@@ -34,28 +34,22 @@ Say we have the following `example.md`:
 …and next to it, `example.js`:
 
 ```js
-import unified from 'unified'
-import remarkParse from 'remark-parse'
-import toVFile from 'to-vfile'
-import {inspect} from 'unist-util-inspect'
+import fs from 'fs'
+import fromMarkdown from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
+import toHtml from 'hast-util-to-html'
 
-var tree = unified()
-  .use(remarkParse)
-  .parse(toVFile.readSync('example.md'))
+var mdast = fromMarkdown(fs.readFileSync('example.md'))
+var hast = toHast(mdast)
+var html = toHtml(hast)
 
-console.log(inspect(toHast(tree)))
+console.log(html)
 ```
 
 Which when running with `node example` yields:
 
-```txt
-root[1] (1:1-2:1, 0-20)
-└─ element[3] (1:1-1:20, 0-19) [tagName="h2"]
-   ├─ text: "Hello " (1:4-1:10, 3-9)
-   ├─ element[1] (1:10-1:19, 9-18) [tagName="strong"]
-   │  └─ text: "World" (1:12-1:17, 11-16)
-   └─ text: "!" (1:19-1:20, 18-19)
+```html
+<h2>Hello <strong>World</strong>!</h2>
 ```
 
 ## API
