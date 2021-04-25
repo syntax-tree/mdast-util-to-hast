@@ -6,38 +6,56 @@ test('Footnote', function (t) {
   t.deepEqual(
     toHast(u('root', [u('footnote', [u('text', 'bravo')])])),
     u('root', [
-      u('element', {tagName: 'sup', properties: {id: 'fnref-1'}}, [
-        u(
-          'element',
-          {
-            tagName: 'a',
-            properties: {href: '#fn-1', className: ['footnote-ref']}
-          },
-          [u('text', '1')]
-        )
-      ]),
+      u(
+        'element',
+        {
+          tagName: 'a',
+          properties: {
+            href: '#fn1',
+            className: ['footnote-ref'],
+            id: 'fnref1',
+            role: 'doc-noteref'
+          }
+        },
+        [u('element', {tagName: 'sup', properties: {}}, [u('text', '1')])]
+      ),
       u('text', '\n'),
-      u('element', {tagName: 'div', properties: {className: ['footnotes']}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'hr', properties: {}}, []),
-        u('text', '\n'),
-        u('element', {tagName: 'ol', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'section',
+          properties: {className: ['footnotes'], role: 'doc-endnotes'}
+        },
+        [
           u('text', '\n'),
-          u('element', {tagName: 'li', properties: {id: 'fn-1'}}, [
-            u('text', 'bravo'),
+          u('element', {tagName: 'hr', properties: {}}, []),
+          u('text', '\n'),
+          u('element', {tagName: 'ol', properties: {}}, [
+            u('text', '\n'),
             u(
               'element',
-              {
-                tagName: 'a',
-                properties: {href: '#fnref-1', className: ['footnote-backref']}
-              },
-              [u('text', '↩')]
-            )
+              {tagName: 'li', properties: {id: 'fn1', role: 'doc-endnote'}},
+              [
+                u('text', 'bravo'),
+                u(
+                  'element',
+                  {
+                    tagName: 'a',
+                    properties: {
+                      href: '#fnref1',
+                      className: ['footnote-back'],
+                      role: 'doc-backlink'
+                    }
+                  },
+                  [u('text', '↩')]
+                )
+              ]
+            ),
+            u('text', '\n')
           ]),
           u('text', '\n')
-        ]),
-        u('text', '\n')
-      ])
+        ]
+      )
     ]),
     'should render `footnote`s (#1)'
   )
@@ -53,61 +71,90 @@ test('Footnote', function (t) {
       ])
     ),
     u('root', [
-      u('element', {tagName: 'sup', properties: {id: 'fnref-1'}}, [
-        u(
-          'element',
-          {
-            tagName: 'a',
-            properties: {href: '#fn-1', className: ['footnote-ref']}
-          },
-          [u('text', '1')]
-        )
-      ]),
+      u(
+        'element',
+        {
+          tagName: 'a',
+          properties: {
+            href: '#fn1',
+            className: ['footnote-ref'],
+            id: 'fnref1',
+            role: 'doc-noteref'
+          }
+        },
+        [u('element', {tagName: 'sup', properties: {}}, [u('text', '1')])]
+      ),
       u('text', '\n'),
-      u('element', {tagName: 'sup', properties: {id: 'fnref-2'}}, [
-        u(
-          'element',
-          {
-            tagName: 'a',
-            properties: {href: '#fn-2', className: ['footnote-ref']}
-          },
-          [u('text', '2')]
-        )
-      ]),
+      u(
+        'element',
+        {
+          tagName: 'a',
+          properties: {
+            href: '#fn2',
+            className: ['footnote-ref'],
+            id: 'fnref2',
+            role: 'doc-noteref'
+          }
+        },
+        [u('element', {tagName: 'sup', properties: {}}, [u('text', '2')])]
+      ),
       u('text', '\n'),
-      u('element', {tagName: 'div', properties: {className: ['footnotes']}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'hr', properties: {}}, []),
-        u('text', '\n'),
-        u('element', {tagName: 'ol', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'section',
+          properties: {className: ['footnotes'], role: 'doc-endnotes'}
+        },
+        [
           u('text', '\n'),
-          u('element', {tagName: 'li', properties: {id: 'fn-1'}}, [
-            u('text', 'bravo'),
+          u('element', {tagName: 'hr', properties: {}}, []),
+          u('text', '\n'),
+          u('element', {tagName: 'ol', properties: {}}, [
+            u('text', '\n'),
             u(
               'element',
-              {
-                tagName: 'a',
-                properties: {href: '#fnref-1', className: ['footnote-backref']}
-              },
-              [u('text', '↩')]
-            )
-          ]),
-          u('text', '\n'),
-          u('element', {tagName: 'li', properties: {id: 'fn-2'}}, [
-            u('text', 'charlie'),
+              {tagName: 'li', properties: {id: 'fn1', role: 'doc-endnote'}},
+              [
+                u('text', 'bravo'),
+                u(
+                  'element',
+                  {
+                    tagName: 'a',
+                    properties: {
+                      href: '#fnref1',
+                      className: ['footnote-back'],
+                      role: 'doc-backlink'
+                    }
+                  },
+                  [u('text', '↩')]
+                )
+              ]
+            ),
+            u('text', '\n'),
             u(
               'element',
-              {
-                tagName: 'a',
-                properties: {href: '#fnref-2', className: ['footnote-backref']}
-              },
-              [u('text', '↩')]
-            )
+              {tagName: 'li', properties: {id: 'fn2', role: 'doc-endnote'}},
+              [
+                u('text', 'charlie'),
+                u(
+                  'element',
+                  {
+                    tagName: 'a',
+                    properties: {
+                      href: '#fnref2',
+                      className: ['footnote-back'],
+                      role: 'doc-backlink'
+                    }
+                  },
+                  [u('text', '↩')]
+                )
+              ]
+            ),
+            u('text', '\n')
           ]),
           u('text', '\n')
-        ]),
-        u('text', '\n')
-      ])
+        ]
+      )
     ]),
     'should render `footnote`s (#2)'
   )
@@ -123,53 +170,66 @@ test('Footnote', function (t) {
     ),
     u('root', [
       u('element', {tagName: 'p', properties: {}}, [
-        u('element', {tagName: 'sup', properties: {id: 'fnref-1'}}, [
-          u(
-            'element',
-            {
-              tagName: 'a',
-              properties: {href: '#fn-1', className: ['footnote-ref']}
-            },
-            [u('text', '1')]
-          )
-        ])
+        u(
+          'element',
+          {
+            tagName: 'a',
+            properties: {
+              href: '#fn1',
+              className: ['footnote-ref'],
+              id: 'fnref1',
+              role: 'doc-noteref'
+            }
+          },
+          [u('element', {tagName: 'sup', properties: {}}, [u('text', '1')])]
+        )
       ]),
       u('text', '\n'),
-      u('element', {tagName: 'div', properties: {className: ['footnotes']}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'hr', properties: {}}, []),
-        u('text', '\n'),
-        u('element', {tagName: 'ol', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'section',
+          properties: {className: ['footnotes'], role: 'doc-endnotes'}
+        },
+        [
           u('text', '\n'),
-          u('element', {tagName: 'li', properties: {id: 'fn-1'}}, [
+          u('element', {tagName: 'hr', properties: {}}, []),
+          u('text', '\n'),
+          u('element', {tagName: 'ol', properties: {}}, [
             u('text', '\n'),
-            u('element', {tagName: 'blockquote', properties: {}}, [
-              u('text', '\n'),
-              u('element', {tagName: 'p', properties: {}}, [
-                u('text', 'alpha')
-              ]),
-              u('text', '\n')
-            ]),
-            u('text', '\n'),
-            u('element', {tagName: 'p', properties: {}}, [
-              u(
-                'element',
-                {
-                  tagName: 'a',
-                  properties: {
-                    href: '#fnref-1',
-                    className: ['footnote-backref']
-                  }
-                },
-                [u('text', '↩')]
-              )
-            ]),
+            u(
+              'element',
+              {tagName: 'li', properties: {id: 'fn1', role: 'doc-endnote'}},
+              [
+                u('text', '\n'),
+                u('element', {tagName: 'blockquote', properties: {}}, [
+                  u('text', '\n'),
+                  u('element', {tagName: 'p', properties: {}}, [
+                    u('text', 'alpha')
+                  ]),
+                  u('text', '\n')
+                ]),
+                u('text', '\n'),
+                u(
+                  'element',
+                  {
+                    tagName: 'a',
+                    properties: {
+                      href: '#fnref1',
+                      className: ['footnote-back'],
+                      role: 'doc-backlink'
+                    }
+                  },
+                  [u('text', '↩')]
+                ),
+                u('text', '\n')
+              ]
+            ),
             u('text', '\n')
           ]),
           u('text', '\n')
-        ]),
-        u('text', '\n')
-      ])
+        ]
+      )
     ]),
     'should render `footnote`s (#3)'
   )

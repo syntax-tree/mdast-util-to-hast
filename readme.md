@@ -154,7 +154,7 @@ The following [mdast][]:
   type: 'image',
   src: 'circle.svg',
   alt: 'Big red circle on a black background',
-  title: null
+  title: null,
   data: {hProperties: {className: ['responsive']}}
 }
 ```

@@ -28,41 +28,56 @@ test('FootnoteDefinition', function (t) {
       ])
     ),
     u('root', [
-      u('element', {tagName: 'sup', properties: {id: 'fnref-zulu'}}, [
-        u(
-          'element',
-          {
-            tagName: 'a',
-            properties: {href: '#fn-zulu', className: ['footnote-ref']}
-          },
-          [u('text', 'zulu')]
-        )
-      ]),
+      u(
+        'element',
+        {
+          tagName: 'a',
+          properties: {
+            href: '#fn1',
+            className: ['footnote-ref'],
+            id: 'fnref1',
+            role: 'doc-noteref'
+          }
+        },
+        [u('element', {tagName: 'sup', properties: {}}, [u('text', '1')])]
+      ),
       u('text', '\n'),
-      u('element', {tagName: 'div', properties: {className: ['footnotes']}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'hr', properties: {}}, []),
-        u('text', '\n'),
-        u('element', {tagName: 'ol', properties: {}}, [
+      u(
+        'element',
+        {
+          tagName: 'section',
+          properties: {className: ['footnotes'], role: 'doc-endnotes'}
+        },
+        [
           u('text', '\n'),
-          u('element', {tagName: 'li', properties: {id: 'fn-zulu'}}, [
-            u('text', 'alpha'),
+          u('element', {tagName: 'hr', properties: {}}, []),
+          u('text', '\n'),
+          u('element', {tagName: 'ol', properties: {}}, [
+            u('text', '\n'),
             u(
               'element',
-              {
-                tagName: 'a',
-                properties: {
-                  href: '#fnref-zulu',
-                  className: ['footnote-backref']
-                }
-              },
-              [u('text', '↩')]
-            )
+              {tagName: 'li', properties: {id: 'fn1', role: 'doc-endnote'}},
+              [
+                u('text', 'alpha'),
+                u(
+                  'element',
+                  {
+                    tagName: 'a',
+                    properties: {
+                      href: '#fnref1',
+                      className: ['footnote-back'],
+                      role: 'doc-backlink'
+                    }
+                  },
+                  [u('text', '↩')]
+                )
+              ]
+            ),
+            u('text', '\n')
           ]),
           u('text', '\n')
-        ]),
-        u('text', '\n')
-      ])
+        ]
+      )
     ]),
     'should use the first `footnoteDefinition` if multiple exist'
   )
