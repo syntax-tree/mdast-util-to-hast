@@ -66,8 +66,7 @@ test('Link', function (t) {
       {
         tagName: 'a',
         properties: {
-          href:
-            'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
+          href: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
         }
       },
       [u('text', 'Alpha')]
