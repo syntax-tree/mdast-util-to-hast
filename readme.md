@@ -54,7 +54,7 @@ Which when running with `node example` yields:
 
 ## API
 
-This package exports the following identifiers: `toHast`.
+This package exports the following identifiers: `toHast`, `all`, `one`
 There is no default export.
 
 ### `toHast(node[, options])`
@@ -216,6 +216,18 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
   }]
 }
 ```
+
+### `all(h, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h` and a parent node (mdast) and it will turn the node’s children into
+an array of transformed nodes (hast).
+
+### `one(h, node, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
+hast content.
 
 ## Security
 
