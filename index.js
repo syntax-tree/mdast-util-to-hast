@@ -5,6 +5,5 @@
  * @typedef {import('./lib/index.js').H} H
  */
 
-export {all} from './lib/all.js'
-export {one} from './lib/one.js'
+export {one, all} from './lib/traverse.js'
 export {toHast} from './lib/index.js'

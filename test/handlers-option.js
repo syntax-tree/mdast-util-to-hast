@@ -1,7 +1,6 @@
 import test from 'tape'
 import {u} from 'unist-builder'
-import {toHast} from '../index.js'
-import {all} from '../lib/all.js'
+import {all, toHast} from '../index.js'
 
 test('handlers option', function (t) {
   t.deepEqual(
