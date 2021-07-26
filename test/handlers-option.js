@@ -1,3 +1,8 @@
+/**
+ * @typedef {import('mdast').Paragraph} Paragraph
+ */
+
+import assert from 'assert'
 import test from 'tape'
 import {u} from 'unist-builder'
 import {all, toHast} from '../index.js'
@@ -6,8 +11,10 @@ test('handlers option', function (t) {
   t.deepEqual(
     toHast(u('paragraph', [u('text', 'bravo')]), {
       handlers: {
-        paragraph(h, node) {
-          node.children[0].value = 'changed'
+        paragraph(h, /** @type {Paragraph} */ node) {
+          const head = node.children[0]
+          assert(head.type === 'text')
+          head.value = 'changed'
           return h(node, 'p', all(h, node))
         }
       }
