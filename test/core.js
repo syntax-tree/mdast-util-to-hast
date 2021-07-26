@@ -109,18 +109,21 @@ test('toHast()', (t) => {
   )
 
   t.deepEqual(
+    // @ts-expect-error: custom node.
     toHast(u('foo', 'tango')),
     u('text', 'tango'),
     'should transform unknown texts to `text`'
   )
 
   t.deepEqual(
+    // @ts-expect-error: custom node.
     toHast(u('bar', [u('text', 'tango')])),
     u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
     'should transform unknown parents to `div`'
   )
 
   t.deepEqual(
+    // @ts-expect-error: custom node.
     toHast(u('bar')),
     u('element', {tagName: 'div', properties: {}}, []),
     'should transform unknown nodes to `div`'
@@ -128,6 +131,7 @@ test('toHast()', (t) => {
 
   t.deepEqual(
     toHast(
+      // @ts-expect-error: custom node.
       u(
         'foo',
         {
@@ -147,12 +151,14 @@ test('toHast()', (t) => {
   )
 
   t.deepEqual(
+    // @ts-expect-error: custom node.
     toHast(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
     u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
     'should transform unknown nodes with `data.hChildren` only to `div`'
   )
 
   t.deepEqual(
+    // @ts-expect-error: custom node.
     toHast(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
     u('element', {tagName: 'div', properties: {className: 'charlie'}}, []),
     'should transform unknown nodes with `data.hProperties` only to a `element` node'

@@ -40,6 +40,7 @@ test('FootnoteReference', (t) => {
   )
 
   t.deepEqual(
+    // @ts-expect-error: supposed to be string.
     toHast(u('footnoteReference', {identifier: 1})),
     u(
       'element',

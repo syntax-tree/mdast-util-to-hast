@@ -1,5 +1,6 @@
 /**
  * @typedef {import('mdast').Paragraph} Paragraph
+ * @typedef {import('mdast').Root|import('mdast').Content} Node
  */
 
 import assert from 'node:assert'
@@ -23,11 +24,13 @@ test('handlers option', (t) => {
     'should override default handler'
   )
 
-  const customMdast = u('paragraph', [
-    u('custom', 'with value'),
-    u('custom', [u('image', {url: 'with-children.png'})]),
-    u('text', 'bravo')
-  ])
+  const customMdast = /** @type {Paragraph} */ (
+    u('paragraph', [
+      u('custom', 'with value'),
+      u('custom', [u('image', {url: 'with-children.png'})]),
+      u('text', 'bravo')
+    ])
+  )
 
   t.deepEqual(
     toHast(customMdast, {}),
@@ -51,7 +54,7 @@ test('handlers option', (t) => {
   t.deepEqual(
     toHast(customMdast, {
       // @ts-expect-error `hast` expected, but this returns unknown mdast nodes.
-      unknownHandler(_, /** @type {object} */ node) {
+      unknownHandler(_, /** @type {Node} */ node) {
         return node
       }
     }),

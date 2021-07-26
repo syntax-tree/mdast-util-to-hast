@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('mdast').Table} Table
+ */
+
 import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
@@ -5,17 +9,20 @@ import {toHast} from '../index.js'
 test('Table', (t) => {
   t.deepEqual(
     toHast(
-      u('table', {align: ['left', 'right']}, [
-        u('tableRow', [
-          u('tableCell', [u('text', 'yankee')]),
-          u('tableCell', [
-            u('html', '<code>'),
-            u('text', 'zulu'),
-            u('html', '</code>')
-          ])
-        ]),
-        u('tableRow', [u('tableCell', [u('text', 'alpha')])])
-      ]),
+      /** @type {Table} */
+      (
+        u('table', {align: ['left', 'right']}, [
+          u('tableRow', [
+            u('tableCell', [u('text', 'yankee')]),
+            u('tableCell', [
+              u('html', '<code>'),
+              u('text', 'zulu'),
+              u('html', '</code>')
+            ])
+          ]),
+          u('tableRow', [u('tableCell', [u('text', 'alpha')])])
+        ])
+      ),
       {allowDangerousHtml: true}
     ),
     u('element', {tagName: 'table', properties: {}}, [

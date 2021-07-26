@@ -1,19 +1,30 @@
+/**
+ * @typedef {import('mdast').LinkReference} LinkReference
+ * @typedef {import('mdast').Paragraph} Paragraph
+ */
+
 import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
 test('LinkReference', (t) => {
   t.deepEqual(
-    toHast(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
+    toHast(
+      /** @type {LinkReference} */ (
+        u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])
+      )
+    ),
     u('root', [u('text', '[bravo]')]),
     'should fall back on `linkReference`s without definition'
   )
 
   t.deepEqual(
     toHast(
-      u('linkReference', {identifier: 'delta', referenceType: 'full'}, [
-        u('text', 'echo')
-      ])
+      /** @type {LinkReference} */ (
+        u('linkReference', {identifier: 'delta', referenceType: 'full'}, [
+          u('text', 'echo')
+        ])
+      )
     ),
     u('root', [u('text', '[echo][delta]')]),
     'should fall back on full `linkReference`s'
@@ -21,9 +32,11 @@ test('LinkReference', (t) => {
 
   t.deepEqual(
     toHast(
-      u('linkReference', {identifier: 'hotel', referenceType: 'collapsed'}, [
-        u('text', 'hotel')
-      ])
+      /** @type {LinkReference} */ (
+        u('linkReference', {identifier: 'hotel', referenceType: 'collapsed'}, [
+          u('text', 'hotel')
+        ])
+      )
     ),
     u('root', [u('text', '[hotel][]')]),
     'should fall back on collapsed `linkReference`s'
@@ -31,9 +44,11 @@ test('LinkReference', (t) => {
 
   t.deepEqual(
     toHast(
-      u('linkReference', {identifier: 'bravo', referenceType: 'full'}, [
-        u('inlineCode', 'alpha')
-      ])
+      /** @type {LinkReference} */ (
+        u('linkReference', {identifier: 'bravo', referenceType: 'full'}, [
+          u('inlineCode', 'alpha')
+        ])
+      )
     ),
     u('root', [
       u('text', '['),
@@ -45,14 +60,16 @@ test('LinkReference', (t) => {
 
   t.deepEqual(
     toHast(
-      u('paragraph', [
-        u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
-        u('definition', {
-          identifier: 'juliett',
-          url: 'https://kilo.lima/mike',
-          title: 'november'
-        })
-      ])
+      /** @type {Paragraph} */ (
+        u('paragraph', [
+          u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
+          u('definition', {
+            identifier: 'juliett',
+            url: 'https://kilo.lima/mike',
+            title: 'november'
+          })
+        ])
+      )
     ),
     u('element', {tagName: 'p', properties: {}}, [
       u(
@@ -69,10 +86,12 @@ test('LinkReference', (t) => {
 
   t.deepEqual(
     toHast(
-      u('paragraph', [
-        u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
-        u('definition', {identifier: 'juliett', url: ''})
-      ])
+      /** @type {Paragraph} */ (
+        u('paragraph', [
+          u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
+          u('definition', {identifier: 'juliett', url: ''})
+        ])
+      )
     ),
     u('element', {tagName: 'p', properties: {}}, [
       u('element', {tagName: 'a', properties: {href: ''}}, [u('text', 'kilo')])
@@ -82,10 +101,12 @@ test('LinkReference', (t) => {
 
   t.deepEqual(
     toHast(
-      u(
-        'linkReference',
-        {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},
-        [u('text', 'papa')]
+      /** @type {LinkReference} */ (
+        u(
+          'linkReference',
+          {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},
+          [u('text', 'papa')]
+        )
       )
     ),
     u('root', [u('text', '[papa][Oscar]')]),

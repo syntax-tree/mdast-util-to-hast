@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('mdast').Paragraph} Paragraph
+ */
+
 import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
@@ -17,11 +21,15 @@ test('Definition', (t) => {
 
   t.deepEqual(
     toHast(
-      u('paragraph', [
-        u('linkReference', {identifier: 'alpha'}, [u('text', 'bravo')]),
-        u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
-        u('definition', {identifier: 'alpha', url: 'https://delta.com'})
-      ])
+      /** @type {Paragraph} */ (
+        u('paragraph', [
+          u('linkReference', {identifier: 'alpha', referenceType: 'shortcut'}, [
+            u('text', 'bravo')
+          ]),
+          u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
+          u('definition', {identifier: 'alpha', url: 'https://delta.com'})
+        ])
+      )
     ),
     u('element', {tagName: 'p', properties: {}}, [
       u('element', {tagName: 'a', properties: {href: 'https://charlie.com'}}, [
