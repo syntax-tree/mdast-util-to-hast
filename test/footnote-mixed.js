@@ -2,8 +2,8 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Footnote (mixed)', function (t) {
-  var mdast = toHast(
+test('Footnote (mixed)', (t) => {
+  const mdast = toHast(
     u('root', [
       u('paragraph', [
         u('text', 'Alpha'),
@@ -19,7 +19,7 @@ test('Footnote (mixed)', function (t) {
     ])
   )
 
-  var hast = u('root', [
+  const hast = u('root', [
     u('element', {tagName: 'p', properties: {}}, [
       u('text', 'Alpha'),
       u(

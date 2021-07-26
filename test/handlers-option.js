@@ -2,12 +2,12 @@
  * @typedef {import('mdast').Paragraph} Paragraph
  */
 
-import assert from 'assert'
+import assert from 'node:assert'
 import test from 'tape'
 import {u} from 'unist-builder'
 import {all, toHast} from '../index.js'
 
-test('handlers option', function (t) {
+test('handlers option', (t) => {
   t.deepEqual(
     toHast(u('paragraph', [u('text', 'bravo')]), {
       handlers: {
@@ -23,7 +23,7 @@ test('handlers option', function (t) {
     'should override default handler'
   )
 
-  var customMdast = u('paragraph', [
+  const customMdast = u('paragraph', [
     u('custom', 'with value'),
     u('custom', [u('image', {url: 'with-children.png'})]),
     u('text', 'bravo')

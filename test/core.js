@@ -2,9 +2,9 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('toHast()', function (t) {
+test('toHast()', (t) => {
   t.throws(
-    function () {
+    () => {
       // @ts-ignore runtime.
       toHast(u('bar', [true]))
     },

@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Nodes', function (t) {
+test('Nodes', (t) => {
   t.deepEqual(
     toHast(u('text', 'alpha')),
     u('text', 'alpha'),

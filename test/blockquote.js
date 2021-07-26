@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Blockquote', function (t) {
+test('Blockquote', (t) => {
   t.deepEqual(
     toHast(
       u('blockquote', [

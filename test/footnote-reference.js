@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('FootnoteReference', function (t) {
+test('FootnoteReference', (t) => {
   t.deepEqual(
     toHast(u('footnoteReference', {identifier: 'alpha'})),
     u(

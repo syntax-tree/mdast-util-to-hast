@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('ListItem', function (t) {
+test('ListItem', (t) => {
   t.deepEqual(
     toHast(u('listItem', [u('paragraph', [u('text', 'november')])])),
     u('element', {tagName: 'li', properties: {}}, [u('text', 'november')]),

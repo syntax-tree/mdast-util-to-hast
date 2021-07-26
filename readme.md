@@ -34,14 +34,14 @@ Say we have the following `example.md`:
 …and next to it, `example.js`:
 
 ```js
-import fs from 'fs'
-import fromMarkdown from 'mdast-util-from-markdown'
+import fs from 'node:fs'
+import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
-import toHtml from 'hast-util-to-html'
+import {toHtml} from 'hast-util-to-html'
 
-var mdast = fromMarkdown(fs.readFileSync('example.md'))
-var hast = toHast(mdast)
-var html = toHtml(hast)
+const mdast = fromMarkdown(fs.readFileSync('example.md'))
+const hast = toHast(mdast)
+const html = toHtml(hast)
 
 console.log(html)
 ```

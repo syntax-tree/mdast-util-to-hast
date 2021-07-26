@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('ImageReference', function (t) {
+test('ImageReference', (t) => {
   t.deepEqual(
     toHast(u('imageReference', {identifier: 'charlie', alt: 'charlie'})),
     u('text', '![charlie]'),

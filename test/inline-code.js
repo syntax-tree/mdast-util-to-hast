@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('InlineCode', function (t) {
+test('InlineCode', (t) => {
   t.deepEqual(
     toHast(u('inlineCode', 'juliett()')),
     u('element', {tagName: 'code', properties: {}}, [u('text', 'juliett()')]),

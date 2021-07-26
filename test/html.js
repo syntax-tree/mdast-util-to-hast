@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('HTML', function (t) {
+test('HTML', (t) => {
   t.equal(toHast(u('html', '<mike></mike>')), null, 'should ignore `html`')
 
   t.deepEqual(

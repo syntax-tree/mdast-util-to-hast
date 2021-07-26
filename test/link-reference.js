@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('LinkReference', function (t) {
+test('LinkReference', (t) => {
   t.deepEqual(
     toHast(u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])),
     u('root', [u('text', '[bravo]')]),

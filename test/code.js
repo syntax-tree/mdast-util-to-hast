@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Code', function (t) {
+test('Code', (t) => {
   t.deepEqual(
     toHast(u('code', 'foxtrot()\ngolf.hotel()')),
     u('element', {tagName: 'pre', properties: {}}, [

@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('List', function (t) {
+test('List', (t) => {
   t.deepEqual(
     toHast(
       u('list', {ordered: true}, [

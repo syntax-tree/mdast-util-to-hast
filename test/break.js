@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Break', function (t) {
+test('Break', (t) => {
   t.deepEqual(
     toHast(
       u('paragraph', [u('text', 'bravo'), u('break'), u('text', 'charlie')])

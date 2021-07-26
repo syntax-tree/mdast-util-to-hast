@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Definition', function (t) {
+test('Definition', (t) => {
   t.equal(
     toHast(
       u('definition', {

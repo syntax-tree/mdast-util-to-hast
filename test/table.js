@@ -2,7 +2,7 @@ import test from 'tape'
 import {u} from 'unist-builder'
 import {toHast} from '../index.js'
 
-test('Table', function (t) {
+test('Table', (t) => {
   t.deepEqual(
     toHast(
       u('table', {align: ['left', 'right']}, [

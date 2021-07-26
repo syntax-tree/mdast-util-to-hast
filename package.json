@@ -77,8 +77,6 @@
     "prettier": true,
     "rules": {
       "max-depth": "off",
-      "no-var": "off",
-      "prefer-arrow-callback": "off",
       "import/no-cycle": "error"
     }
   },
