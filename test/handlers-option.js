@@ -50,8 +50,8 @@ test('handlers option', (t) => {
 
   t.deepEqual(
     toHast(customMdast, {
-      // @ts-ignore `hast` expected, but this returns unknown mdast nodes.
-      unknownHandler(_, node) {
+      // @ts-expect-error `hast` expected, but this returns unknown mdast nodes.
+      unknownHandler(_, /** @type {object} */ node) {
         return node
       }
     }),

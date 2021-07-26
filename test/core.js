@@ -5,7 +5,7 @@ import {toHast} from '../index.js'
 test('toHast()', (t) => {
   t.throws(
     () => {
-      // @ts-ignore runtime.
+      // @ts-expect-error runtime.
       toHast(u('bar', [true]))
     },
     /Expected node, got `true`/,
@@ -79,6 +79,7 @@ test('toHast()', (t) => {
         'tango'
       )
     ),
+    // @ts-expect-error: `null`s are fine-ish (and given by `unist-util-position`)
     u(
       'element',
       {
