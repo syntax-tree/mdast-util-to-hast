@@ -42,7 +42,7 @@
     "unist-builder": "^3.0.0",
     "unist-util-generated": "^2.0.0",
     "unist-util-position": "^4.0.0",
-    "unist-util-visit": "^3.0.0"
+    "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
     "@types/tape": "^4.0.0",
