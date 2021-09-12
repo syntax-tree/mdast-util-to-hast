@@ -1,5 +1,11 @@
 import test from 'tape'
 import {u} from 'unist-builder'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {gfm} from 'micromark-extension-gfm'
+import {gfmFromMarkdown} from 'mdast-util-gfm'
+import {footnote} from 'micromark-extension-footnote'
+import {footnoteFromMarkdown} from 'mdast-util-footnote'
+import {toHtml} from 'hast-util-to-html'
 import {toHast} from '../index.js'
 
 test('Footnote', (t) => {
@@ -232,6 +238,50 @@ test('Footnote', (t) => {
       )
     ]),
     'should render `footnote`s (#3)'
+  )
+
+  t.equal(
+    toHtml(
+      // @ts-expect-error: fine.
+      toHast(
+        fromMarkdown(
+          `| Footnotes |
+| ---- |
+| [^1] |
+| [^2] |
+
+[^1]: a
+[^2]: b`,
+          {
+            extensions: [gfm(), footnote()],
+            mdastExtensions: [gfmFromMarkdown, footnoteFromMarkdown]
+          }
+        )
+      )
+    ),
+    `<table>
+<thead>
+<tr>
+<th>Footnotes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></td>
+</tr>
+<tr>
+<td><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
+</tr>
+</tbody>
+</table>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote">a<a href="#fnref1" class="footnote-back" role="doc-backlink">↩</a></li>
+<li id="fn2" role="doc-endnote">b<a href="#fnref2" class="footnote-back" role="doc-backlink">↩</a></li>
+</ol>
+</section>`,
+    'should render footnotes in tables'
   )
 
   t.end()
