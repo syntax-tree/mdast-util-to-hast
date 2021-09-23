@@ -30,6 +30,7 @@
   "types": "index.d.ts",
   "files": [
     "lib/",
+    "complex-types.d.ts",
     "index.d.ts",
     "index.js"
   ],
@@ -64,7 +65,7 @@
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
-    "build": "rimraf \"{lib/**/**,test/**,}*.d.ts\" && tsc && type-coverage",
+    "build": "rimraf \"{lib/**/**,test/**}*.d.ts\" \"index.d.ts\" && tsc && type-coverage",
     "format": "remark . -qfo && prettier -w . --loglevel warn  && xo --fix",
     "test-api": "node test/index.js",
     "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node test/index.js",

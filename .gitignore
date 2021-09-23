@@ -1,5 +1,7 @@
 .DS_Store
-*.d.ts
+lib/**/*.d.ts
+test/**/*.d.ts
+index.d.ts
 *.log
 coverage/
 node_modules/
