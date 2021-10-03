@@ -256,7 +256,6 @@ Helper function for writing custom handlers passed to `options.handlers`.
 Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
 hast content.
 
-
 ## Recommended CSS
 
 The following CSS is needed to make footnotes look a bit like GitHub.
