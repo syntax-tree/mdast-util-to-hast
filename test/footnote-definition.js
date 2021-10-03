@@ -28,49 +28,62 @@ test('FootnoteDefinition', (t) => {
       ])
     ),
     u('root', [
-      u(
-        'element',
-        {
-          tagName: 'a',
-          properties: {
-            href: '#fn1',
-            className: ['footnote-ref'],
-            id: 'fnref1',
-            role: 'doc-noteref'
-          }
-        },
-        [u('element', {tagName: 'sup', properties: {}}, [u('text', '1')])]
-      ),
+      u('element', {tagName: 'sup', properties: {}}, [
+        u(
+          'element',
+          {
+            tagName: 'a',
+            properties: {
+              href: '#user-content-fn-zulu',
+              id: 'user-content-fnref-zulu',
+              dataFootnoteRef: true,
+              ariaDescribedBy: 'footnote-label'
+            }
+          },
+          [u('text', '1')]
+        )
+      ]),
       u('text', '\n'),
       u(
         'element',
         {
           tagName: 'section',
-          properties: {className: ['footnotes'], role: 'doc-endnotes'}
+          properties: {dataFootnotes: true, className: ['footnotes']}
         },
         [
-          u('text', '\n'),
-          u('element', {tagName: 'hr', properties: {}}, []),
+          u(
+            'element',
+            {
+              tagName: 'h2',
+              properties: {id: 'footnote-label', className: ['sr-only']}
+            },
+            [u('text', 'Footnotes')]
+          ),
           u('text', '\n'),
           u('element', {tagName: 'ol', properties: {}}, [
             u('text', '\n'),
             u(
               'element',
-              {tagName: 'li', properties: {id: 'fn1', role: 'doc-endnote'}},
+              {tagName: 'li', properties: {id: 'user-content-fn-zulu'}},
               [
-                u('text', 'alpha'),
-                u(
-                  'element',
-                  {
-                    tagName: 'a',
-                    properties: {
-                      href: '#fnref1',
-                      className: ['footnote-back'],
-                      role: 'doc-backlink'
-                    }
-                  },
-                  [u('text', '↩')]
-                )
+                u('text', '\n'),
+                u('element', {tagName: 'p', properties: {}}, [
+                  u('text', 'alpha '),
+                  u(
+                    'element',
+                    {
+                      tagName: 'a',
+                      properties: {
+                        href: '#user-content-fnref-zulu',
+                        dataFootnoteBackref: true,
+                        className: ['data-footnote-backref'],
+                        ariaLabel: 'Back to content'
+                      }
+                    },
+                    [u('text', '↩')]
+                  )
+                ]),
+                u('text', '\n')
               ]
             ),
             u('text', '\n')

@@ -72,6 +72,33 @@ Only do this when using [`hast-util-to-html`][to-html]
 ([`rehype-raw`][rehype-raw]) later: `raw` nodes are not a standard part of
 [hast][].
 
+###### `options.clobberPrefix`
+
+Prefix to use before the `id` attribute on footnotes to prevent it from
+*clobbering* (`string`, default: `'user-content-'`).
+DOM clobbering is this:
+
+```html
+<p id=x></p>
+<script>alert(x)</script>
+```
+
+Elements by their ID are made available in browsers on the `window` object.
+Using a prefix this that from being a problem.
+
+###### `options.footnoteLabel`
+
+Label to use for the footnotes section (`string`, default: `'Footnotes'`).
+Affects screen reader users.
+Change it if you’re authoring in a different language.
+
+###### `options.footnoteBackLabel`
+
+Label to use from backreferences back to their footnote call (`string`, default:
+`'Back to content'`).
+Affects screen reader users.
+Change it if you’re authoring in a different language.
+
 ###### `options.handlers`
 
 Object mapping [mdast][] [nodes][mdast-node] to functions handling them.
@@ -228,6 +255,43 @@ an array of transformed nodes (hast).
 Helper function for writing custom handlers passed to `options.handlers`.
 Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
 hast content.
+
+
+## Recommended CSS
+
+The following CSS is needed to make footnotes look a bit like GitHub.
+For the complete actual CSS that GitHub uses see
+[`sindresorhus/github-markdown-css`](https://github.com/sindresorhus/github-markdown-css).
+
+```css
+/* Style the footnotes section. */
+.footnotes {
+  font-size: smaller;
+  color: #8b949e;
+  border-top: 1px solid #30363d;
+}
+
+/* Hide the section label for visual users. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  word-wrap: normal;
+  border: 0;
+}
+
+/* Place `[` and `]` around footnote calls. */
+[data-footnote-ref]::before {
+  content: '[';
+}
+
+[data-footnote-ref]::after {
+  content: ']';
+}
+```
 
 ## Security
 
