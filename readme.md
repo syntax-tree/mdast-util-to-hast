@@ -54,7 +54,7 @@ Which when running with `node example` yields:
 
 ## API
 
-This package exports the following identifiers: `toHast`, `all`, `one`
+This package exports the following identifiers: `toHast`, `defaultHandlers`, `all`, `one`
 There is no default export.
 
 ### `toHast(node[, options])`
@@ -243,6 +243,10 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
   }]
 }
 ```
+
+### `defaultHandlers`
+
+Object mapping mdast node types to functions that can handle them. See [`lib/handlers/index.js`](./lib/handlers/index.js)
 
 ### `all(h, parent)`
 
