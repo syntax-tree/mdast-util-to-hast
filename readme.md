@@ -246,7 +246,8 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 
 ### `defaultHandlers`
 
-Object mapping mdast node types to functions that can handle them. See [`lib/handlers/index.js`](./lib/handlers/index.js)
+Object mapping mdast node types to functions that can handle them.
+See [`lib/handlers/index.js`](./lib/handlers/index.js)
 
 ### `all(h, parent)`
 
