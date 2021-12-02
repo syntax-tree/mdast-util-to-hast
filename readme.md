@@ -54,7 +54,8 @@ Which when running with `node example` yields:
 
 ## API
 
-This package exports the following identifiers: `toHast`, `defaultHandlers`, `all`, `one`
+This package exports the following identifiers: `toHast`, `defaultHandlers`,
+`all`, `one`
 There is no default export.
 
 ### `toHast(node[, options])`
@@ -247,7 +248,7 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 ### `defaultHandlers`
 
 Object mapping mdast node types to functions that can handle them.
-See [`lib/handlers/index.js`](./lib/handlers/index.js)
+See [`lib/handlers/index.js`][handlers-index].
 
 ### `all(h, parent)`
 
@@ -472,6 +473,8 @@ abide by its terms.
 [rehype-stringify]: https://github.com/rehypejs/rehype/tree/HEAD/packages/rehype-stringify
 
 [handlers]: lib/handlers
+
+[handlers-index]: lib/handlers/index.js
 
 [hname]: #hname
 
