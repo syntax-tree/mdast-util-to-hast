@@ -7,4 +7,4 @@
  */
 
 export {one, all} from './lib/traverse.js'
-export {toHast} from './lib/index.js'
+export {defaultHandlers, toHast} from './lib/index.js'
