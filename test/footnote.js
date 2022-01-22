@@ -379,6 +379,44 @@ test('Footnote', (t) => {
     toHtml(
       // @ts-expect-error: fine.
       toHast(
+        fromMarkdown(
+          `| [^1] | [^2] |
+| ---- | ---- |
+
+[^1]: a
+[^2]: b`,
+          {
+            extensions: [gfm()],
+            mdastExtensions: [gfmFromMarkdown()]
+          }
+        )
+      )
+    ),
+    `<table>
+<thead>
+<tr>
+<th><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></th>
+<th><sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup></th>
+</tr>
+</thead>
+</table>
+<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p>b <a href="#user-content-fnref-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+</li>
+</ol>
+</section>`,
+    'should render footnotes in table cells'
+  )
+
+  t.equal(
+    toHtml(
+      // @ts-expect-error: fine.
+      toHast(
         fromMarkdown('Call[^1][^1]\n\n[^1]: Recursion[^1][^1]', {
           extensions: [gfm()],
           mdastExtensions: [gfmFromMarkdown()]
