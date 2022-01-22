@@ -108,7 +108,7 @@ Take a look at [`lib/handlers/`][handlers] for examples.
 ###### `options.passThrough`
 
 List of custom mdast node types to pass through (keep) in hast
-(`Array.<string>`, default: `[]`).
+(`Array<string>`, default: `[]`).
 If the passed through nodes have children, those children are expected to be
 mdast and will be handled.
 
