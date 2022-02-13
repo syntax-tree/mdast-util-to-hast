@@ -84,8 +84,8 @@ DOM clobbering is this:
 <script>alert(x)</script>
 ```
 
-Elements by their ID are made available in browsers on the `window` object.
-Using a prefix this that from being a problem.
+Elements are made available in browsers on the `window` object by their ID.
+Using a prefix like this prevents that from being a problem.
 
 ###### `options.footnoteLabel`
 
