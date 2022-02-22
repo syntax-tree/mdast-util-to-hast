@@ -8,19 +8,73 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**mdast**][mdast] utility to transform to [**hast**][hast].
+[mdast][] utility to transform to [hast][].
 
-> **Note**: You probably want to use [`remark-rehype`][remark-rehype].
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`toHast(node[, options])`](#tohastnode-options)
+    *   [`defaultHandlers`](#defaulthandlers)
+    *   [`all(h, parent)`](#allh-parent)
+    *   [`one(h, node, parent)`](#oneh-node-parent)
+*   [Examples](#examples)
+    *   [Example: supporting HTML in markdown naïvely](#example-supporting-html-in-markdown-naïvely)
+    *   [Example: supporting HTML in markdown properly](#example-supporting-html-in-markdown-properly)
+    *   [Example: footnotes in languages other than English](#example-footnotes-in-languages-other-than-english)
+    *   [Example: supporting custom nodes](#example-supporting-custom-nodes)
+*   [Algorithm](#algorithm)
+*   [CSS](#css)
+*   [Syntax tree](#syntax-tree)
+    *   [Nodes](#nodes)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Security](#security)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a utility that takes an [mdast][] (markdown) syntax tree as
+input and turns it into a [hast][] (HTML) syntax tree.
+
+## When should I use this?
+
+This project is useful when you want to deal with ASTs and turn markdown to
+HTML.
+
+The hast utility [`hast-util-to-mdast`][hast-util-to-mdast] does the inverse of
+this utility.
+It turns HTML into markdown.
+
+The remark plugin [`remark-rehype`][remark-rehype] wraps this utility to also
+turn markdown to HTML at a higher-level (easier) abstraction.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-to-hast
+```
+
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import {toHast} from "https://esm.sh/mdast-util-to-hast@12"
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {toHast} from "https://esm.sh/mdast-util-to-hast@12?bundle"
+</script>
 ```
 
 ## Use
@@ -31,22 +85,27 @@ Say we have the following `example.md`:
 ## Hello **World**!
 ```
 
-…and next to it, `example.js`:
+…and next to it a module `example.js`:
 
 ```js
-import fs from 'node:fs'
+import {promises as fs} from 'node:fs'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
 
-const mdast = fromMarkdown(fs.readFileSync('example.md'))
-const hast = toHast(mdast)
-const html = toHtml(hast)
+main()
 
-console.log(html)
+async function main() {
+  const markdown = String(await fs.readFile('example.md'))
+  const mdast = fromMarkdown(markdown)
+  const hast = toHast(mdast)
+  const html = toHtml(hast)
+
+  console.log(html)
+}
 ```
 
-Which when running with `node example` yields:
+…now running `node example.js` yields:
 
 ```html
 <h2>Hello <strong>World</strong>!</h2>
@@ -54,24 +113,34 @@ Which when running with `node example` yields:
 
 ## API
 
-This package exports the following identifiers: `toHast`, `defaultHandlers`,
-`all`, `one`
+This package exports the identifiers `toHast`, `defaultHandlers`, `all`, and
+`one`.
 There is no default export.
 
 ### `toHast(node[, options])`
 
-Transform the given [mdast][] [tree][] to a [hast][] [tree][].
+[mdast][] utility to transform to [hast][].
 
-##### Options
+##### options
+
+Configuration (optional).
 
 ###### `options.allowDangerousHtml`
 
-Whether to allow [`html`][mdast-html] nodes and inject them as raw HTML
-(`boolean`, default: `false`).
-Only do this when using [`hast-util-to-html`][to-html]
-([`rehype-stringify`][rehype-stringify]) or [`hast-util-raw`][raw]
-([`rehype-raw`][rehype-raw]) later: `raw` nodes are not a standard part of
-[hast][].
+Whether to persist raw HTML in markdown in the hast tree (`boolean`, default:
+`false`).
+Raw HTML is available in mdast as [`html`][mdast-html] nodes and can be embedded
+in hast as semistandard `raw` nodes.
+Most utilities ignore `raw` nodes but two notable ones don’t:
+
+*   [`hast-util-to-html`][hast-util-to-html] also has an option
+    `allowDangerousHtml` which will output the raw HTML.
+    This is typically discouraged as noted by the option name but is useful if
+    you completely trust authors
+*   [`hast-util-raw`][hast-util-raw] can handle the raw embedded HTML strings by
+    parsing them into standard hast nodes (`element`, `text`, etc).
+    This is a heavy task as it needs a full HTML parser, but it is the only way
+    to support untrusted content
 
 ###### `options.clobberPrefix`
 
@@ -81,66 +150,964 @@ DOM clobbering is this:
 
 ```html
 <p id=x></p>
-<script>alert(x)</script>
+<script>alert(x) // `x` now refers to the DOM `p#x` element</script>
 ```
 
-Elements are made available in browsers on the `window` object by their ID.
-Using a prefix like this prevents that from being a problem.
+Elements by their ID are made available by browsers on the `window` object,
+which is a security risk.
+Using a prefix solves this problem.
+
+More information on how to handle clobbering and the prefix is explained in
+[Example: headings (DOM clobbering) in `rehype-sanitize`][clobber-example].
+
+> 👉 **Note**: this option affects footnotes.
+> Footnotes are not specified by CommonMark.
+> They are supported by GitHub, so they can be enabled by using the utility
+> [`mdast-util-gfm`][mdast-util-gfm].
 
 ###### `options.footnoteLabel`
 
 Label to use for the footnotes section (`string`, default: `'Footnotes'`).
-Affects screen reader users.
-Change it if you’re authoring in a different language.
+Affects screen readers.
+Change it when the markdown is not in English.
+
+> 👉 **Note**: this option affects footnotes.
+> Footnotes are not specified by CommonMark.
+> They are supported by GitHub, so they can be enabled by using the utility
+> [`mdast-util-gfm`][mdast-util-gfm].
 
 ###### `options.footnoteBackLabel`
 
 Label to use from backreferences back to their footnote call (`string`, default:
 `'Back to content'`).
-Affects screen reader users.
-Change it if you’re authoring in a different language.
+Affects screen readers.
+Change it when the markdown is not in English.
+
+> 👉 **Note**: this option affects footnotes.
+> Footnotes are not specified by CommonMark.
+> They are supported by GitHub, so they can be enabled by using the utility
+> [`mdast-util-gfm`][mdast-util-gfm].
 
 ###### `options.handlers`
 
-Object mapping [mdast][] [nodes][mdast-node] to functions handling them.
-Take a look at [`lib/handlers/`][handlers] for examples.
+Object mapping node types to functions handling the corresponding nodes.
+See [`lib/handlers/`][handlers] for examples.
+
+In a handler, you have access to `h`, which should be used to create hast nodes
+from mdast nodes.
+On `h`, there are several fields that may be of interest.
 
 ###### `options.passThrough`
 
-List of custom mdast node types to pass through (keep) in hast
-(`Array<string>`, default: `[]`).
+List of mdast node types to pass through (keep) in hast (`Array<string>`,
+default: `[]`).
 If the passed through nodes have children, those children are expected to be
 mdast and will be handled.
 
+Similar functionality can be achieved with a custom handler.
+A `passThrough` of `['customNode']` is equivalent to:
+
+```js
+toHast(/* … */, {
+  handlers: {
+    customNode(h, node) {
+      return 'children' in node ? {...node, children: all(h, node)} : node
+    }
+  }
+})
+```
+
 ###### `options.unknownHandler`
 
-Handler for unknown nodes (that aren’t in `handlers` or `passThrough`).
+Handler for unknown nodes (`Handler?`).
+Unknown nodes are nodes with a type that isn’t in `handlers` or `passThrough`.
+The default behavior for unknown nodes is:
 
-Default behavior:
-
-*   Unknown nodes with [`children`][child] are transformed to `div` elements
-*   Unknown nodes with `value` are transformed to [`text`][hast-text] nodes
+*   when the node has a `value` (and doesn’t have `data.hName`,
+    `data.hProperties`, or `data.hChildren`, see later), create a hast `text`
+    node
+*   otherwise, create a `<div>` element (which could be changed with
+    `data.hName`), with its children mapped from mdast to hast as well
 
 ##### Returns
 
 [`HastNode`][hast-node].
 
-##### Notes
+### `defaultHandlers`
 
-*   [`yaml`][mdast-yaml] and `toml` nodes are ignored (created by
-    [`remark-frontmatter`][remark-frontmatter])
-*   [`html`][mdast-html] nodes are ignored if `allowDangerousHtml` is `false`
-*   [`position`][position]s are properly patched
-*   [`node.data.hName`][hname] configures the hast element’s tag-name
-*   [`node.data.hProperties`][hproperties] is mixed into the hast element’s
-    properties
-*   [`node.data.hChildren`][hchildren] configures the hast element’s children
-*   GFM (and this project) uses the obsolete `align` attribute on `td` and `th`
-    elements; combine this utility with
-    [`@mapbox/hast-util-table-cell-style`][hast-util-table-cell-style]
-    to use `style` instead
+Object mapping mdast node types to functions that can handle them.
+See [`lib/handlers/index.js`][default-handlers].
 
-##### Examples
+### `all(h, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h` and a parent node (mdast) and it will turn the node’s children into
+an array of transformed nodes (hast).
+
+### `one(h, node, parent)`
+
+Helper function for writing custom handlers passed to `options.handlers`.
+Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
+hast content.
+
+## Examples
+
+### Example: supporting HTML in markdown naïvely
+
+If you completely trust authors (or plugins) and want to allow them to HTML *in*
+markdown, and the last utility has an `allowDangerousHtml` option as well (such
+as `hast-util-to-html`) you can pass `allowDangerousHtml` to this utility
+(`mdast-util-to-hast`):
+
+```js
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toHast} from 'mdast-util-to-hast'
+import {toHtml} from 'hast-util-to-html'
+
+const markdown = 'It <i>works</i>! <img onerror="alert(1)">'
+const mdast = fromMarkdown(markdown)
+const hast = toHast(mdast, {allowDangerousHtml: true})
+const html = toHtml(hast, {allowDangerousHtml: true})
+
+console.log(html)
+```
+
+…now running `node example.js` yields:
+
+```html
+<p>It <i>works</i>! <img onerror="alert(1)"></p>
+```
+
+> ⚠️ **Danger**: observe that the XSS attack through the `onerror` attribute
+> is still present.
+
+### Example: supporting HTML in markdown properly
+
+If you do not trust the authors of the input markdown, or if you want to make
+sure that further utilities can see HTML embedded in markdown, use
+[`hast-util-raw`][hast-util-raw].
+The following example passes `allowDangerousHtml` to this utility
+(`mdast-util-to-hast`), then turns the raw embedded HTML into proper HTML nodes
+(`hast-util-raw`), and finally sanitizes the HTML by only allowing safe things
+(`hast-util-sanitize`):
+
+```js
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toHast} from 'mdast-util-to-hast'
+import {raw} from 'hast-util-raw'
+import {sanitize} from 'hast-util-sanitize'
+import {toHtml} from 'hast-util-to-html'
+
+const markdown = 'It <i>works</i>! <img onerror="alert(1)">'
+const mdast = fromMarkdown(markdown)
+const hast = raw(toHast(mdast, {allowDangerousHtml: true}))
+const safeHast = sanitize(hast)
+const html = toHtml(safeHast)
+
+console.log(html)
+```
+
+…now running `node example.js` yields:
+
+```html
+<p>It <i>works</i>! <img></p>
+```
+
+> 👉 **Note**: observe that the XSS attack through the `onerror` attribute
+> is no longer present.
+
+### Example: footnotes in languages other than English
+
+If you know that the markdown is authored in a language other than English,
+and you’re using `micromark-extension-gfm` and `mdast-util-gfm` to match how
+GitHub renders markdown, and you know that footnotes are (or can?) be used, you
+should translate the labels associated with them.
+
+Let’s first set the stage:
+
+```js
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {gfm} from 'micromark-extension-gfm'
+import {gfmFromMarkdown} from 'mdast-util-gfm'
+import {toHast} from 'mdast-util-to-hast'
+import {toHtml} from 'hast-util-to-html'
+
+const markdown = 'Bonjour[^1]\n\n[^1]: Monde!'
+const mdast = fromMarkdown(markdown, {
+  extensions: [gfm()],
+  mdastExtensions: [gfmFromMarkdown()]
+})
+const hast = toHast(mdast)
+const html = toHtml(hast)
+
+console.log(html)
+```
+
+…now running `node example.js` yields:
+
+```html
+<p>Bonjour<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+</li>
+</ol>
+</section>
+```
+
+This is a mix of English and French that screen readers can’t handle nicely.
+Let’s say our program does know that the markdown is in French.
+In that case, it’s important to translate and define the labels relating to
+footnotes so that screen reader users can properly pronounce the page:
+
+```diff
+@@ -9,7 +9,10 @@ const mdast = fromMarkdown(markdown, {
+   extensions: [gfm()],
+   mdastExtensions: [gfmFromMarkdown()]
+ })
+-const hast = toHast(mdast)
++const hast = toHast(mdast, {
++  footnoteLabel: 'Notes de bas de page',
++  footnoteBackLabel: 'Arrière'
++})
+ const html = toHtml(hast)
+
+ console.log(html)
+```
+
+…now running `node example.js` with the above patch applied yields:
+
+```diff
+@@ -1,8 +1,8 @@
+ <p>Bonjour<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
++<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Notes de bas de page</h2>
+ <ol>
+ <li id="user-content-fn-1">
+-<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
++<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Arrière">↩</a></p>
+ </li>
+ </ol>
+ </section>
+```
+
+### Example: supporting custom nodes
+
+This project supports CommonMark and the GFM constructs (footnotes,
+strikethrough, tables) and the frontmatter constructs YAML and TOML.
+Support can be extended to other constructs in two ways: a) with handlers, b)
+through fields on nodes.
+
+For example, when we represent a mark element in markdown and want to turn it
+into a `<mark>` element in HTML, we can use a handler:
+
+```js
+import {toHast, all} from 'mdast-util-to-hast'
+import {toHtml} from 'hast-util-to-html'
+
+const mdast = {
+  type: 'paragraph',
+  children: [{type: 'mark', children: [{type: 'text', value: 'x'}]}]
+}
+
+const hast = toHast(mdast, {
+  handlers: {
+    mark(h, node) {
+      return h(node, 'mark', all(h, node))
+    }
+  }
+})
+
+console.log(toHtml(hast))
+```
+
+We can do the same through certain fields on nodes:
+
+```js
+import {toHast} from 'mdast-util-to-hast'
+import {toHtml} from 'hast-util-to-html'
+
+const mdast = {
+  type: 'paragraph',
+  children: [
+    {
+      type: 'mark',
+      children: [{type: 'text', value: 'x'}],
+      data: {hName: 'mark'}
+    }
+  ]
+}
+
+console.log(toHtml(toHast(mdast)))
+```
+
+## Algorithm
+
+This project by default handles CommonMark, GFM (footnotes, strikethrough,
+tables) and common frontmatter (YAML, TOML).
+
+Existing handlers can be overwritten and handlers for more nodes can be added.
+It’s also possible to define how mdast is turned into hast through fields on
+nodes.
+
+##### Default handling
+
+The following table gives insight into what input turns into what output:
+
+<table>
+<thead>
+<tr>
+<th scope="col">mdast node</th>
+<th scope="col">markdown example</th>
+<th scope="col">hast node</th>
+<th scope="col">html example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">
+
+[`blockquote`](https://github.com/syntax-tree/mdast#blockquote)
+
+</th>
+<td>
+
+```markdown
+> A greater than…
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`blockquote`)
+
+</td>
+<td>
+
+```html
+<blockquote>
+<p>A greater than…</p>
+</blockquote>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`break`](https://github.com/syntax-tree/mdast#break)
+
+</th>
+<td>
+
+```markdown
+A backslash\
+before a line break…
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`br`)
+
+</td>
+<td>
+
+```html
+<p>A backslash<br>
+before a line break…</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`code`](https://github.com/syntax-tree/mdast#code)
+
+</th>
+<td>
+
+````markdown
+```js
+backtick.fences('for blocks')
+```
+````
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`pre` and `code`)
+
+</td>
+<td>
+
+```html
+<pre><code className="language-js">backtick.fences('for blocks')
+</code></pre>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`delete`](https://github.com/syntax-tree/mdast#delete) (GFM)
+
+</th>
+<td>
+
+```markdown
+Two ~~tildes~~ for delete.
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`del`)
+
+</td>
+<td>
+
+```html
+<p>Two <del>tildes</del> for delete.</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`emphasis`](https://github.com/syntax-tree/mdast#emphasis)
+
+</th>
+<td>
+
+```markdown
+Some *asterisks* for emphasis.
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`em`)
+
+</td>
+<td>
+
+```html
+<p>Some <em>asterisks</em> for emphasis.</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`footnoteReference`](https://github.com/syntax-tree/mdast#footnotereference),
+[`footnoteDefinition`](https://github.com/syntax-tree/mdast#footnotedefinition)
+(GFM)
+
+</th>
+<td>
+
+```markdown
+With a [^caret].
+
+[^caret]: Stuff
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`section`, `sup`, `a`)
+
+</td>
+<td>
+
+```html
+<p>With a <sup><a href="#fn-caret" …>1</a></sup>.</p>…
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`heading`](https://github.com/syntax-tree/mdast#heading)
+
+</th>
+<td>
+
+```markdown
+# One number sign…
+###### Six number signs…
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`h1`…`h6`)
+
+</td>
+<td>
+
+```html
+<h1>One number sign…</h1>
+<h6>Six number signs…</h6>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`html`](https://github.com/syntax-tree/mdast#html)
+
+</th>
+<td>
+
+```html
+<kbd>CMD+S</kbd>
+```
+
+</td>
+<td>
+
+Nothing (default), `raw` (when `allowDangerousHtml: true`)
+
+</td>
+<td>
+
+n/a
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`image`](https://github.com/syntax-tree/mdast#image)
+
+</th>
+<td>
+
+```markdown
+![Alt text](/logo.png "title")
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`img`)
+
+</td>
+<td>
+
+```html
+<p><img src="/logo.png" alt="Alt text" title="title"></p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`imageReference`](https://github.com/syntax-tree/mdast#imagereference),
+[`definition`](https://github.com/syntax-tree/mdast#definition)
+
+</th>
+<td>
+
+```markdown
+![Alt text][logo]
+
+[logo]: /logo.png "title"
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`img`)
+
+</td>
+<td>
+
+```html
+<p><img src="/logo.png" alt="Alt text" title="title"></p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`inlineCode`](https://github.com/syntax-tree/mdast#inlinecode)
+
+</th>
+<td>
+
+```markdown
+Some `backticks` for inline code.
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`code`)
+
+</td>
+<td>
+
+```html
+<p>Some <code>backticks</code> for inline code.</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`link`](https://github.com/syntax-tree/mdast#link)
+
+</th>
+<td>
+
+```markdown
+[Example](https://example.com "title")
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`a`)
+
+</td>
+<td>
+
+```html
+<p><a href="https://example.com" title="title">Example</a></p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`linkReference`](https://github.com/syntax-tree/mdast#linkreference),
+[`definition`](https://github.com/syntax-tree/mdast#definition)
+
+</th>
+<td>
+
+```markdown
+[Example][]
+
+[example]: https://example.com "title"
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`a`)
+
+</td>
+<td>
+
+```html
+<p><a href="https://example.com" title="title">Example</a></p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`list`](https://github.com/syntax-tree/mdast#list),
+[`listItem`](https://github.com/syntax-tree/mdast#listitem)
+
+</th>
+<td>
+
+```markdown
+* asterisks for unordered items
+
+1. decimals and a dot for ordered items
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`li` and `ol` or `ul`)
+
+</td>
+<td>
+
+```html
+<ul>
+<li>asterisks for unordered items</li>
+</ul>
+<ol>
+<li>decimals and a dot for ordered items</li>
+</ol>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`paragraph`](https://github.com/syntax-tree/mdast#paragraph)
+
+</th>
+<td>
+
+```markdown
+Just some text…
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`p`)
+
+</td>
+<td>
+
+```html
+<p>Just some text…</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`root`](https://github.com/syntax-tree/mdast#root)
+
+</th>
+<td>
+
+```markdown
+Anything!
+```
+
+</td>
+<td>
+
+[`root`](https://github.com/syntax-tree/hast#root)
+
+</td>
+<td>
+
+```html
+<p>Anything</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`strong`](https://github.com/syntax-tree/mdast#strong)
+
+</th>
+<td>
+
+```markdown
+Two **asterisks** for strong.
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`strong`)
+
+</td>
+<td>
+
+```html
+<p>Two <strong>asterisks</strong> for strong.</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`text`](https://github.com/syntax-tree/mdast#text)
+
+</th>
+<td>
+
+```markdown
+Anything!
+```
+
+</td>
+<td>
+
+[`text`](https://github.com/syntax-tree/hast#text)
+
+</td>
+<td>
+
+```html
+<p>Anything</p>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`table`](https://github.com/syntax-tree/mdast#table),
+[`tableRow`](https://github.com/syntax-tree/mdast#tablerow),
+[`tableCell`](https://github.com/syntax-tree/mdast#tablecell)
+
+</th>
+<td>
+
+```markdown
+| Pipes |
+| ----- |
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`table`, `thead`, `tbody`, `tr`, `td`, `th`)
+
+</td>
+<td>
+
+```html
+<table>
+<thead>
+<tr>
+<th>Pipes</th>
+</tr>
+</thead>
+</table>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`thematicBreak`](https://github.com/syntax-tree/mdast#thematicbreak)
+
+</th>
+<td>
+
+```markdown
+Three asterisks for a thematic break:
+
+***
+```
+
+</td>
+<td>
+
+[`element`](https://github.com/syntax-tree/hast#element) (`hr`)
+
+</td>
+<td>
+
+```html
+<p>Three asterisks for a thematic break:</p>
+<hr>
+```
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+`toml` (frontmatter)
+
+</th>
+<td>
+
+```markdown
++++
+fenced = true
++++
+```
+
+</td>
+<td>
+
+Nothing
+
+</td>
+<td>
+
+n/a
+
+</td>
+</tr>
+<tr>
+<th scope="row">
+
+[`yaml`](https://github.com/syntax-tree/mdast#yaml) (frontmatter)
+
+</th>
+<td>
+
+```markdown
+---
+fenced: yes
+---
+```
+
+</td>
+<td>
+
+Nothing
+
+</td>
+<td>
+
+n/a
+
+</td>
+</tr>
+</tbody>
+</table>
+
+> 👉 **Note**: GFM prescribes that the obsolete `align` attribute on `td` and
+> `th` elements is used.
+> To use `style` attributes instead of obsolete features, combine this utility
+> with [`@mapbox/hast-util-table-cell-style`][hast-util-table-cell-style].
+
+> 🧑‍🏫 **Info**: this project is concerned with turning one syntax tree into
+> another.
+> It does not deal with markdown syntax or HTML syntax.
+> The preceding examples are illustrative rather than authoritative or
+> exhaustive.
+
+##### Fields on nodes
+
+A frequent problem arises when having to turn one syntax tree into another.
+As the original tree (in this case, mdast for markdown) is in some cases
+limited compared to the destination (in this case, hast for HTML) tree,
+is it possible to provide more info in the original to define what the
+result will be in the destination?
+This is possible by defining data on mdast nodes, which this utility will read
+as instructions on what hast nodes to create.
+
+An example is math, which is a nonstandard markdown extension, that this utility
+doesn’t understand.
+To solve this, `mdast-util-math` defines instructions on mdast nodes that this
+plugin does understand because they define a certain hast structure.
+
+The following fields can be used:
+
+*   `node.data.hName` configures the element’s tag name
+*   `node.data.hProperties` is mixed into the element’s properties
+*   `node.data.hChildren` configures the element’s children
 
 ###### `hName`
 
@@ -155,7 +1122,7 @@ The following [mdast][]:
 }
 ```
 
-Yields, in [hast][]:
+…yields ([hast][]):
 
 ```js
 {
@@ -168,7 +1135,7 @@ Yields, in [hast][]:
 
 ###### `hProperties`
 
-`node.data.hProperties` in sets the properties of an element.
+`node.data.hProperties` sets the properties of an element.
 The following [mdast][]:
 
 ```js
@@ -181,7 +1148,7 @@ The following [mdast][]:
 }
 ```
 
-Yields, in [hast][]:
+…yields ([hast][]):
 
 ```js
 {
@@ -220,8 +1187,7 @@ The following [mdast][]:
 }
 ```
 
-Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
-`mdast-util-to-hast` functionality):
+…yields ([hast][]):
 
 ```js
 {
@@ -245,28 +1211,24 @@ Yields, in [hast][] (**note**: the `pre` and `language-js` class are normal
 }
 ```
 
-### `defaultHandlers`
+> 👉 **Note**: the `pre` and `language-js` class are normal `mdast-util-to-hast`
+> functionality.
 
-Object mapping mdast node types to functions that can handle them.
-See [`lib/handlers/index.js`][handlers-index].
+## CSS
 
-### `all(h, parent)`
+Assuming you know how to use (semantic) HTML and CSS, then it should generally
+be straight forward to style the HTML produced by this plugin.
+With CSS, you can get creative and style the results as you please.
 
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h` and a parent node (mdast) and it will turn the node’s children into
-an array of transformed nodes (hast).
+Some semistandard features, notably GFMs tasklists and footnotes, generate HTML
+that be unintuitive, as it matches exactly what GitHub produces for their
+website.
+There is a project, [`sindresorhus/github-markdown-css`][github-markdown-css],
+that exposes the stylesheet that GitHub uses for rendered markdown, which might
+either be inspirational for more complex features, or can be used as-is to
+exactly match how GitHub styles rendered markdown.
 
-### `one(h, node, parent)`
-
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
-hast content.
-
-## Recommended CSS
-
-The following CSS is needed to make footnotes look a bit like GitHub.
-For the complete actual CSS that GitHub uses see
-[`sindresorhus/github-markdown-css`](https://github.com/sindresorhus/github-markdown-css).
+The following CSS is needed to make footnotes look a bit like GitHub:
 
 ```css
 /* Style the footnotes section. */
@@ -298,6 +1260,53 @@ For the complete actual CSS that GitHub uses see
 }
 ```
 
+## Syntax tree
+
+The following interfaces are added to **[hast][]** by this utility.
+
+### Nodes
+
+#### `Raw`
+
+```idl
+interface Raw <: Literal {
+  type: "raw"
+}
+```
+
+**Raw** (**[Literal][dfn-literal]**) represents a string if raw HTML inside
+hast.
+Raw nodes are typically ignored but are handled by
+[`hast-util-to-html`][hast-util-to-html] and [`hast-util-raw`][hast-util-raw].
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It also exports `Options`, `Handler`, `Handlers`, `H`, and `Raw` types.
+
+If you’re working with raw nodes in the hast syntax tree (which are added when
+`allowDangerousHtml: true`), make sure to import this utility somewhere in your
+types, as that registers the new node types in the tree.
+
+```js
+/** @typedef {import('mdast-util-to-hast')} */
+import {visit} from 'unist-util-visit'
+
+/** @type {import('hast').Root} */
+const tree = { /* … */ }
+
+visit(tree, (node) => {
+  // `node` can now be `raw`.
+})
+```
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
 ## Security
 
 Use of `mdast-util-to-hast` can open you up to a
@@ -309,7 +1318,7 @@ The following example shows how a script is injected where a benign code block
 is expected with embedded hast properties:
 
 ```js
-var code = {type: 'code', value: 'alert(1)'}
+const code = {type: 'code', value: 'alert(1)'}
 
 code.data = {hName: 'script'}
 ```
@@ -324,7 +1333,7 @@ The following example shows how an image is changed to fail loading and
 therefore run code in a browser.
 
 ```js
-var image = {type: 'image', url: 'existing.png'}
+const image = {type: 'image', url: 'existing.png'}
 
 image.data = {hProperties: {src: 'missing', onError: 'alert(2)'}}
 ```
@@ -365,22 +1374,16 @@ If `allowDangerousHtml: true` is also given to `hast-util-to-html` (or
 <script>alert(3)</script>
 ```
 
-Use [`hast-util-sanitize`][sanitize] to make the hast tree safe.
+Use [`hast-util-sanitize`][hast-util-sanitize] to make the hast tree safe.
 
 ## Related
 
-*   [`mdast-util-to-nlcst`](https://github.com/syntax-tree/mdast-util-to-nlcst)
-    — transform mdast to nlcst
 *   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
     — transform hast to mdast
 *   [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
     — transform hast to xast
 *   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
     — sanitize hast nodes
-*   [`remark-rehype`](https://github.com/remarkjs/remark-rehype)
-    — rehype support for remark
-*   [`rehype-remark`](https://github.com/rehypejs/rehype-remark)
-    — remark support for rehype
 
 ## Contribute
 
@@ -430,23 +1433,19 @@ abide by its terms.
 
 [author]: https://wooorm.com
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
 
 [support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
 
 [coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
 
-[position]: https://github.com/syntax-tree/unist#positional-information
-
-[tree]: https://github.com/syntax-tree/unist#tree
-
-[child]: https://github.com/syntax-tree/unist#child
-
 [mdast]: https://github.com/syntax-tree/mdast
-
-[mdast-node]: https://github.com/syntax-tree/mdast#nodes
-
-[mdast-yaml]: https://github.com/syntax-tree/mdast#yaml
 
 [mdast-html]: https://github.com/syntax-tree/mdast#html
 
@@ -454,32 +1453,28 @@ abide by its terms.
 
 [hast]: https://github.com/syntax-tree/hast
 
-[hast-text]: https://github.com/syntax-tree/hast#text
-
 [hast-node]: https://github.com/syntax-tree/hast#nodes
-
-[to-html]: https://github.com/syntax-tree/hast-util-to-html
-
-[raw]: https://github.com/syntax-tree/hast-util-raw
-
-[sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[remark-frontmatter]: https://github.com/remarkjs/remark-frontmatter
-
-[rehype-raw]: https://github.com/rehypejs/rehype-raw
-
-[rehype-stringify]: https://github.com/rehypejs/rehype/tree/HEAD/packages/rehype-stringify
-
 [handlers]: lib/handlers
 
-[handlers-index]: lib/handlers/index.js
-
-[hname]: #hname
-
-[hproperties]: #hproperties
-
-[hchildren]: #hchildren
-
 [xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
+[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+
+[hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+
+[hast-util-to-html]: https://github.com/syntax-tree/hast-util-to-html
+
+[hast-util-raw]: https://github.com/syntax-tree/hast-util-raw
+
+[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+
+[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
+
+[default-handlers]: lib/handlers/index.js
+
+[github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
+
+[dfn-literal]: https://github.com/syntax-tree/hast#literal
