@@ -901,7 +901,7 @@ Anything!
 <td>
 
 ```html
-<p>Anything</p>
+<p>Anything!</p>
 ```
 
 </td>
@@ -953,7 +953,7 @@ Anything!
 <td>
 
 ```html
-<p>Anything</p>
+<p>Anything!</p>
 ```
 
 </td>
