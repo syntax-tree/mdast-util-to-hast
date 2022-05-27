@@ -121,7 +121,7 @@ There is no default export.
 
 [mdast][] utility to transform to [hast][].
 
-##### options
+##### `options`
 
 Configuration (optional).
 
