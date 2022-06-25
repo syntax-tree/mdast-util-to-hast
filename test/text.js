@@ -63,3 +63,13 @@ test('Nodes', (t) => {
 
   t.end()
 })
+
+test('efficiency', {timeout: 1000}, (t) => {
+  t.deepEqual(
+    toHast(u('text', `1${' '.repeat(70_000)}2`)),
+    u('text', `1${' '.repeat(70_000)}2`),
+    'should be efficient on excessive whitespace'
+  )
+
+  t.end()
+})
