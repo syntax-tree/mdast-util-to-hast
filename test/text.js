@@ -64,12 +64,19 @@ test('Nodes', (t) => {
   t.end()
 })
 
-test('efficiency', {timeout: 1000}, (t) => {
+test('Nodes Efficiency', (t) => {
+  const timeout = setTimeout(() => {
+    t.fail('should process lots of whitespace efficiently')
+  }, 10)
+
   t.deepEqual(
     toHast(u('text', `1${' '.repeat(70_000)}2`)),
     u('text', `1${' '.repeat(70_000)}2`),
     'should be efficient on excessive whitespace'
   )
 
-  t.end()
+  setTimeout(() => {
+    clearTimeout(timeout)
+    t.end()
+  }, 0)
 })
