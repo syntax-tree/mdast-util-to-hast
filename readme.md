@@ -93,16 +93,12 @@ import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
 
-main()
+const markdown = String(await fs.readFile('example.md'))
+const mdast = fromMarkdown(markdown)
+const hast = toHast(mdast)
+const html = toHtml(hast)
 
-async function main() {
-  const markdown = String(await fs.readFile('example.md'))
-  const mdast = fromMarkdown(markdown)
-  const hast = toHast(mdast)
-  const html = toHtml(hast)
-
-  console.log(html)
-}
+console.log(html)
 ```
 
 …now running `node example.js` yields:
@@ -189,7 +185,7 @@ choice of css.
 
 ###### `options.footnoteLabelProperties`
 
-Properties to use on the footnote label (`object`, default: `{id: 
+Properties to use on the footnote label (`object`, default: `{id:
 'footnote-label', className: ['sr-only']}`).
 A `sr-only` class is added by default to hide this from sighted users.
 Change it to make the label visible, or add classes for other purposes.
