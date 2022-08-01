@@ -464,5 +464,35 @@ test('Footnote', (t) => {
     'should support an empty `clobberPrefix`'
   )
 
+  t.match(
+    toHtml(
+      // @ts-expect-error: fine.
+      toHast(
+        fromMarkdown('[^1]\n[^1]: a', {
+          extensions: [gfm()],
+          mdastExtensions: [gfmFromMarkdown()]
+        }),
+        {footnoteLabelTagName: 'h1'}
+      )
+    ),
+    /<h1 id="footnote-label" class="sr-only">Footnotes<\/h1>/,
+    'should support a `footnoteLabelTagName`'
+  )
+
+  t.match(
+    toHtml(
+      // @ts-expect-error: fine.
+      toHast(
+        fromMarkdown('[^1]\n[^1]: a', {
+          extensions: [gfm()],
+          mdastExtensions: [gfmFromMarkdown()]
+        }),
+        {footnoteLabelProperties: {}}
+      )
+    ),
+    /<h2>Footnotes<\/h2>/,
+    'should support a `footnoteLabelProperties`'
+  )
+
   t.end()
 })
