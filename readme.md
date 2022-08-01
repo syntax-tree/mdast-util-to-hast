@@ -193,7 +193,7 @@ Properties to use on the footnote label (`object`, default: `{id:
 'footnote-label', className: ['sr-only']}`).
 A `sr-only` class is added by default to hide this from sighted users.
 Change it to make the label visible, or add classes for other purposes.
-Provide an object with no className or no id to have a footnote label with
+Provide an object with no `className` or no `id` to have a footnote label with
 either no class or no id, or an empty object to have none.
 
 > 👉 **Note**: this option affects footnotes.
