@@ -175,8 +175,7 @@ Change it when the markdown is not in English.
 ###### `options.footnoteLabelTagName`
 
 HTML tag to use for the footnote label (`string`, default: `h2`).
-Can be changed to match your document structure and play well with your
-choice of css.
+Can be changed to match your document structure and play well with your CSS.
 
 > 👉 **Note**: this option affects footnotes.
 > Footnotes are not specified by CommonMark.
@@ -185,12 +184,12 @@ choice of css.
 
 ###### `options.footnoteLabelProperties`
 
-Properties to use on the footnote label (`object`, default: `{id:
-'footnote-label', className: ['sr-only']}`).
+Properties to use on the footnote label (`object`, default:
+`{className: ['sr-only']}`).
+Importantly, `id: 'footnote-label'` is always added, because footnote calls use
+it with `aria-describedby` to provide an accessible label.
 A `sr-only` class is added by default to hide this from sighted users.
 Change it to make the label visible, or add classes for other purposes.
-Provide an object with no `className` or no `id` to have a footnote label with
-either no class or no id, or an empty object to have none.
 
 > 👉 **Note**: this option affects footnotes.
 > Footnotes are not specified by CommonMark.
@@ -368,7 +367,7 @@ console.log(html)
 
 ```html
 <p>Bonjour<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
 <p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
@@ -402,8 +401,8 @@ footnotes so that screen reader users can properly pronounce the page:
 ```diff
 @@ -1,8 +1,8 @@
  <p>Bonjour<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
--<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
-+<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Notes de bas de page</h2>
+-<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
++<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Notes de bas de page</h2>
  <ol>
  <li id="user-content-fn-1">
 -<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>

@@ -362,7 +362,7 @@ test('Footnote', (t) => {
 </tr>
 </tbody>
 </table>
-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
 <p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
@@ -400,7 +400,7 @@ test('Footnote', (t) => {
 </tr>
 </thead>
 </table>
-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
 <p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
@@ -424,7 +424,7 @@ test('Footnote', (t) => {
       )
     ),
     `<p>Call<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
 <p>Recursion<sup><a href="#user-content-fn-1" id="user-content-fnref-1-3" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-4" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a> <a href="#user-content-fnref-1-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>2</sup></a> <a href="#user-content-fnref-1-3" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>3</sup></a> <a href="#user-content-fnref-1-4" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>4</sup></a></p>
@@ -445,7 +445,7 @@ test('Footnote', (t) => {
         {footnoteLabel: 'Voetnoten', footnoteBackLabel: 'Terug naar de inhoud'}
       )
     ),
-    '<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>\n<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Voetnoten</h2>\n<ol>\n<li id="user-content-fn-1">\n<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Terug naar de inhoud">↩</a></p>\n</li>\n</ol>\n</section>',
+    '<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>\n<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Voetnoten</h2>\n<ol>\n<li id="user-content-fn-1">\n<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Terug naar de inhoud">↩</a></p>\n</li>\n</ol>\n</section>',
     'should support `footnoteLabel`, `footnoteBackLabel`'
   )
 
@@ -460,7 +460,7 @@ test('Footnote', (t) => {
         {clobberPrefix: ''}
       )
     ),
-    '<p><sup><a href="#fn-1" id="fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>\n<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>\n<ol>\n<li id="fn-1">\n<p>a <a href="#fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>\n</li>\n</ol>\n</section>',
+    '<p><sup><a href="#fn-1" id="fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>\n<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>\n<ol>\n<li id="fn-1">\n<p>a <a href="#fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>\n</li>\n</ol>\n</section>',
     'should support an empty `clobberPrefix`'
   )
 
@@ -475,7 +475,7 @@ test('Footnote', (t) => {
         {footnoteLabelTagName: 'h1'}
       )
     ),
-    /<h1 id="footnote-label" class="sr-only">Footnotes<\/h1>/,
+    /<h1 class="sr-only" id="footnote-label">Footnotes<\/h1>/,
     'should support a `footnoteLabelTagName`'
   )
 
@@ -490,7 +490,7 @@ test('Footnote', (t) => {
         {footnoteLabelProperties: {}}
       )
     ),
-    /<h2>Footnotes<\/h2>/,
+    /<h2 id="footnote-label">Footnotes<\/h2>/,
     'should support a `footnoteLabelProperties`'
   )
 
