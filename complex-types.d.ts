@@ -1,10 +1,9 @@
 import type {Literal} from 'hast'
 
-export type Raw = {
+export interface Raw extends Literal {
   type: 'raw'
-} & Literal
+}
 
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 declare module 'hast' {
   interface RootContentMap {
     raw: Raw
@@ -14,4 +13,3 @@ declare module 'hast' {
     raw: Raw
   }
 }
-/* eslint-enable @typescript-eslint/consistent-type-definitions */
