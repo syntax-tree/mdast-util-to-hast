@@ -37,9 +37,7 @@
   "dependencies": {
     "@types/hast": "^2.0.0",
     "@types/mdast": "^3.0.0",
-    "@types/mdurl": "^1.0.0",
     "mdast-util-definitions": "^5.0.0",
-    "mdurl": "^1.0.0",
     "micromark-util-sanitize-uri": "^1.0.0",
     "trim-lines": "^3.0.0",
     "unist-builder": "^3.0.0",
