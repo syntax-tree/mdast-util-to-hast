@@ -74,5 +74,15 @@ test('Link', (t) => {
     'should correctly decode/encode urls'
   )
 
+  t.deepEqual(
+    toHast(u('link', {url: 'https://a.com/b.png#c=d&e=f'}, [u('text', 'a')])),
+    u(
+      'element',
+      {tagName: 'a', properties: {href: 'https://a.com/b.png#c=d&e=f'}},
+      [u('text', 'a')]
+    ),
+    'should correctly decode/encode dangerous characters'
+  )
+
   t.end()
 })
