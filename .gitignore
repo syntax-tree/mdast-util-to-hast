@@ -1,8 +1,8 @@
 .DS_Store
-lib/**/*.d.ts
-test/**/*.d.ts
-index.d.ts
+*.d.ts
 *.log
 coverage/
 node_modules/
 yarn.lock
+!/complex-types.d.ts
+!/index.d.ts
