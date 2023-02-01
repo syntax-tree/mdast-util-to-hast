@@ -78,13 +78,9 @@ test('Table', (t) => {
         u('text', '\n'),
         u('element', {tagName: 'tr', properties: {}}, [
           u('text', '\n'),
-          u('element', {tagName: 'th', properties: {align: undefined}}, [
-            u('text', 'a')
-          ]),
+          u('element', {tagName: 'th', properties: {}}, [u('text', 'a')]),
           u('text', '\n'),
-          u('element', {tagName: 'th', properties: {align: undefined}}, [
-            u('text', 'b')
-          ]),
+          u('element', {tagName: 'th', properties: {}}, [u('text', 'b')]),
           u('text', '\n')
         ]),
         u('text', '\n')
@@ -92,6 +88,78 @@ test('Table', (t) => {
       u('text', '\n')
     ]),
     'should not add a `tbody` if w/o second row'
+  )
+
+  t.deepEqual(
+    toHast({type: 'table', children: []}),
+    {
+      type: 'element',
+      tagName: 'table',
+      properties: {},
+      children: [{type: 'text', value: '\n'}]
+    },
+    'should handle a table node w/o rows'
+  )
+
+  t.deepEqual(
+    toHast({
+      type: 'tableRow',
+      children: [
+        {type: 'tableCell', children: [{type: 'text', value: 'a'}]},
+        {type: 'tableCell', children: [{type: 'text', value: 'b'}]}
+      ]
+    }),
+    {
+      type: 'element',
+      tagName: 'tr',
+      properties: {},
+      children: [
+        {type: 'text', value: '\n'},
+        {
+          type: 'element',
+          tagName: 'td',
+          properties: {},
+          children: [{type: 'text', value: 'a'}]
+        },
+        {type: 'text', value: '\n'},
+        {
+          type: 'element',
+          tagName: 'td',
+          properties: {},
+          children: [{type: 'text', value: 'b'}]
+        },
+        {type: 'text', value: '\n'}
+      ]
+    },
+    'should handle a table row node w/ cells'
+  )
+
+  t.deepEqual(
+    toHast({type: 'tableRow', children: []}),
+    {
+      type: 'element',
+      tagName: 'tr',
+      properties: {},
+      children: [{type: 'text', value: '\n'}]
+    },
+    'should handle a table row node w/o cells'
+  )
+
+  t.deepEqual(
+    toHast({type: 'tableCell', children: [{type: 'text', value: 'a'}]}),
+    {
+      type: 'element',
+      tagName: 'td',
+      properties: {},
+      children: [{type: 'text', value: 'a'}]
+    },
+    'should handle a table cell node w/ children'
+  )
+
+  t.deepEqual(
+    toHast({type: 'tableCell', children: []}),
+    {type: 'element', tagName: 'td', properties: {}, children: []},
+    'should handle a table cell node w/o children'
   )
 
   t.end()
