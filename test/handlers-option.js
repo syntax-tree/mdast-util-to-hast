@@ -1,22 +1,27 @@
 /**
+ * @typedef {import('hast').Element} Element
  * @typedef {import('mdast').Paragraph} Paragraph
- * @typedef {import('mdast').Root|import('mdast').Content} Node
+ * @typedef {import('mdast').Root | import('mdast').Content} Node
  */
 
-import assert from 'node:assert'
 import test from 'tape'
 import {u} from 'unist-builder'
-import {all, toHast} from '../index.js'
+import {toHast} from '../index.js'
 
 test('handlers option', (t) => {
   t.deepEqual(
     toHast(u('paragraph', [u('text', 'bravo')]), {
       handlers: {
         paragraph(h, /** @type {Paragraph} */ node) {
-          const head = node.children[0]
-          assert(head.type === 'text')
-          head.value = 'changed'
-          return h(node, 'p', all(h, node))
+          /** @type {Element} */
+          const result = {
+            type: 'element',
+            tagName: 'p',
+            properties: {},
+            children: [{type: 'text', value: 'changed'}]
+          }
+          h.patch(node, result)
+          return h.applyData(node, result)
         }
       }
     }),

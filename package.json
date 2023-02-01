@@ -40,7 +40,6 @@
     "mdast-util-definitions": "^5.0.0",
     "micromark-util-sanitize-uri": "^1.1.0",
     "trim-lines": "^3.0.0",
-    "unist-builder": "^3.0.0",
     "unist-util-generated": "^2.0.0",
     "unist-util-position": "^4.0.0",
     "unist-util-visit": "^4.0.0"
@@ -52,6 +51,7 @@
     "mdast-util-from-markdown": "^1.0.0",
     "mdast-util-gfm": "^2.0.0",
     "micromark-extension-gfm": "^2.0.0",
+    "unist-builder": "^3.0.0",
     "prettier": "^2.0.0",
     "remark-cli": "^11.0.0",
     "remark-preset-wooorm": "^9.0.0",
