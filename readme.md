@@ -210,8 +210,6 @@ Handle a node (TypeScript).
 
 ###### Parameters
 
-<!-- To do: rename to `state`. -->
-
 *   `state` ([`State`][api-state])
     — info passed around
 *   `node` ([`MdastNode`][mdast-node])
