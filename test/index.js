@@ -1,3 +1,6 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+
 /* eslint-disable import/no-unassigned-import */
 import './core.js'
 import './blockquote.js'
@@ -29,3 +32,13 @@ import './toml.js'
 import './yaml.js'
 import './handlers-option.js'
 /* eslint-enable import/no-unassigned-import */
+
+import * as mod from '../index.js'
+
+test('core', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['all', 'defaultHandlers', 'one', 'toHast'],
+    'should expose the public api'
+  )
+})
