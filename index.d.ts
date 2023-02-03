@@ -1,7 +1,14 @@
 import type {Literal} from 'hast'
+import type {State} from './lib/state.js'
 
 // Expose types.
-export type {H, Handler, Handlers, Options} from './lib/index.js'
+export type {State, Handler, Handlers, Options} from './lib/state.js'
+
+// To do: next major: remove.
+/**
+ * Deprecated: use `State`.
+ */
+export type H = State
 
 // Expose JS API.
 export {one, all} from './lib/traverse.js'

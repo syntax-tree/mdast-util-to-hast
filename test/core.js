@@ -2,8 +2,15 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
+import * as mod from '../index.js'
 
 test('toHast', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['all', 'defaultHandlers', 'one', 'toHast'],
+    'should expose the public api'
+  )
+
   assert.throws(
     () => {
       // @ts-expect-error runtime.

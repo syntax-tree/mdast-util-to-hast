@@ -97,7 +97,7 @@
     "strict": true,
     "#": "needed `any`s",
     "ignoreFiles": [
-      "lib/index.d.ts"
+      "lib/state.d.ts"
     ]
   }
 }

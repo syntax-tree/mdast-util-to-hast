@@ -18,14 +18,14 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`toHast(tree[, options])`](#tohasttree-options)
-    *   [`all(h, parent)`](#allh-parent)
+    *   [`all(state, parent)`](#allstate-parent)
     *   [`defaultHandlers`](#defaulthandlers)
-    *   [`one(h, node, parent)`](#oneh-node-parent)
-    *   [`H`](#h)
+    *   [`one(state, node, parent)`](#onestate-node-parent)
     *   [`Handler`](#handler)
     *   [`Handlers`](#handlers)
     *   [`Options`](#options)
     *   [`Raw`](#raw)
+    *   [`State`](#state)
 *   [Examples](#examples)
     *   [Example: supporting HTML in markdown naïvely](#example-supporting-html-in-markdown-naïvely)
     *   [Example: supporting HTML in markdown properly](#example-supporting-html-in-markdown-properly)
@@ -203,7 +203,7 @@ The default behavior for unknown nodes is:
 
 This behavior can be changed by passing an `unknownHandler`.
 
-### `all(h, parent)`
+### `all(state, parent)`
 
 <!-- To do: move to `state`. -->
 
@@ -211,13 +211,9 @@ This behavior can be changed by passing an `unknownHandler`.
 
 Default handlers for nodes ([`Handlers`][api-handlers]).
 
-### `one(h, node, parent)`
+### `one(state, node, parent)`
 
 <!-- To do: move to `state`. -->
-
-### `H`
-
-<!-- To do: rename to `state`. -->
 
 ### `Handler`
 
@@ -227,7 +223,7 @@ Handle a node (TypeScript).
 
 <!-- To do: rename to `state`. -->
 
-*   `h` ([`H`][api-h])
+*   `state` ([`State`][api-state])
     — info passed around
 *   `node` ([`MdastNode`][mdast-node])
     — node to handle
@@ -292,6 +288,27 @@ interface Raw extends Literal {
   type: 'raw'
 }
 ```
+
+### `State`
+
+Info passed around about the current state (TypeScript type).
+
+###### Fields
+
+<!-- To do: add `options`, alternative to `definition`. -->
+
+*   `patch` (`(from: MdastNode, to: HastNode) => void`)
+    — copy a node’s positional info
+*   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
+    — honor the `data` of `from` and maybe generate an element instead of `to`
+*   `handlers` ([`Handlers`][api-handlers])
+    — applied node handlers
+*   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
+    — footnote definitions by their uppercased identifier
+*   `footnoteOrder` (`Array<string>`)
+    — identifiers of order when footnote calls first appear in tree order
+*   `footnoteCounts` (`Record<string, number>`)
+    — counts for how often the same footnote was called
 
 ## Examples
 
@@ -1312,7 +1329,7 @@ The following interfaces are added to **[hast][]** by this utility.
 
 ```idl
 interface Raw <: Literal {
-  type: "raw"
+  type: 'raw'
 }
 ```
 
@@ -1324,9 +1341,8 @@ Raw nodes are typically ignored but are handled by
 ## Types
 
 This package is fully typed with [TypeScript][].
-It also exports [`H`][api-h], [`Handler`][api-handler],
-[`Handlers`][api-handlers], [`Options`][api-options], and
-[`Raw`][api-raw] types.
+It also exports [`Handler`][api-handler], [`Handlers`][api-handlers],
+[`Options`][api-options], [`Raw`][api-raw], and [`State`][api-state] types.
 
 It also registers the `Raw` node type with `@types/mdast`.
 If you’re working with the syntax tree (and you pass
@@ -1527,15 +1543,13 @@ abide by its terms.
 
 [dfn-literal]: https://github.com/syntax-tree/hast#literal
 
-[api-all]: #allh-parent
+[api-all]: #allstate-parent
 
 [api-default-handlers]: #defaulthandlers
 
-[api-one]: #oneh-node-parent
+[api-one]: #onestate-node-parent
 
 [api-to-hast]: #tohasttree-options
-
-[api-h]: #h
 
 [api-handler]: #handler
 
@@ -1544,3 +1558,5 @@ abide by its terms.
 [api-options]: #options
 
 [api-raw]: #raw
+
+[api-state]: #state
