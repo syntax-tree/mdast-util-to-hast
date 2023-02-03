@@ -294,6 +294,9 @@ Info passed around about the current state (TypeScript type).
     — transform an mdast node to hast
 *   `all` (`(node: MdastNode) => Array<HastNode>`)
     — transform the children of an mdast parent to hast
+*   `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
+    — wrap `nodes` with line endings between each node, adds initial/final line
+    endings when `loose`
 *   `handlers` ([`Handlers`][api-handlers])
     — applied node handlers
 *   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
