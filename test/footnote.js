@@ -278,4 +278,30 @@ test('footnote', () => {
 </section>`,
     'should support a `footnoteLabelProperties`'
   )
+
+  tree = toHast(
+    fromMarkdown(
+      'a[^__proto__] b[^__proto__] c[^constructor]\n\n[^__proto__]: d\n[^constructor]: e',
+      {
+        extensions: [gfm()],
+        mdastExtensions: [gfmFromMarkdown()]
+      }
+    )
+  )
+  assert(tree, 'expected node')
+  assert.equal(
+    toHtml(tree),
+    `<p>a<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__" data-footnote-ref aria-describedby="footnote-label">1</a></sup> b<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup> c<sup><a href="#user-content-fn-constructor" id="user-content-fnref-constructor" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-__proto__">
+<p>d <a href="#user-content-fnref-__proto__" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a> <a href="#user-content-fnref-__proto__-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-constructor">
+<p>e <a href="#user-content-fnref-constructor" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+</li>
+</ol>
+</section>`,
+    'should support funky footnote identifiers'
+  )
 })
