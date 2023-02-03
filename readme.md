@@ -17,16 +17,23 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`toHast(node[, options])`](#tohastnode-options)
-    *   [`defaultHandlers`](#defaulthandlers)
+    *   [`toHast(tree[, options])`](#tohasttree-options)
     *   [`all(h, parent)`](#allh-parent)
+    *   [`defaultHandlers`](#defaulthandlers)
     *   [`one(h, node, parent)`](#oneh-node-parent)
+    *   [`H`](#h)
+    *   [`Handler`](#handler)
+    *   [`Handlers`](#handlers)
+    *   [`Options`](#options)
+    *   [`Raw`](#raw)
 *   [Examples](#examples)
     *   [Example: supporting HTML in markdown naïvely](#example-supporting-html-in-markdown-naïvely)
     *   [Example: supporting HTML in markdown properly](#example-supporting-html-in-markdown-properly)
     *   [Example: footnotes in languages other than English](#example-footnotes-in-languages-other-than-english)
     *   [Example: supporting custom nodes](#example-supporting-custom-nodes)
 *   [Algorithm](#algorithm)
+    *   [Default handling](#default-handling)
+    *   [Fields on nodes](#fields-on-nodes)
 *   [CSS](#css)
 *   [Syntax tree](#syntax-tree)
     *   [Nodes](#nodes)
@@ -57,7 +64,7 @@ turn markdown to HTML at a higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-to-hast
@@ -66,14 +73,14 @@ npm install mdast-util-to-hast
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {toHast} from "https://esm.sh/mdast-util-to-hast@12"
+import {toHast} from 'https://esm.sh/mdast-util-to-hast@12'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {toHast} from "https://esm.sh/mdast-util-to-hast@12?bundle"
+  import {toHast} from 'https://esm.sh/mdast-util-to-hast@12?bundle'
 </script>
 ```
 
@@ -88,7 +95,7 @@ Say we have the following `example.md`:
 …and next to it a module `example.js`:
 
 ```js
-import {promises as fs} from 'node:fs'
+import {fs} from 'node:fs/promises'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
@@ -109,22 +116,30 @@ console.log(html)
 
 ## API
 
-This package exports the identifiers `toHast`, `defaultHandlers`, `all`, and
-`one`.
+This package exports the identifiers [`all`][api-all],
+[`defaultHandlers`][api-default-handlers], [`one`][api-one], and
+[`toHast`][api-to-hast].
 There is no default export.
 
-### `toHast(node[, options])`
+### `toHast(tree[, options])`
 
-[mdast][] utility to transform to [hast][].
+Transform mdast to hast.
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
+*   `tree` ([`MdastNode`][mdast-node])
+    — mdast tree
+*   `options` ([`Options`][api-options], optional)
+    — configuration
 
-###### `options.allowDangerousHtml`
+###### Returns
 
-Whether to persist raw HTML in markdown in the hast tree (`boolean`, default:
-`false`).
+hast tree ([`HastNode | null | undefined`][hast-node]).
+
+##### Notes
+
+###### HTML
+
 Raw HTML is available in mdast as [`html`][mdast-html] nodes and can be embedded
 in hast as semistandard `raw` nodes.
 Most utilities ignore `raw` nodes but two notable ones don’t:
@@ -138,10 +153,29 @@ Most utilities ignore `raw` nodes but two notable ones don’t:
     This is a heavy task as it needs a full HTML parser, but it is the only way
     to support untrusted content
 
-###### `options.clobberPrefix`
+###### Footnotes
 
-Prefix to use before the `id` attribute on footnotes to prevent it from
-*clobbering* (`string`, default: `'user-content-'`).
+Many options supported here relate to footnotes.
+Footnotes are not specified by CommonMark, which we follow by default.
+They are supported by GitHub, so footnotes can be enabled in markdown with
+[`mdast-util-gfm`][mdast-util-gfm].
+
+The options `footnoteBackLabel` and `footnoteLabel` define natural language
+that explains footnotes, which is hidden for sighted users but shown to
+assistive technology.
+When your page is not in English, you must define translated values.
+
+Back references use ARIA attributes, but the section label itself uses a
+heading that is hidden with an `sr-only` class.
+To show it to sighted users, define different attributes in
+`footnoteLabelProperties`.
+
+###### Clobbering
+
+Footnotes introduces a problem, as it links footnote calls to footnote
+definitions on the page through `id` attributes generated from user content,
+which results in DOM clobbering.
+
 DOM clobbering is this:
 
 ```html
@@ -156,90 +190,8 @@ Using a prefix solves this problem.
 More information on how to handle clobbering and the prefix is explained in
 [Example: headings (DOM clobbering) in `rehype-sanitize`][clobber-example].
 
-> 👉 **Note**: this option affects footnotes.
-> Footnotes are not specified by CommonMark.
-> They are supported by GitHub, so they can be enabled by using the utility
-> [`mdast-util-gfm`][mdast-util-gfm].
+###### Unknown nodes
 
-###### `options.footnoteLabel`
-
-Label to use for the footnotes section (`string`, default: `'Footnotes'`).
-Affects screen readers.
-Change it when the markdown is not in English.
-
-> 👉 **Note**: this option affects footnotes.
-> Footnotes are not specified by CommonMark.
-> They are supported by GitHub, so they can be enabled by using the utility
-> [`mdast-util-gfm`][mdast-util-gfm].
-
-###### `options.footnoteLabelTagName`
-
-HTML tag to use for the footnote label (`string`, default: `h2`).
-Can be changed to match your document structure and play well with your CSS.
-
-> 👉 **Note**: this option affects footnotes.
-> Footnotes are not specified by CommonMark.
-> They are supported by GitHub, so they can be enabled by using the utility
-> [`mdast-util-gfm`][mdast-util-gfm].
-
-###### `options.footnoteLabelProperties`
-
-Properties to use on the footnote label (`object`, default:
-`{className: ['sr-only']}`).
-Importantly, `id: 'footnote-label'` is always added, because footnote calls use
-it with `aria-describedby` to provide an accessible label.
-A `sr-only` class is added by default to hide this from sighted users.
-Change it to make the label visible, or add classes for other purposes.
-
-> 👉 **Note**: this option affects footnotes.
-> Footnotes are not specified by CommonMark.
-> They are supported by GitHub, so they can be enabled by using the utility
-> [`mdast-util-gfm`][mdast-util-gfm].
-
-###### `options.footnoteBackLabel`
-
-Label to use from backreferences back to their footnote call (`string`, default:
-`'Back to content'`).
-Affects screen readers.
-Change it when the markdown is not in English.
-
-> 👉 **Note**: this option affects footnotes.
-> Footnotes are not specified by CommonMark.
-> They are supported by GitHub, so they can be enabled by using the utility
-> [`mdast-util-gfm`][mdast-util-gfm].
-
-###### `options.handlers`
-
-Object mapping node types to functions handling the corresponding nodes.
-See [`lib/handlers/`][handlers] for examples.
-
-In a handler, you have access to `h`, which should be used to create hast nodes
-from mdast nodes.
-On `h`, there are several fields that may be of interest.
-
-###### `options.passThrough`
-
-List of mdast node types to pass through (keep) in hast (`Array<string>`,
-default: `[]`).
-If the passed through nodes have children, those children are expected to be
-mdast and will be handled.
-
-Similar functionality can be achieved with a custom handler.
-A `passThrough` of `['customNode']` is equivalent to:
-
-```js
-toHast(/* … */, {
-  handlers: {
-    customNode(h, node) {
-      return 'children' in node ? {...node, children: all(h, node)} : node
-    }
-  }
-})
-```
-
-###### `options.unknownHandler`
-
-Handler for unknown nodes (`Handler?`).
 Unknown nodes are nodes with a type that isn’t in `handlers` or `passThrough`.
 The default behavior for unknown nodes is:
 
@@ -249,26 +201,97 @@ The default behavior for unknown nodes is:
 *   otherwise, create a `<div>` element (which could be changed with
     `data.hName`), with its children mapped from mdast to hast as well
 
-##### Returns
-
-[`HastNode`][hast-node].
-
-### `defaultHandlers`
-
-Object mapping mdast node types to functions that can handle them.
-See [`lib/handlers/index.js`][default-handlers].
+This behavior can be changed by passing an `unknownHandler`.
 
 ### `all(h, parent)`
 
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h` and a parent node (mdast) and it will turn the node’s children into
-an array of transformed nodes (hast).
+<!-- To do: move to `state`. -->
+
+### `defaultHandlers`
+
+Default handlers for nodes ([`Handlers`][api-handlers]).
 
 ### `one(h, node, parent)`
 
-Helper function for writing custom handlers passed to `options.handlers`.
-Pass it `h`, a `node`, and its `parent` (mdast) and it will turn `node` into
-hast content.
+<!-- To do: move to `state`. -->
+
+### `H`
+
+<!-- To do: rename to `state`. -->
+
+### `Handler`
+
+Handle a node (TypeScript).
+
+###### Parameters
+
+<!-- To do: rename to `state`. -->
+
+*   `h` ([`H`][api-h])
+    — info passed around
+*   `node` ([`MdastNode`][mdast-node])
+    — node to handle
+*   `parent` ([`MdastNode | null | undefined`][mdast-node])
+    — parent of `node`
+
+###### Returns
+
+Result ([`HastNode | Array<HastNode> | null | undefined`][mdast-node]).
+
+### `Handlers`
+
+Handle nodes (TypeScript).
+
+###### Type
+
+```ts
+type Handlers = Record<string, Handler>
+```
+
+### `Options`
+
+Configuration (TypeScript).
+
+###### Fields
+
+*   `allowDangerousHtml` (`boolean`, default: `false`)
+    — whether to persist raw HTML in markdown in the hast tree
+*   `clobberPrefix` (`string`, default: `'user-content-'`)
+    — prefix to use before the `id` attribute on footnotes to prevent it from
+    *clobbering*
+*   `footnoteBackLabel` (`string`, default: `'Back to content'`)
+    — label to use from backreferences back to their footnote call (affects
+    screen readers)
+*   `footnoteLabel` (`string`, default: `'Footnotes'`)
+    — label to use for the footnotes section (affects screen readers)
+*   `footnoteLabelProperties`
+    ([`Properties`][properties], default: `{className: ['sr-only']}`)
+    — properties to use on the footnote label
+    (note that `id: 'footnote-label'` is always added as footnote calls use it
+    with `aria-describedby` to provide an accessible label)
+*   `footnoteLabelTagName` (`string`, default: `h2`)
+    — tag name to use for the footnote label
+*   `handlers` ([`Handlers`][api-handlers], optional)
+    — extra handlers for nodes
+*   `passThrough` (`Array<string>`, optional)
+    — list of custom mdast node types to pass through (keep) in hast (note that
+    the node itself is passed, but eventual children are transformed)
+*   `unknownHandler` ([`Handler`][api-handler], optional)
+    — handle all unknown nodes
+
+### `Raw`
+
+Raw string of HTML embedded into HTML AST (TypeScript).
+
+###### Type
+
+```ts
+import type {Literal} from 'hast'
+
+interface Raw extends Literal {
+  type: 'raw'
+}
+```
 
 ## Examples
 
@@ -471,7 +494,7 @@ Existing handlers can be overwritten and handlers for more nodes can be added.
 It’s also possible to define how mdast is turned into hast through fields on
 nodes.
 
-##### Default handling
+### Default handling
 
 The following table gives insight into what input turns into what output:
 
@@ -1108,7 +1131,7 @@ n/a
 > The preceding examples are illustrative rather than authoritative or
 > exhaustive.
 
-##### Fields on nodes
+### Fields on nodes
 
 A frequent problem arises when having to turn one syntax tree into another.
 As the original tree (in this case, mdast for markdown) is in some cases
@@ -1125,9 +1148,9 @@ plugin does understand because they define a certain hast structure.
 
 The following fields can be used:
 
-*   `node.data.hName` configures the element’s tag name
-*   `node.data.hProperties` is mixed into the element’s properties
-*   `node.data.hChildren` configures the element’s children
+*   `node.data.hName` — define the element’s tag name
+*   `node.data.hProperties` — define extra properties to use
+*   `node.data.hChildren` — define hast children to use
 
 ###### `hName`
 
@@ -1163,7 +1186,6 @@ The following [mdast][]:
   type: 'image',
   src: 'circle.svg',
   alt: 'Big red circle on a black background',
-  title: null,
   data: {hProperties: {className: ['responsive']}}
 }
 ```
@@ -1237,7 +1259,7 @@ The following [mdast][]:
 ## CSS
 
 Assuming you know how to use (semantic) HTML and CSS, then it should generally
-be straight forward to style the HTML produced by this plugin.
+be straightforward to style the HTML produced by this plugin.
 With CSS, you can get creative and style the results as you please.
 
 Some semistandard features, notably GFMs tasklists and footnotes, generate HTML
@@ -1302,14 +1324,20 @@ Raw nodes are typically ignored but are handled by
 ## Types
 
 This package is fully typed with [TypeScript][].
-It also exports `Options`, `Handler`, `Handlers`, `H`, and `Raw` types.
+It also exports [`H`][api-h], [`Handler`][api-handler],
+[`Handlers`][api-handlers], [`Options`][api-options], and
+[`Raw`][api-raw] types.
 
-If you’re working with raw nodes in the hast syntax tree (which are added when
+It also registers the `Raw` node type with `@types/mdast`.
+If you’re working with the syntax tree (and you pass
 `allowDangerousHtml: true`), make sure to import this utility somewhere in your
-types, as that registers the new node types in the tree.
+types, as that registers the new node type in the tree.
 
 ```js
-/** @typedef {import('mdast-util-to-hast')} */
+/**
+ * @typedef {import('mdast-util-to-hast')}
+ */
+
 import {visit} from 'unist-util-visit'
 
 /** @type {import('hast').Root} */
@@ -1324,7 +1352,7 @@ visit(tree, (node) => {
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Security
@@ -1459,29 +1487,27 @@ abide by its terms.
 
 [typescript]: https://www.typescriptlang.org
 
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
 
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
 
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [mdast]: https://github.com/syntax-tree/mdast
 
+[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+
 [mdast-html]: https://github.com/syntax-tree/mdast#html
 
-[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
+[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
 
 [hast]: https://github.com/syntax-tree/hast
 
 [hast-node]: https://github.com/syntax-tree/hast#nodes
 
-[remark-rehype]: https://github.com/remarkjs/remark-rehype
+[properties]: https://github.com/syntax-tree/hast#properties
 
-[handlers]: lib/handlers
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
-[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
 
 [hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
@@ -1491,10 +1517,30 @@ abide by its terms.
 
 [hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
-[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[default-handlers]: lib/handlers/index.js
+[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
 
 [github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
 
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+
 [dfn-literal]: https://github.com/syntax-tree/hast#literal
+
+[api-all]: #allh-parent
+
+[api-default-handlers]: #defaulthandlers
+
+[api-one]: #oneh-node-parent
+
+[api-to-hast]: #tohasttree-options
+
+[api-h]: #h
+
+[api-handler]: #handler
+
+[api-handlers]: #handlers
+
+[api-options]: #options
+
+[api-raw]: #raw

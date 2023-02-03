@@ -1,11 +1,12 @@
 import type {Literal} from 'hast'
 
 // Expose types.
-export type {Options, Handler, Handlers, H} from './lib/index.js'
+export type {H, Handler, Handlers, Options} from './lib/index.js'
 
 // Expose JS API.
 export {one, all} from './lib/traverse.js'
-export {defaultHandlers, toHast} from './lib/index.js'
+export {handlers as defaultHandlers} from './lib/handlers/index.js'
+export {toHast} from './lib/index.js'
 
 // Expose node type.
 /**
