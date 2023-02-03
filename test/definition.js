@@ -1,43 +1,39 @@
-/**
- * @typedef {import('mdast').Paragraph} Paragraph
- */
-
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Definition', (t) => {
-  t.equal(
-    toHast(
-      u('definition', {
-        url: 'https://uniform.whiskey',
-        identifier: 'x-ray',
-        title: 'yankee'
-      })
-    ),
+test('definition', () => {
+  assert.equal(
+    toHast({
+      type: 'definition',
+      identifier: 'alpha',
+      url: 'bravo'
+    }),
     null,
     'should ignore `definition`'
   )
 
-  t.deepEqual(
-    toHast(
-      /** @type {Paragraph} */ (
-        u('paragraph', [
-          u('linkReference', {identifier: 'alpha', referenceType: 'shortcut'}, [
-            u('text', 'bravo')
-          ]),
-          u('definition', {identifier: 'alpha', url: 'https://charlie.com'}),
-          u('definition', {identifier: 'alpha', url: 'https://delta.com'})
-        ])
-      )
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u('element', {tagName: 'a', properties: {href: 'https://charlie.com'}}, [
-        u('text', 'bravo')
-      ])
-    ]),
-    'should prefer the first definition by default'
+  assert.deepEqual(
+    toHast({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'linkReference',
+              identifier: 'charlie',
+              referenceType: 'shortcut',
+              children: [{type: 'text', value: 'charlie'}]
+            }
+          ]
+        },
+        {type: 'definition', identifier: 'charlie', url: 'delta'},
+        {type: 'definition', identifier: 'charlie', url: 'echo'}
+      ]
+    }),
+    h(null, [h('p', [h('a', {href: 'delta'}, 'charlie')])]),
+    'should prefer the first definition'
   )
-
-  t.end()
 })

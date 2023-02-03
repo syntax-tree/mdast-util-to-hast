@@ -1,13 +1,12 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Delete', (t) => {
-  t.deepEqual(
-    toHast(u('delete', [u('text', 'foxtrot')])),
-    u('element', {tagName: 'del', properties: {}}, [u('text', 'foxtrot')]),
+test('delete', () => {
+  assert.deepEqual(
+    toHast({type: 'delete', children: [{type: 'text', value: 'alpha'}]}),
+    h('del', 'alpha'),
     'should transform `delete` to `del`'
   )
-
-  t.end()
 })

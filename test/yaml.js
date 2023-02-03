@@ -1,9 +1,11 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {toHast} from '../index.js'
 
-test('YAML', (t) => {
-  t.equal(toHast(u('yaml', 'kilo: "lima"')), null, 'should ignore `yaml`')
-
-  t.end()
+test('yaml', () => {
+  assert.deepEqual(
+    toHast({type: 'yaml', value: 'alpha'}),
+    null,
+    'should ignore `yaml`'
+  )
 })

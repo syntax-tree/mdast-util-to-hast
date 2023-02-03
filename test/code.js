@@ -1,61 +1,44 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Code', (t) => {
-  t.deepEqual(
-    toHast(u('code', 'foxtrot()\ngolf.hotel()')),
-    u('element', {tagName: 'pre', properties: {}}, [
-      u('element', {tagName: 'code', properties: {}}, [
-        u('text', 'foxtrot()\ngolf.hotel()\n')
-      ])
-    ]),
+test('code', () => {
+  assert.deepEqual(
+    toHast({type: 'code', value: 'alpha()\nbravo.charlie()'}),
+    h('pre', [h('code', 'alpha()\nbravo.charlie()\n')]),
     'should transform `code` to a `pre` element (#1)'
   )
 
-  t.deepEqual(
-    toHast(u('code', '')),
-    u('element', {tagName: 'pre', properties: {}}, [
-      u('element', {tagName: 'code', properties: {}}, [u('text', '')])
-    ]),
+  assert.deepEqual(
+    toHast({type: 'code', value: ''}),
+    h('pre', [h('code', '')]),
     'should transform `code` to a `pre` element (#2)'
   )
 
-  t.deepEqual(
-    toHast(u('code', {lang: 'js'}, 'india()')),
-    u('element', {tagName: 'pre', properties: {}}, [
-      u(
-        'element',
-        {tagName: 'code', properties: {className: ['language-js']}},
-        [u('text', 'india()\n')]
-      )
-    ]),
+  assert.deepEqual(
+    toHast({type: 'code', lang: 'js', value: 'delta()'}),
+    h('pre', [h('code', {className: ['language-js']}, 'delta()\n')]),
     'should transform `code` to a `pre` element with language class'
   )
 
-  t.deepEqual(
-    toHast(u('code', {lang: 'js', meta: 'juliett'}, 'kilo()')),
-    u('element', {tagName: 'pre', properties: {}}, [
-      u(
-        'element',
-        {
-          tagName: 'code',
-          properties: {className: ['language-js']},
-          data: {meta: 'juliett'}
-        },
-        [u('text', 'kilo()\n')]
-      )
+  assert.deepEqual(
+    toHast({type: 'code', lang: 'js', meta: 'echo', value: 'foxtrot()'}),
+    h('pre', [
+      {
+        type: 'element',
+        tagName: 'code',
+        properties: {className: ['language-js']},
+        data: {meta: 'echo'},
+        children: [{type: 'text', value: 'foxtrot()\n'}]
+      }
     ]),
     'should support `meta`'
   )
 
-  t.deepEqual(
-    toHast(u('code', '\ta')),
-    u('element', {tagName: 'pre', properties: {}}, [
-      u('element', {tagName: 'code', properties: {}}, [u('text', '\ta\n')])
-    ]),
+  assert.deepEqual(
+    toHast({type: 'code', value: '\ta'}),
+    h('pre', [h('code', '\ta\n')]),
     'should support tabs in code'
   )
-
-  t.end()
 })

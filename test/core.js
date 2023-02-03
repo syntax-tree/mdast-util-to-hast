@@ -1,168 +1,213 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('toHast()', (t) => {
-  t.throws(
+test('toHast', () => {
+  assert.throws(
     () => {
       // @ts-expect-error runtime.
-      toHast(u('bar', [true]))
+      toHast({type: 'bar', children: [true]})
     },
     /Expected node, got `true`/,
     'should throw on non-nodes'
   )
 
-  t.deepEqual(
-    toHast(u('strong', {data: {hName: 'b'}}, [u('text', 'tango')])),
-    u('element', {tagName: 'b', properties: {}}, [u('text', 'tango')]),
-    'should prefer `data.hName` to tag-names'
+  assert.deepEqual(
+    toHast({
+      type: 'strong',
+      data: {hName: 'b'},
+      children: [{type: 'text', value: 'alpha'}]
+    }),
+    h('b', 'alpha'),
+    'should prefer `data.hName` to tag names'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'strong',
-        {
-          data: {
-            hChildren: [
-              u('element', {tagName: 'i', properties: {}}, [u('text', 'tango')])
-            ]
-          }
-        },
-        [u('text', 'uniform')]
-      )
-    ),
-    u('element', {tagName: 'strong', properties: {}}, [
-      u('element', {tagName: 'i', properties: {}}, [u('text', 'tango')])
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'strong',
+      data: {hChildren: [h('i', 'bravo')]},
+      children: [{type: 'text', value: 'charlie'}]
+    }),
+    h('strong', [h('i', 'bravo')]),
     'should prefer `data.hChildren` to children'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'emphasis',
-        {
-          position: {
-            start: {line: 2, column: 3},
-            end: {line: 2, column: 12}
-          }
-        },
-        [u('text', 'tango')]
-      )
-    ),
-    u(
-      'element',
-      {
-        tagName: 'em',
-        properties: {},
-        position: {
-          start: {line: 2, column: 3, offset: null},
-          end: {line: 2, column: 12, offset: null}
-        }
-      },
-      [u('text', 'tango')]
-    ),
+  assert.deepEqual(
+    toHast({
+      type: 'strong',
+      data: {hProperties: {title: 'delta'}},
+      children: [{type: 'text', value: 'echo'}]
+    }),
+    h('strong', {title: 'delta'}, 'echo'),
+    'should support `data.hProperties`'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'emphasis',
+      children: [{type: 'text', value: 'foxtrot'}],
+      position: {
+        start: {line: 2, column: 3},
+        end: {line: 2, column: 12}
+      }
+    }),
+    {
+      type: 'element',
+      tagName: 'em',
+      properties: {},
+      children: [{type: 'text', value: 'foxtrot'}],
+      position: {
+        start: {line: 2, column: 3, offset: null},
+        end: {line: 2, column: 12, offset: null}
+      }
+    },
     'should patch `position`s when given'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'code',
+  assert.deepEqual(
+    toHast({
+      type: 'code',
+      value: 'golf',
+      position: {
+        start: {line: 2, column: 3},
+        end: {line: 2, column: 12}
+      }
+    }),
+    {
+      type: 'element',
+      tagName: 'pre',
+      properties: {},
+      children: [
         {
+          type: 'element',
+          tagName: 'code',
+          properties: {},
+          children: [{type: 'text', value: 'golf\n'}],
           position: {
-            start: {line: 1, column: 1},
-            end: {line: 3, column: 4}
+            start: {line: 2, column: 3, offset: null},
+            end: {line: 2, column: 12, offset: null}
           }
-        },
-        'tango'
-      )
-    ),
-    // @ts-expect-error: `null`s are fine-ish (and given by `unist-util-position`)
-    u(
-      'element',
-      {
-        tagName: 'pre',
-        properties: {},
-        position: {
-          start: {line: 1, column: 1, offset: null},
-          end: {line: 3, column: 4, offset: null}
         }
-      },
-      [
-        u(
-          'element',
-          {
-            tagName: 'code',
-            properties: {},
-            position: {
-              start: {line: 1, column: 1, offset: null},
-              end: {line: 3, column: 4, offset: null}
-            }
-          },
-          [u('text', 'tango\n')]
-        )
-      ]
-    ),
+      ],
+      position: {
+        start: {line: 2, column: 3, offset: null},
+        end: {line: 2, column: 12, offset: null}
+      }
+    },
     'should patch `position`s on `pre` and `code`'
   )
 
-  t.deepEqual(
-    // @ts-expect-error: custom node.
-    toHast(u('foo', 'tango')),
-    u('text', 'tango'),
+  assert.deepEqual(
+    toHast({
+      type: 'emphasis',
+      children: [{type: 'text', value: 'foxtrot'}],
+      position: {
+        start: {line: 2, column: 3},
+        end: {line: 2, column: 12}
+      }
+    }),
+    {
+      type: 'element',
+      tagName: 'em',
+      properties: {},
+      children: [{type: 'text', value: 'foxtrot'}],
+      position: {
+        start: {line: 2, column: 3, offset: null},
+        end: {line: 2, column: 12, offset: null}
+      }
+    },
+    'should patch `position`s when given'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'code',
+      value: 'golf',
+      position: {
+        start: {line: 2, column: 3},
+        end: {line: 2, column: 12}
+      }
+    }),
+    {
+      type: 'element',
+      tagName: 'pre',
+      properties: {},
+      children: [
+        {
+          type: 'element',
+          tagName: 'code',
+          properties: {},
+          children: [{type: 'text', value: 'golf\n'}],
+          position: {
+            start: {line: 2, column: 3, offset: null},
+            end: {line: 2, column: 12, offset: null}
+          }
+        }
+      ],
+      position: {
+        start: {line: 2, column: 3, offset: null},
+        end: {line: 2, column: 12, offset: null}
+      }
+    },
+    'should patch `position`s on `pre` and `code`'
+  )
+
+  assert.deepEqual(
+    // @ts-expect-error: unknown literal.
+    toHast({type: 'hotel', value: 'india'}),
+    {type: 'text', value: 'india'},
     'should transform unknown texts to `text`'
   )
 
-  t.deepEqual(
-    // @ts-expect-error: custom node.
-    toHast(u('bar', [u('text', 'tango')])),
-    u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
+  assert.deepEqual(
+    // @ts-expect-error: unknown parent.
+    toHast({type: 'juliett', children: [{type: 'text', value: 'kilo'}]}),
+    h('div', 'kilo'),
     'should transform unknown parents to `div`'
   )
 
-  t.deepEqual(
-    // @ts-expect-error: custom node.
-    toHast(u('bar')),
-    u('element', {tagName: 'div', properties: {}}, []),
-    'should transform unknown nodes to `div`'
+  assert.deepEqual(
+    // @ts-expect-error: unknown void.
+    toHast({type: 'lima'}),
+    h('div'),
+    'should transform unknown voids to `div`'
   )
 
-  t.deepEqual(
-    toHast(
-      // @ts-expect-error: custom node.
-      u(
-        'foo',
-        {
-          data: {
-            hName: 'code',
-            hProperties: {className: 'charlie'},
-            hChildren: [u('text', 'tango')]
-          }
-        },
-        'tango'
-      )
-    ),
-    u('element', {tagName: 'code', properties: {className: 'charlie'}}, [
-      u('text', 'tango')
-    ]),
+  assert.deepEqual(
+    toHast({
+      // @ts-expect-error: unknown node.
+      type: 'mike',
+      data: {
+        hName: 'code',
+        hProperties: {className: ['november']},
+        hChildren: [{type: 'text', value: 'oscar'}]
+      },
+      value: 'papa'
+    }),
+    h('code.november', 'oscar'),
     'should transform unknown nodes with `data.h*` properties'
   )
 
-  t.deepEqual(
-    // @ts-expect-error: custom node.
-    toHast(u('foo', {data: {hChildren: [u('text', 'tango')]}}, 'tango')),
-    u('element', {tagName: 'div', properties: {}}, [u('text', 'tango')]),
+  assert.deepEqual(
+    toHast({
+      // @ts-expect-error: unknown node.
+      type: 'quebec',
+      data: {hChildren: [{type: 'text', value: 'romeo'}]},
+      value: 'sierra'
+    }),
+    h('div', 'romeo'),
     'should transform unknown nodes with `data.hChildren` only to `div`'
   )
 
-  t.deepEqual(
-    // @ts-expect-error: custom node.
-    toHast(u('foo', {data: {hProperties: {className: 'charlie'}}}, 'tango')),
-    u('element', {tagName: 'div', properties: {className: 'charlie'}}, []),
+  assert.deepEqual(
+    toHast({
+      // @ts-expect-error: unknown node.
+      type: 'tango',
+      data: {hProperties: {className: ['uniform']}},
+      value: 'whiskey'
+    }),
+    h('div.uniform', []),
     'should transform unknown nodes with `data.hProperties` only to a `element` node'
   )
-
-  t.end()
 })

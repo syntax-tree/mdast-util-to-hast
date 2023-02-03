@@ -1,10 +1,12 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {toHast} from '../index.js'
 
-test('TOML', (t) => {
-  // @ts-expect-error: custom node.
-  t.equal(toHast(u('toml', 'kilo: "lima"')), null, 'should ignore `toml`')
-
-  t.end()
+test('toml', () => {
+  assert.deepEqual(
+    // @ts-expect-error: custom node.
+    toHast({type: 'toml', value: 'alpha'}),
+    null,
+    'should ignore `toml`'
+  )
 })

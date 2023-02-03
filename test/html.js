@@ -1,15 +1,20 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 import {toHast} from '../index.js'
 
-test('HTML', (t) => {
-  t.equal(toHast(u('html', '<mike></mike>')), null, 'should ignore `html`')
-
-  t.deepEqual(
-    toHast(u('html', '<mike></mike>'), {allowDangerousHtml: true}),
-    u('raw', '<mike></mike>'),
-    'should transform `html` to `raw` if `allowDangerousHtml` is given'
+test('HTML', () => {
+  assert.equal(
+    toHast({type: 'html', value: '<alpha></alpha>'}),
+    null,
+    'should ignore `html`'
   )
 
-  t.end()
+  assert.deepEqual(
+    toHast(
+      {type: 'html', value: '<alpha></alpha>'},
+      {allowDangerousHtml: true}
+    ),
+    {type: 'raw', value: '<alpha></alpha>'},
+    'should transform `html` to `raw` if `allowDangerousHtml` is given'
+  )
 })

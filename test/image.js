@@ -1,51 +1,22 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Image', (t) => {
-  t.deepEqual(
-    toHast(
-      u('image', {
-        url: 'https://november.oscar',
-        alt: 'papa',
-        title: 'québec'
-      })
-    ),
-    u(
-      'element',
-      {
-        tagName: 'img',
-        properties: {
-          src: 'https://november.oscar',
-          alt: 'papa',
-          title: 'québec'
-        }
-      },
-      []
-    ),
+test('image', () => {
+  assert.deepEqual(
+    toHast({type: 'image', url: 'alpha', alt: 'bravo', title: 'charlie'}),
+    h('img', {
+      src: 'alpha',
+      alt: 'bravo',
+      title: 'charlie'
+    }),
     'should transform `image` to `img`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('image', {
-        url: 'https://romeo.sierra',
-        alt: 'tango'
-      })
-    ),
-    u(
-      'element',
-      {
-        tagName: 'img',
-        properties: {
-          src: 'https://romeo.sierra',
-          alt: 'tango'
-        }
-      },
-      []
-    ),
+  assert.deepEqual(
+    toHast({type: 'image', url: 'delta', alt: 'echo'}),
+    h('img', {src: 'delta', alt: 'echo'}),
     'should transform `image` to `img` (missing `title`)'
   )
-
-  t.end()
 })

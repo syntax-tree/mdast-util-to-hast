@@ -1,177 +1,158 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('ListItem', (t) => {
-  t.deepEqual(
-    toHast(u('listItem', [u('paragraph', [u('text', 'november')])])),
-    u('element', {tagName: 'li', properties: {}}, [u('text', 'november')]),
-    'should transform tight `listItem`s to a `li` element'
+test('listItem', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]}
+      ]
+    }),
+    h('li', 'alpha'),
+    'should transform `listItem`s to a `li` element'
   )
 
-  t.deepEqual(
-    toHast(
-      u('listItem', {spread: true}, [u('paragraph', [u('text', 'november')])])
-    ),
-    u('element', {tagName: 'li', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'november')]),
-      u('text', '\n')
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      spread: true,
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
+      ]
+    }),
+    h('li', ['\n', h('p', 'bravo'), '\n']),
+    'should transform a spread `listItem`s to a `li` element'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'charlie'}]},
+        {type: 'paragraph', children: [{type: 'text', value: 'delta'}]}
+      ]
+    }),
+    h('li', ['\n', h('p', 'charlie'), '\n', h('p', 'delta'), '\n']),
+    'should detect that an item is spread, even when not explicitly set'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      checked: true,
+      children: [{type: 'paragraph', children: [{type: 'text', value: 'echo'}]}]
+    }),
+    h('li.task-list-item', [
+      h('input', {type: 'checkbox', checked: true, disabled: true}),
+      ' ',
+      'echo'
     ]),
-    'should transform a spreaded `listItem`s to a `li` element'
+    'should support checkboxes in `listItem`s (`true`, tight item)'
   )
 
-  t.deepEqual(
-    toHast(
-      u('listItem', [
-        u('paragraph', [u('text', 'oscar')]),
-        u('paragraph', [u('text', 'papa')])
-      ])
-    ),
-    u('element', {tagName: 'li', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'oscar')]),
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'papa')]),
-      u('text', '\n')
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      checked: false,
+      spread: true,
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'foxtrot'}]},
+        {type: 'paragraph', children: [{type: 'text', value: 'golf'}]}
+      ]
+    }),
+    h('li.task-list-item', [
+      '\n',
+      h('p', [
+        h('input', {type: 'checkbox', checked: false, disabled: true}),
+        ' ',
+        'foxtrot'
+      ]),
+      '\n',
+      h('p', ['golf']),
+      '\n'
     ]),
-    'should transform loose `listItem`s to a `li` element'
+    'should support checkboxes in `listItem`s (`false`, loose item)'
   )
 
-  t.deepEqual(
+  assert.deepEqual(
     toHast(
-      u('listItem', {checked: true}, [u('paragraph', [u('text', 'québec')])])
+      {
+        type: 'listItem',
+        checked: true,
+        children: [{type: 'html', value: '<!--hotel-->'}]
+      },
+      {allowDangerousHtml: true}
     ),
-    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u(
-        'element',
+    h('li.task-list-item', [
+      h('input', {type: 'checkbox', checked: true, disabled: true}),
+      '\n',
+      {type: 'raw', value: '<!--hotel-->'},
+      '\n'
+    ]),
+    'should support checkboxes in `listItem`s w/o paragraph'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      checked: true,
+      children: [
         {
-          tagName: 'input',
-          properties: {type: 'checkbox', checked: true, disabled: true}
+          type: 'blockquote',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'india'}]}
+          ]
         },
-        []
-      ),
-      u('text', ' '),
-      u('text', 'québec')
+        {type: 'paragraph', children: [{type: 'text', value: 'juliett'}]}
+      ]
+    }),
+    h('li.task-list-item', [
+      '\n',
+      h('p', [h('input', {type: 'checkbox', checked: true, disabled: true})]),
+      '\n',
+      h('blockquote', ['\n', h('p', 'india'), '\n']),
+      '\n',
+      h('p', 'juliett'),
+      '\n'
     ]),
-    'should support checkboxes in tight `listItem`s'
+    'should support checkboxes in `listItem`s that don’t start with paragraphs'
   )
 
-  t.deepEqual(
-    toHast(
-      u('listItem', {checked: false}, [
-        u('paragraph', [u('text', 'romeo')]),
-        u('paragraph', [u('text', 'sierra')])
-      ])
-    ),
-    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [
-        u(
-          'element',
-          {
-            tagName: 'input',
-            properties: {type: 'checkbox', checked: false, disabled: true}
-          },
-          []
-        ),
-        u('text', ' '),
-        u('text', 'romeo')
-      ]),
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'sierra')]),
-      u('text', '\n')
-    ]),
-    'should support checkboxes in loose `listItem`s'
-  )
-
-  t.deepEqual(
-    toHast(u('listItem', {checked: true}, [u('html', '<!--tango-->')])),
-    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u(
-        'element',
-        {
-          tagName: 'input',
-          properties: {type: 'checkbox', checked: true, disabled: true}
-        },
-        []
-      )
-    ]),
-    'should support checkboxes in `listItem`s without paragraph'
-  )
-
-  t.deepEqual(
-    toHast(
-      u('listItem', {checked: false}, [
-        u('blockquote', [u('paragraph', [u('text', 'romeo')])]),
-        u('paragraph', [u('text', 'sierra')])
-      ])
-    ),
-    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [
-        u(
-          'element',
-          {
-            tagName: 'input',
-            properties: {type: 'checkbox', checked: false, disabled: true}
-          },
-          []
-        )
-      ]),
-      u('text', '\n'),
-      u('element', {tagName: 'blockquote', properties: {}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'p', properties: {}}, [u('text', 'romeo')]),
-        u('text', '\n')
-      ]),
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'sierra')]),
-      u('text', '\n')
-    ]),
-    'should support checkboxes in loose `listItem`s without paragraphs'
-  )
-
-  t.deepEqual(
-    toHast(u('listItem', [])),
-    u('element', {tagName: 'li', properties: {}}, []),
+  assert.deepEqual(
+    toHast({type: 'listItem', children: []}),
+    h('li', []),
     'should support `listItem`s without children'
   )
 
-  t.deepEqual(
-    toHast(u('listItem', {checked: true}, [])),
-    u('element', {tagName: 'li', properties: {className: ['task-list-item']}}, [
-      u(
-        'element',
-        {
-          tagName: 'input',
-          properties: {type: 'checkbox', checked: true, disabled: true}
-        },
-        []
-      )
+  assert.deepEqual(
+    toHast({type: 'listItem', checked: true, children: []}),
+    h('li.task-list-item', [
+      h('input', {type: 'checkbox', checked: true, disabled: true})
     ]),
     'should support checkboxes in `listItem`s without children'
   )
 
-  t.deepEqual(
-    toHast(
-      u('listItem', [
-        u('list', {ordered: false}, [
-          u('listItem', [u('paragraph', [u('text', 'Alpha')])])
-        ])
-      ])
-    ),
-    u('element', {tagName: 'li', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'ul', properties: {}}, [
-        u('text', '\n'),
-        u('element', {tagName: 'li', properties: {}}, [u('text', 'Alpha')]),
-        u('text', '\n')
-      ]),
-      u('text', '\n')
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'listItem',
+      children: [
+        {
+          type: 'list',
+          children: [
+            {
+              type: 'listItem',
+              children: [
+                {type: 'paragraph', children: [{type: 'text', value: 'kilo'}]}
+              ]
+            }
+          ]
+        }
+      ]
+    }),
+    h('li', ['\n', h('ul', ['\n', h('li', 'kilo'), '\n']), '\n']),
     'should support lists in `listItem`s'
   )
-
-  t.end()
 })

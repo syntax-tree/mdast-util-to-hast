@@ -1,88 +1,51 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Link', (t) => {
-  t.deepEqual(
-    toHast(
-      u(
-        'link',
-        {
-          url: 'https://golf.hotel',
-          title: 'India'
-        },
-        [u('text', 'juliett')]
-      )
-    ),
-    u(
-      'element',
-      {
-        tagName: 'a',
-        properties: {
-          href: 'https://golf.hotel',
-          title: 'India'
-        }
-      },
-      [u('text', 'juliett')]
-    ),
+test('link', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'link',
+      url: 'alpha',
+      title: 'bravo',
+      children: [{type: 'text', value: 'charlie'}]
+    }),
+    h('a', {href: 'alpha', title: 'bravo'}, ['charlie']),
     'should transform `link` to `a`'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'link',
-        {
-          url: 'https://kilo.lima'
-        },
-        [u('text', 'mike')]
-      )
-    ),
-    u(
-      'element',
-      {
-        tagName: 'a',
-        properties: {
-          href: 'https://kilo.lima'
-        }
-      },
-      [u('text', 'mike')]
-    ),
-    'should transform `link` to `a` (missing `title`)'
+  assert.deepEqual(
+    toHast({
+      type: 'link',
+      url: 'delta',
+      children: [{type: 'text', value: 'echo'}]
+    }),
+    h('a', {href: 'delta'}, ['echo']),
+    'should transform `link` to `a` (w/o `title`)'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'link',
-        {
-          url: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
-        },
-        [u('text', 'Alpha')]
-      )
-    ),
-    u(
-      'element',
-      {
-        tagName: 'a',
-        properties: {
-          href: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'
-        }
-      },
-      [u('text', 'Alpha')]
+  assert.deepEqual(
+    toHast({
+      type: 'link',
+      url: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed',
+      children: [{type: 'text', value: 'foxtrot'}]
+    }),
+    h(
+      'a',
+      {href: 'https://github.com/facebook/react/pulls?q=is%3Apr%20is%3Aclosed'},
+      ['foxtrot']
     ),
     'should correctly decode/encode urls'
   )
 
-  t.deepEqual(
-    toHast(u('link', {url: 'https://a.com/b.png#c=d&e=f'}, [u('text', 'a')])),
-    u(
-      'element',
-      {tagName: 'a', properties: {href: 'https://a.com/b.png#c=d&e=f'}},
-      [u('text', 'a')]
-    ),
+  assert.deepEqual(
+    toHast({
+      type: 'link',
+      url: 'https://a.com/b.png#c=d&e=f',
+      children: [{type: 'text', value: 'golf'}]
+    }),
+    h('a', {href: 'https://a.com/b.png#c=d&e=f'}, ['golf']),
     'should correctly decode/encode dangerous characters'
   )
-
-  t.end()
 })

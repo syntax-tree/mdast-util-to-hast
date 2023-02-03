@@ -1,25 +1,24 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('InlineCode', (t) => {
-  t.deepEqual(
-    toHast(u('inlineCode', 'juliett()')),
-    u('element', {tagName: 'code', properties: {}}, [u('text', 'juliett()')]),
+test('inlineCode', () => {
+  assert.deepEqual(
+    toHast({type: 'inlineCode', value: 'alpha()'}),
+    h('code', 'alpha()'),
     'should transform `inlineCode` to a `code` element'
   )
 
-  t.deepEqual(
-    toHast(u('inlineCode', 'a\tb')),
-    u('element', {tagName: 'code', properties: {}}, [u('text', 'a\tb')]),
+  assert.deepEqual(
+    toHast({type: 'inlineCode', value: 'a\tb'}),
+    h('code', 'a\tb'),
     'should support tabs in inline code'
   )
 
-  t.deepEqual(
-    toHast(u('inlineCode', 'a\nb')),
-    u('element', {tagName: 'code', properties: {}}, [u('text', 'a b')]),
+  assert.deepEqual(
+    toHast({type: 'inlineCode', value: 'a\nb'}),
+    h('code', 'a b'),
     'should change eols to spaces in inline code'
   )
-
-  t.end()
 })

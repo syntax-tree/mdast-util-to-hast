@@ -1,9 +1,12 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Root', (t) => {
-  t.deepEqual(toHast(u('root', [])), u('root', []), 'should map `root`s')
-
-  t.end()
+test('root', () => {
+  assert.deepEqual(
+    toHast({type: 'root', children: []}),
+    h(null),
+    'should map `root`s'
+  )
 })

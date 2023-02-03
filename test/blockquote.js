@@ -1,24 +1,18 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Blockquote', (t) => {
-  t.deepEqual(
-    toHast(
-      u('blockquote', [
-        u('paragraph', [u('text', 'charlie')]),
-        u('paragraph', [u('text', 'delta')])
-      ])
-    ),
-    u('element', {tagName: 'blockquote', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'charlie')]),
-      u('text', '\n'),
-      u('element', {tagName: 'p', properties: {}}, [u('text', 'delta')]),
-      u('text', '\n')
-    ]),
+test('blockquote', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'blockquote',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]},
+        {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
+      ]
+    }),
+    h('blockquote', ['\n', h('p', 'alpha'), '\n', h('p', 'bravo'), '\n']),
     'should transform `blockquote` to a `blockquote` element'
   )
-
-  t.end()
 })

@@ -1,65 +1,68 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Nodes', (t) => {
-  t.deepEqual(
-    toHast(u('text', 'alpha')),
-    u('text', 'alpha'),
+test('text', () => {
+  assert.deepEqual(
+    toHast({type: 'text', value: 'alpha'}),
+    {type: 'text', value: 'alpha'},
     'should map `text`s'
   )
 
-  t.deepEqual(
-    toHast(u('text', 'alpha \n \n bravo')),
-    u('text', 'alpha\n\nbravo'),
+  assert.deepEqual(
+    toHast({type: 'text', value: 'bravo \n \n charlie'}),
+    {type: 'text', value: 'bravo\n\ncharlie'},
     'should trim spaces and tabs around eols'
   )
 
-  t.deepEqual(
-    toHast(u('text', {data: {hName: 'span'}}, 'charlie')),
-    u('element', {tagName: 'span', properties: {}}, []),
+  assert.deepEqual(
+    toHast({type: 'text', value: 'delta', data: {hName: 'span'}}),
+    // To do: keep `value`?
+    h('span'),
     'should transform text nodes w/ `hName` to an `element`'
   )
 
-  t.deepEqual(
-    toHast(u('text', {data: {hProperties: {className: 'delta'}}}, 'echo')),
+  assert.deepEqual(
+    toHast({
+      type: 'text',
+      value: 'echo',
+      data: {hProperties: {className: ['foxtrot']}}
+    }),
+    // To do: `div` or `span`?
     {type: 'text', value: 'echo'},
     'should not transform text nodes w/ `hProperties` w/o `hName` to an `element`'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'text',
-        {data: {hName: 'span', hProperties: {className: ['foxtrot']}}},
-        'golf'
-      )
-    ),
-    u('element', {tagName: 'span', properties: {className: ['foxtrot']}}, []),
+  assert.deepEqual(
+    toHast({
+      type: 'text',
+      value: 'golf',
+      data: {hName: 'span', hProperties: {className: ['hotel']}}
+    }),
+    // To do: keep `value`?
+    h('span.hotel'),
     'should transform text nodes w/ `hProperties` and `hName` to an `element`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('text', {data: {hChildren: [{type: 'text', value: 'hotel'}]}}, 'india')
-    ),
+  assert.deepEqual(
+    toHast({
+      type: 'text',
+      value: 'india',
+      data: {hChildren: [{type: 'text', value: 'juliett'}]}
+    }),
+    // To do: `div` or `span`?
     {type: 'text', value: 'india'},
     'should not transform text nodes w/ `hChildren` w/o `hName` to an `element`'
   )
 
-  t.deepEqual(
-    toHast(
-      u(
-        'text',
-        {data: {hName: 'span', hChildren: [{type: 'text', value: 'juliett'}]}},
-        'kilo'
-      )
-    ),
-    u('element', {tagName: 'span', properties: {}}, [
-      {type: 'text', value: 'juliett'}
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'text',
+      value: 'kilo',
+      data: {hName: 'span', hChildren: [{type: 'text', value: 'lima'}]}
+    }),
+    h('span', 'lima'),
     'should transform text nodes w/ `hChildren` and `hName` to an `element`'
   )
-
-  t.end()
 })

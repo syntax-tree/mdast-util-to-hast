@@ -1,50 +1,45 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Break', (t) => {
-  t.deepEqual(
-    toHast(
-      u('paragraph', [u('text', 'bravo'), u('break'), u('text', 'charlie')])
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u('text', 'bravo'),
-      u('element', {tagName: 'br', properties: {}}, []),
-      u('text', '\n'),
-      u('text', 'charlie')
-    ]),
+test('break', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'paragraph',
+      children: [
+        {type: 'text', value: 'alpha'},
+        {type: 'break'},
+        {type: 'text', value: 'bravo'}
+      ]
+    }),
+    h('p', ['alpha', h('br'), '\n', 'bravo']),
     'should transform `break` to `br`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('paragraph', [u('text', 'alpha'), u('break'), u('text', '  bravo')])
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u('text', 'alpha'),
-      u('element', {tagName: 'br', properties: {}}, []),
-      u('text', '\n'),
-      u('text', 'bravo')
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'paragraph',
+      children: [
+        {type: 'text', value: 'alpha'},
+        {type: 'break'},
+        {type: 'text', value: '  bravo'}
+      ]
+    }),
+    h('p', ['alpha', h('br'), '\n', 'bravo']),
     'should trim text after a `br` (#1)'
   )
 
-  t.deepEqual(
-    toHast(
-      u('paragraph', [
-        u('text', 'alpha'),
-        u('break'),
-        u('emphasis', [u('text', '  bravo')])
-      ])
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u('text', 'alpha'),
-      u('element', {tagName: 'br', properties: {}}, []),
-      u('text', '\n'),
-      u('element', {tagName: 'em', properties: {}}, [u('text', 'bravo')])
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'paragraph',
+      children: [
+        {type: 'text', value: 'alpha'},
+        {type: 'break'},
+        {type: 'emphasis', children: [{type: 'text', value: '  bravo'}]}
+      ]
+    }),
+    h('p', ['alpha', h('br'), '\n', h('em', 'bravo')]),
     'should trim text after a `br` (#2)'
   )
-
-  t.end()
 })

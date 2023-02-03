@@ -1,19 +1,16 @@
-/**
- * @typedef {import('mdast').Heading} Heading
- */
-
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Heading', (t) => {
-  t.deepEqual(
-    toHast(
-      /** @type {Heading} */ (u('heading', {depth: 4}, [u('text', 'echo')]))
-    ),
-    u('element', {tagName: 'h4', properties: {}}, [u('text', 'echo')]),
+test('heading', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'heading',
+      depth: 4,
+      children: [{type: 'text', value: 'alpha'}]
+    }),
+    h('h4', 'alpha'),
     'should transform `heading` to a `h[1-6]` element'
   )
-
-  t.end()
 })

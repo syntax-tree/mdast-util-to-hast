@@ -1,13 +1,12 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('ThematicBreak', (t) => {
-  t.deepEqual(
-    toHast(u('thematicBreak')),
-    u('element', {tagName: 'hr', properties: {}}, []),
+test('thematicBreak', () => {
+  assert.deepEqual(
+    toHast({type: 'thematicBreak'}),
+    h('hr'),
     'should transform `thematicBreak` to `hr`'
   )
-
-  t.end()
 })

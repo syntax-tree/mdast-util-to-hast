@@ -1,99 +1,149 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('FootnoteDefinition', (t) => {
-  t.deepEqual(
-    toHast(
-      u('root', [
-        u('footnoteDefinition', {identifier: 'zulu'}, [
-          u('paragraph', [u('text', 'alpha')])
-        ])
-      ])
-    ),
-    u('root', []),
+test('footnoteDefinition', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'footnoteDefinition',
+      identifier: 'alpha',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
+      ]
+    }),
+    null,
     'should ignore `footnoteDefinition`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('root', [
-        u('footnoteReference', {identifier: 'zulu'}),
-        u('footnoteDefinition', {identifier: 'zulu'}, [
-          u('paragraph', [u('text', 'alpha')])
-        ]),
-        u('footnoteDefinition', {identifier: 'zulu'}, [
-          u('paragraph', [u('text', 'bravo')])
-        ])
-      ])
-    ),
-    u('root', [
-      u('element', {tagName: 'sup', properties: {}}, [
-        u(
-          'element',
-          {
-            tagName: 'a',
-            properties: {
-              href: '#user-content-fn-zulu',
-              id: 'user-content-fnref-zulu',
-              dataFootnoteRef: true,
-              ariaDescribedBy: 'footnote-label'
-            }
-          },
-          [u('text', '1')]
-        )
-      ]),
-      u('text', '\n'),
-      u(
-        'element',
+  assert.deepEqual(
+    toHast({
+      type: 'root',
+      children: [
         {
-          tagName: 'section',
-          properties: {dataFootnotes: true, className: ['footnotes']}
+          type: 'paragraph',
+          children: [{type: 'footnoteReference', identifier: 'charlie'}]
         },
-        [
-          u(
-            'element',
+        {
+          type: 'footnoteDefinition',
+          identifier: 'charlie',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'delta'}]}
+          ]
+        }
+      ]
+    }),
+    h(null, [
+      h('p', [
+        h('sup', [
+          h(
+            'a#user-content-fnref-charlie',
             {
-              tagName: 'h2',
-              properties: {id: 'footnote-label', className: ['sr-only']}
+              href: '#user-content-fn-charlie',
+              dataFootnoteRef: true,
+              ariaDescribedBy: ['footnote-label']
             },
-            [u('text', 'Footnotes')]
-          ),
-          u('text', '\n'),
-          u('element', {tagName: 'ol', properties: {}}, [
-            u('text', '\n'),
-            u(
-              'element',
-              {tagName: 'li', properties: {id: 'user-content-fn-zulu'}},
-              [
-                u('text', '\n'),
-                u('element', {tagName: 'p', properties: {}}, [
-                  u('text', 'alpha '),
-                  u(
-                    'element',
-                    {
-                      tagName: 'a',
-                      properties: {
-                        href: '#user-content-fnref-zulu',
-                        dataFootnoteBackref: true,
-                        className: ['data-footnote-backref'],
-                        ariaLabel: 'Back to content'
-                      }
-                    },
-                    [u('text', '↩')]
-                  )
-                ]),
-                u('text', '\n')
-              ]
-            ),
-            u('text', '\n')
+            '1'
+          )
+        ])
+      ]),
+      '\n',
+      h('section.footnotes', {dataFootnotes: true}, [
+        h('h2#footnote-label.sr-only', 'Footnotes'),
+        '\n',
+        h('ol', [
+          '\n',
+          h('li#user-content-fn-charlie', [
+            '\n',
+            h('p', [
+              'delta ',
+              h(
+                'a',
+                {
+                  href: '#user-content-fnref-charlie',
+                  dataFootnoteBackref: true,
+                  className: ['data-footnote-backref'],
+                  ariaLabel: 'Back to content'
+                },
+                '↩'
+              )
+            ]),
+            '\n'
           ]),
-          u('text', '\n')
-        ]
-      )
+          '\n'
+        ]),
+        '\n'
+      ])
+    ]),
+    'should support a `footnoteDefinition`'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [{type: 'footnoteReference', identifier: 'echo'}]
+        },
+        {
+          type: 'footnoteDefinition',
+          identifier: 'echo',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'foxtrot'}]}
+          ]
+        },
+        {
+          type: 'footnoteDefinition',
+          identifier: 'echo',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'golf'}]}
+          ]
+        }
+      ]
+    }),
+    h(null, [
+      h('p', [
+        h('sup', [
+          h(
+            'a#user-content-fnref-echo',
+            {
+              href: '#user-content-fn-echo',
+              dataFootnoteRef: true,
+              ariaDescribedBy: ['footnote-label']
+            },
+            '1'
+          )
+        ])
+      ]),
+      '\n',
+      h('section.footnotes', {dataFootnotes: true}, [
+        h('h2#footnote-label.sr-only', 'Footnotes'),
+        '\n',
+        h('ol', [
+          '\n',
+          h('li#user-content-fn-echo', [
+            '\n',
+            h('p', [
+              'foxtrot ',
+              h(
+                'a',
+                {
+                  href: '#user-content-fnref-echo',
+                  dataFootnoteBackref: true,
+                  className: ['data-footnote-backref'],
+                  ariaLabel: 'Back to content'
+                },
+                '↩'
+              )
+            ]),
+            '\n'
+          ]),
+          '\n'
+        ]),
+        '\n'
+      ])
     ]),
     'should use the first `footnoteDefinition` if multiple exist'
   )
-
-  t.end()
 })

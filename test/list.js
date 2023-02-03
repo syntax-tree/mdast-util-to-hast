@@ -1,82 +1,82 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('List', (t) => {
-  t.deepEqual(
-    toHast(
-      u('list', {ordered: true}, [
-        u('listItem', [u('paragraph', [u('text', 'uniform')])])
-      ])
-    ),
-    u('element', {tagName: 'ol', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'li', properties: {}}, [u('text', 'uniform')]),
-      u('text', '\n')
-    ]),
+test('list', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'list',
+      ordered: true,
+      children: [
+        {
+          type: 'listItem',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]}
+          ]
+        }
+      ]
+    }),
+    h('ol', ['\n', h('li', 'alpha'), '\n']),
     'should transform ordered lists to `ol`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('list', {ordered: false}, [
-        u('listItem', [u('paragraph', [u('text', 'whiskey')])])
-      ])
-    ),
-    u('element', {tagName: 'ul', properties: {}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'li', properties: {}}, [u('text', 'whiskey')]),
-      u('text', '\n')
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'list',
+      children: [
+        {
+          type: 'listItem',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
+          ]
+        }
+      ]
+    }),
+    h('ul', ['\n', h('li', 'bravo'), '\n']),
     'should transform unordered lists to `ul`'
   )
 
-  t.deepEqual(
-    toHast(
-      u('list', {ordered: false}, [
-        u('listItem', {checked: true}, [u('paragraph', [u('text', 'todo')])])
-      ])
-    ),
-    u(
-      'element',
-      {tagName: 'ul', properties: {className: ['contains-task-list']}},
-      [
-        u('text', '\n'),
-        u(
-          'element',
-          {tagName: 'li', properties: {className: ['task-list-item']}},
-          [
-            u(
-              'element',
-              {
-                tagName: 'input',
-                properties: {type: 'checkbox', checked: true, disabled: true}
-              },
-              []
-            ),
-            u('text', ' '),
-            u('text', 'todo')
+  assert.deepEqual(
+    toHast({
+      type: 'list',
+      children: [
+        {
+          type: 'listItem',
+          checked: true,
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'charlie'}]}
           ]
-        ),
-        u('text', '\n')
+        }
       ]
-    ),
+    }),
+    h('ul.contains-task-list', [
+      '\n',
+      h('li.task-list-item', [
+        h('input', {type: 'checkbox', checked: true, disabled: true}),
+        ' ',
+        'charlie'
+      ]),
+      '\n'
+    ]),
     'should identify task list items in unordered lists'
   )
 
-  t.deepEqual(
-    toHast(
-      u('list', {ordered: true, start: 3}, [
-        u('listItem', [u('paragraph', [u('text', 'x-ray')])])
-      ])
-    ),
-    u('element', {tagName: 'ol', properties: {start: 3}}, [
-      u('text', '\n'),
-      u('element', {tagName: 'li', properties: {}}, [u('text', 'x-ray')]),
-      u('text', '\n')
-    ]),
+  assert.deepEqual(
+    toHast({
+      type: 'list',
+      ordered: true,
+      start: 3,
+      children: [
+        {
+          type: 'listItem',
+          children: [
+            {type: 'paragraph', children: [{type: 'text', value: 'delta'}]}
+          ]
+        }
+      ]
+    }),
+    h('ol', {start: 3}, ['\n', h('li', 'delta'), '\n']),
     'should support `start` in ordered lists'
   )
-
-  t.end()
 })

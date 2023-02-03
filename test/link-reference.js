@@ -1,117 +1,106 @@
-/**
- * @typedef {import('mdast').LinkReference} LinkReference
- * @typedef {import('mdast').Paragraph} Paragraph
- */
-
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('LinkReference', (t) => {
-  t.deepEqual(
-    toHast(
-      /** @type {LinkReference} */ (
-        u('linkReference', {identifier: 'bravo'}, [u('text', 'bravo')])
-      )
-    ),
-    u('root', [u('text', '[bravo]')]),
+test('linkReference', () => {
+  assert.deepEqual(
+    toHast({
+      type: 'linkReference',
+      identifier: 'alpha',
+      referenceType: 'shortcut',
+      children: [{type: 'text', value: 'alpha'}]
+    }),
+    h(null, '[alpha]'),
     'should fall back on `linkReference`s without definition'
   )
 
-  t.deepEqual(
-    toHast(
-      /** @type {LinkReference} */ (
-        u('linkReference', {identifier: 'delta', referenceType: 'full'}, [
-          u('text', 'echo')
-        ])
-      )
-    ),
-    u('root', [u('text', '[echo][delta]')]),
+  assert.deepEqual(
+    toHast({
+      type: 'linkReference',
+      identifier: 'bravo',
+      referenceType: 'full',
+      children: [{type: 'text', value: 'charlie'}]
+    }),
+    h(null, '[charlie][bravo]'),
     'should fall back on full `linkReference`s'
   )
 
-  t.deepEqual(
-    toHast(
-      /** @type {LinkReference} */ (
-        u('linkReference', {identifier: 'hotel', referenceType: 'collapsed'}, [
-          u('text', 'hotel')
-        ])
-      )
-    ),
-    u('root', [u('text', '[hotel][]')]),
+  assert.deepEqual(
+    toHast({
+      type: 'linkReference',
+      identifier: 'delta',
+      referenceType: 'collapsed',
+      children: [{type: 'text', value: 'delta'}]
+    }),
+    h(null, '[delta][]'),
     'should fall back on collapsed `linkReference`s'
   )
 
-  t.deepEqual(
-    toHast(
-      /** @type {LinkReference} */ (
-        u('linkReference', {identifier: 'bravo', referenceType: 'full'}, [
-          u('inlineCode', 'alpha')
-        ])
-      )
-    ),
-    u('root', [
-      u('text', '['),
-      u('element', {tagName: 'code', properties: {}}, [u('text', 'alpha')]),
-      u('text', '][bravo]')
-    ]),
-    'should support link references with non-text content'
-  )
-
-  t.deepEqual(
-    toHast(
-      /** @type {Paragraph} */ (
-        u('paragraph', [
-          u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
-          u('definition', {
-            identifier: 'juliett',
-            url: 'https://kilo.lima/mike',
-            title: 'november'
-          })
-        ])
-      )
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u(
-        'element',
-        {
-          tagName: 'a',
-          properties: {href: 'https://kilo.lima/mike', title: 'november'}
-        },
-        [u('text', 'kilo')]
-      )
-    ]),
-    'should transform `linkReference`s to `a`s'
-  )
-
-  t.deepEqual(
-    toHast(
-      /** @type {Paragraph} */ (
-        u('paragraph', [
-          u('linkReference', {identifier: 'juliett'}, [u('text', 'kilo')]),
-          u('definition', {identifier: 'juliett', url: ''})
-        ])
-      )
-    ),
-    u('element', {tagName: 'p', properties: {}}, [
-      u('element', {tagName: 'a', properties: {href: ''}}, [u('text', 'kilo')])
-    ]),
-    'should transform `linkReference`s with an empty defined url to `a`s'
-  )
-
-  t.deepEqual(
-    toHast(
-      /** @type {LinkReference} */ (
-        u(
-          'linkReference',
-          {identifier: 'oscar', label: 'Oscar', referenceType: 'full'},
-          [u('text', 'papa')]
-        )
-      )
-    ),
-    u('root', [u('text', '[papa][Oscar]')]),
+  assert.deepEqual(
+    toHast({
+      type: 'linkReference',
+      identifier: 'x',
+      label: 'X',
+      referenceType: 'full',
+      children: [{type: 'text', value: 'y'}]
+    }),
+    h(null, '[y][X]'),
     'should fall back on the label on a full `linkReference` (GH-22)'
   )
 
-  t.end()
+  assert.deepEqual(
+    toHast({
+      type: 'linkReference',
+      identifier: 'echo',
+      referenceType: 'full',
+      children: [{type: 'inlineCode', value: 'foxtrot'}]
+    }),
+    h(null, ['[', h('code', 'foxtrot'), '][echo]']),
+    'should support link references with non-text content'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'linkReference',
+              identifier: 'golf',
+              referenceType: 'full',
+              children: [{type: 'text', value: 'hotel'}]
+            }
+          ]
+        },
+        {type: 'definition', identifier: 'golf', url: 'india'}
+      ]
+    }),
+    h(null, [h('p', [h('a', {href: 'india'}, 'hotel')])]),
+    'should transform `linkReference`s to `a`s'
+  )
+
+  assert.deepEqual(
+    toHast({
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'linkReference',
+              identifier: 'juliett',
+              referenceType: 'full',
+              children: [{type: 'text', value: 'kilo'}]
+            }
+          ]
+        },
+        {type: 'definition', identifier: 'juliett', url: ''}
+      ]
+    }),
+    h(null, [h('p', [h('a', {href: ''}, 'kilo')])]),
+    'should transform `linkReference`s with an empty defined url to `a`s'
+  )
 })

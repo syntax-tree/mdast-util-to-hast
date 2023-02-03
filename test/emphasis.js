@@ -1,13 +1,12 @@
-import test from 'tape'
-import {u} from 'unist-builder'
+import assert from 'node:assert/strict'
+import test from 'node:test'
+import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('Emphasis', (t) => {
-  t.deepEqual(
-    toHast(u('emphasis', [u('text', 'delta')])),
-    u('element', {tagName: 'em', properties: {}}, [u('text', 'delta')]),
+test('emphasis', () => {
+  assert.deepEqual(
+    toHast({type: 'emphasis', children: [{type: 'text', value: 'alpha'}]}),
+    h('em', 'alpha'),
     'should transform `emphasis` to `em`'
   )
-
-  t.end()
 })
