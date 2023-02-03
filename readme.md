@@ -18,9 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`toHast(tree[, options])`](#tohasttree-options)
-    *   [`all(state, parent)`](#allstate-parent)
     *   [`defaultHandlers`](#defaulthandlers)
-    *   [`one(state, node, parent)`](#onestate-node-parent)
     *   [`Handler`](#handler)
     *   [`Handlers`](#handlers)
     *   [`Options`](#options)
@@ -116,9 +114,8 @@ console.log(html)
 
 ## API
 
-This package exports the identifiers [`all`][api-all],
-[`defaultHandlers`][api-default-handlers], [`one`][api-one], and
-[`toHast`][api-to-hast].
+This package exports the identifiers [`defaultHandlers`][api-default-handlers]
+and [`toHast`][api-to-hast].
 There is no default export.
 
 ### `toHast(tree[, options])`
@@ -203,17 +200,9 @@ The default behavior for unknown nodes is:
 
 This behavior can be changed by passing an `unknownHandler`.
 
-### `all(state, parent)`
-
-<!-- To do: move to `state`. -->
-
 ### `defaultHandlers`
 
 Default handlers for nodes ([`Handlers`][api-handlers]).
-
-### `one(state, node, parent)`
-
-<!-- To do: move to `state`. -->
 
 ### `Handler`
 
@@ -301,6 +290,10 @@ Info passed around about the current state (TypeScript type).
     — copy a node’s positional info
 *   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
     — honor the `data` of `from` and maybe generate an element instead of `to`
+*   `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
+    — transform an mdast node to hast
+*   `all` (`(node: MdastNode) => Array<HastNode>`)
+    — transform the children of an mdast parent to hast
 *   `handlers` ([`Handlers`][api-handlers])
     — applied node handlers
 *   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
@@ -463,7 +456,7 @@ For example, when we represent a mark element in markdown and want to turn it
 into a `<mark>` element in HTML, we can use a handler:
 
 ```js
-import {toHast, all} from 'mdast-util-to-hast'
+import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
 
 const mdast = {
@@ -473,8 +466,13 @@ const mdast = {
 
 const hast = toHast(mdast, {
   handlers: {
-    mark(h, node) {
-      return h(node, 'mark', all(h, node))
+    mark(state, node) {
+      return {
+        type: 'element',
+        tagName: 'mark',
+        properties: {},
+        children: state.all(node)
+      }
     }
   }
 })
@@ -1543,11 +1541,7 @@ abide by its terms.
 
 [dfn-literal]: https://github.com/syntax-tree/hast#literal
 
-[api-all]: #allstate-parent
-
 [api-default-handlers]: #defaulthandlers
-
-[api-one]: #onestate-node-parent
 
 [api-to-hast]: #tohasttree-options
 

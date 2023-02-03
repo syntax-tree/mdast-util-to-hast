@@ -11,8 +11,9 @@ export type {State, Handler, Handlers, Options} from './lib/state.js'
 export type H = State
 
 // Expose JS API.
-export {one, all} from './lib/traverse.js'
 export {handlers as defaultHandlers} from './lib/handlers/index.js'
+// To do: next major: remove.
+export {one, all} from './lib/state.js'
 export {toHast} from './lib/index.js'
 
 // Expose node type.
