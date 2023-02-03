@@ -46,10 +46,10 @@ test('imageReference', () => {
       children: [
         // @ts-expect-error: reference type missing.
         {type: 'imageReference', identifier: 'golf', alt: 'hotel'},
-        {type: 'definition', identifier: 'golf', url: 'india'}
+        {type: 'definition', identifier: 'golf', url: 'india', title: 'x'}
       ]
     }),
-    h(null, [h('img', {src: 'india', alt: 'hotel'})]),
+    h(null, [h('img', {src: 'india', alt: 'hotel', title: 'x'})]),
     'should transform `imageReference`s to `img`s (1)'
   )
 

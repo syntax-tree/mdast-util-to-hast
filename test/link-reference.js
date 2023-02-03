@@ -75,10 +75,10 @@ test('linkReference', () => {
             }
           ]
         },
-        {type: 'definition', identifier: 'golf', url: 'india'}
+        {type: 'definition', identifier: 'golf', url: 'india', title: 'x'}
       ]
     }),
-    h(null, [h('p', [h('a', {href: 'india'}, 'hotel')])]),
+    h(null, [h('p', [h('a', {href: 'india', title: 'x'}, 'hotel')])]),
     'should transform `linkReference`s to `a`s'
   )
 
