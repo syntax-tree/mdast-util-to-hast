@@ -282,27 +282,27 @@ Info passed around about the current state (TypeScript type).
 
 ###### Fields
 
-<!-- To do: add `options`, alternative to `definition`. -->
-
-*   `patch` (`(from: MdastNode, to: HastNode) => undefined`)
-    — copy a node’s positional info
-*   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
-    — honor the `data` of `from` and maybe generate an element instead of `to`
-*   `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
-    — transform an mdast node to hast
 *   `all` (`(node: MdastNode) => Array<HastNode>`)
     — transform the children of an mdast parent to hast
+*   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
+    — honor the `data` of `from` and maybe generate an element instead of `to`
+*   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
+    — footnote definitions by their uppercased identifier
+*   `footnoteCounts` (`Record<string, number>`)
+    — counts for how often the same footnote was called
+*   `footnoteOrder` (`Array<string>`)
+    — identifiers of order when footnote calls first appear in tree order
+*   `handlers` ([`Handlers`][api-handlers])
+    — applied node handlers
+*   `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
+    — transform an mdast node to hast
+*   `options` ([`Options`][api-options])
+    — configuration
+*   `patch` (`(from: MdastNode, to: HastNode) => undefined`)
+    — copy a node’s positional info
 *   `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
     — wrap `nodes` with line endings between each node, adds initial/final line
     endings when `loose`
-*   `handlers` ([`Handlers`][api-handlers])
-    — applied node handlers
-*   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
-    — footnote definitions by their uppercased identifier
-*   `footnoteOrder` (`Array<string>`)
-    — identifiers of order when footnote calls first appear in tree order
-*   `footnoteCounts` (`Record<string, number>`)
-    — counts for how often the same footnote was called
 
 ## Examples
 
