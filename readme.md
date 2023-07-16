@@ -284,7 +284,7 @@ Info passed around about the current state (TypeScript type).
 
 <!-- To do: add `options`, alternative to `definition`. -->
 
-*   `patch` (`(from: MdastNode, to: HastNode) => void`)
+*   `patch` (`(from: MdastNode, to: HastNode) => undefined`)
     — copy a node’s positional info
 *   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
     — honor the `data` of `from` and maybe generate an element instead of `to`
@@ -1358,7 +1358,7 @@ import {visit} from 'unist-util-visit'
 /** @type {import('hast').Root} */
 const tree = { /* … */ }
 
-visit(tree, (node) => {
+visit(tree, function (node) {
   // `node` can now be `raw`.
 })
 ```

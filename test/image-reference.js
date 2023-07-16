@@ -1,80 +1,96 @@
-/**
- * @typedef {import('mdast').ImageReference} ImageReference
- * @typedef {import('mdast').Paragraph} Paragraph
- */
-
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('imageReference', () => {
-  assert.deepEqual(
-    toHast(
-      // @ts-expect-error: reference type missing.
-      {type: 'imageReference', identifier: 'alpha', alt: 'bravo'}
-    ),
-    {type: 'text', value: '![bravo]'},
-    'should fall back on `imageReference`s without definition'
+test('imageReference', async function (t) {
+  await t.test(
+    'should fall back on `imageReference`s without definition',
+    async function () {
+      assert.deepEqual(
+        toHast(
+          // @ts-expect-error: check how missing `referenceType` is handled.
+          {type: 'imageReference', identifier: 'alpha', alt: 'bravo'}
+        ),
+        {type: 'text', value: '![bravo]'}
+      )
+    }
   )
 
-  assert.deepEqual(
-    toHast({
-      type: 'imageReference',
-      identifier: 'charlie',
-      referenceType: 'full',
-      alt: 'delta'
-    }),
-    {type: 'text', value: '![delta][charlie]'},
-    'should fall back on full `imageReference`s'
+  await t.test('should fall back on full `imageReference`s', async function () {
+    assert.deepEqual(
+      toHast({
+        type: 'imageReference',
+        identifier: 'charlie',
+        referenceType: 'full',
+        alt: 'delta'
+      }),
+      {type: 'text', value: '![delta][charlie]'}
+    )
+  })
+
+  await t.test(
+    'should fall back on collapsed `imageReference`s',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'imageReference',
+          identifier: 'echo',
+          referenceType: 'collapsed',
+          alt: 'foxtrot'
+        }),
+        {type: 'text', value: '![foxtrot][]'}
+      )
+    }
   )
 
-  assert.deepEqual(
-    toHast({
-      type: 'imageReference',
-      identifier: 'echo',
-      referenceType: 'collapsed',
-      alt: 'foxtrot'
-    }),
-    {type: 'text', value: '![foxtrot][]'},
-    'should fall back on collapsed `imageReference`s'
+  await t.test(
+    'should transform `imageReference`s to `img`s (1)',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'root',
+          children: [
+            // @ts-expect-error: check how missing `referenceType` is handled.
+            {type: 'imageReference', identifier: 'golf', alt: 'hotel'},
+            {type: 'definition', identifier: 'golf', url: 'india', title: 'x'}
+          ]
+        }),
+        h(null, [h('img', {src: 'india', alt: 'hotel', title: 'x'})])
+      )
+    }
   )
 
-  assert.deepEqual(
-    toHast({
-      type: 'root',
-      children: [
-        // @ts-expect-error: reference type missing.
-        {type: 'imageReference', identifier: 'golf', alt: 'hotel'},
-        {type: 'definition', identifier: 'golf', url: 'india', title: 'x'}
-      ]
-    }),
-    h(null, [h('img', {src: 'india', alt: 'hotel', title: 'x'})]),
-    'should transform `imageReference`s to `img`s (1)'
+  await t.test(
+    'should transform `imageReference`s with an empty defined url to `img`s',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'root',
+          children: [
+            // @ts-expect-error: check how missing `referenceType` is handled.
+            {type: 'imageReference', identifier: 'juliett', alt: 'kilo'},
+            {type: 'definition', identifier: 'juliett', url: ''}
+          ]
+        }),
+        h(null, [h('img', {src: '', alt: 'kilo'})])
+      )
+    }
   )
 
-  assert.deepEqual(
-    toHast({
-      type: 'root',
-      children: [
-        // @ts-expect-error: reference type missing.
-        {type: 'imageReference', identifier: 'juliett', alt: 'kilo'},
-        {type: 'definition', identifier: 'juliett', url: ''}
-      ]
-    }),
-    h(null, [h('img', {src: '', alt: 'kilo'})]),
-    'should transform `imageReference`s with an empty defined url to `img`s'
-  )
-
-  assert.deepEqual(
-    toHast({
-      type: 'imageReference',
-      identifier: 'lima',
-      label: 'Lima',
-      referenceType: 'full',
-      alt: 'mike'
-    }),
-    {type: 'text', value: '![mike][Lima]'},
-    'should fall back on the label on a full `imageReference` (GH-22)'
+  await t.test(
+    'should fall back on the label on a full `imageReference` (GH-22)',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'imageReference',
+          identifier: 'lima',
+          label: 'Lima',
+          referenceType: 'full',
+          alt: 'mike'
+        }),
+        {type: 'text', value: '![mike][Lima]'}
+      )
+    }
   )
 })

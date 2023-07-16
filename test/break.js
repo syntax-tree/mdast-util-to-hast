@@ -3,43 +3,46 @@ import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('break', () => {
-  assert.deepEqual(
-    toHast({
-      type: 'paragraph',
-      children: [
-        {type: 'text', value: 'alpha'},
-        {type: 'break'},
-        {type: 'text', value: 'bravo'}
-      ]
-    }),
-    h('p', ['alpha', h('br'), '\n', 'bravo']),
-    'should transform `break` to `br`'
-  )
+test('break', async function (t) {
+  await t.test('should transform `break` to `br`', async function () {
+    assert.deepEqual(
+      toHast({
+        type: 'paragraph',
+        children: [
+          {type: 'text', value: 'alpha'},
+          {type: 'break'},
+          {type: 'text', value: 'bravo'}
+        ]
+      }),
+      h('p', ['alpha', h('br'), '\n', 'bravo'])
+    )
+  })
 
-  assert.deepEqual(
-    toHast({
-      type: 'paragraph',
-      children: [
-        {type: 'text', value: 'alpha'},
-        {type: 'break'},
-        {type: 'text', value: '  bravo'}
-      ]
-    }),
-    h('p', ['alpha', h('br'), '\n', 'bravo']),
-    'should trim text after a `br` (#1)'
-  )
+  await t.test('should trim text after a `br` (#1)', async function () {
+    assert.deepEqual(
+      toHast({
+        type: 'paragraph',
+        children: [
+          {type: 'text', value: 'alpha'},
+          {type: 'break'},
+          {type: 'text', value: '  bravo'}
+        ]
+      }),
+      h('p', ['alpha', h('br'), '\n', 'bravo'])
+    )
+  })
 
-  assert.deepEqual(
-    toHast({
-      type: 'paragraph',
-      children: [
-        {type: 'text', value: 'alpha'},
-        {type: 'break'},
-        {type: 'emphasis', children: [{type: 'text', value: '  bravo'}]}
-      ]
-    }),
-    h('p', ['alpha', h('br'), '\n', h('em', 'bravo')]),
-    'should trim text after a `br` (#2)'
-  )
+  await t.test('should trim text after a `br` (#2)', async function () {
+    assert.deepEqual(
+      toHast({
+        type: 'paragraph',
+        children: [
+          {type: 'text', value: 'alpha'},
+          {type: 'break'},
+          {type: 'emphasis', children: [{type: 'text', value: '  bravo'}]}
+        ]
+      }),
+      h('p', ['alpha', h('br'), '\n', h('em', 'bravo')])
+    )
+  })
 })

@@ -3,10 +3,11 @@ import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('strong', () => {
-  assert.deepEqual(
-    toHast({type: 'strong', children: [{type: 'text', value: 'alpha'}]}),
-    h('strong', 'alpha'),
-    'should transform `strong` to `strong`'
-  )
+test('strong', async function (t) {
+  await t.test('should transform `strong` to `strong`', async function () {
+    assert.deepEqual(
+      toHast({type: 'strong', children: [{type: 'text', value: 'alpha'}]}),
+      h('strong', 'alpha')
+    )
+  })
 })

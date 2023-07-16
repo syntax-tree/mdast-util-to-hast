@@ -3,10 +3,11 @@ import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('delete', () => {
-  assert.deepEqual(
-    toHast({type: 'delete', children: [{type: 'text', value: 'alpha'}]}),
-    h('del', 'alpha'),
-    'should transform `delete` to `del`'
-  )
+test('delete', async function (t) {
+  await t.test('should transform `delete` to `del`', async function () {
+    assert.deepEqual(
+      toHast({type: 'delete', children: [{type: 'text', value: 'alpha'}]}),
+      h('del', 'alpha')
+    )
+  })
 })

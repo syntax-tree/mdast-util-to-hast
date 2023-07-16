@@ -3,20 +3,25 @@ import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
 
-test('image', () => {
-  assert.deepEqual(
-    toHast({type: 'image', url: 'alpha', alt: 'bravo', title: 'charlie'}),
-    h('img', {
-      src: 'alpha',
-      alt: 'bravo',
-      title: 'charlie'
-    }),
-    'should transform `image` to `img`'
-  )
+test('image', async function (t) {
+  await t.test('should transform `image` to `img`', async function () {
+    assert.deepEqual(
+      toHast({type: 'image', url: 'alpha', alt: 'bravo', title: 'charlie'}),
+      h('img', {
+        src: 'alpha',
+        alt: 'bravo',
+        title: 'charlie'
+      })
+    )
+  })
 
-  assert.deepEqual(
-    toHast({type: 'image', url: 'delta', alt: 'echo'}),
-    h('img', {src: 'delta', alt: 'echo'}),
-    'should transform `image` to `img` (missing `title`)'
+  await t.test(
+    'should transform `image` to `img` (missing `title`)',
+    async function () {
+      assert.deepEqual(
+        toHast({type: 'image', url: 'delta', alt: 'echo'}),
+        h('img', {src: 'delta', alt: 'echo'})
+      )
+    }
   )
 })
