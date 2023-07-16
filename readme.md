@@ -286,9 +286,11 @@ Info passed around about the current state (TypeScript type).
     — transform the children of an mdast parent to hast
 *   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
     — honor the `data` of `from` and maybe generate an element instead of `to`
-*   `footnoteById` (`Record<string, MdastFootnoteDefinition>`)
+*   `definitionById` (`Map<string, Definition>`)
+    — definitions by their uppercased identifier
+*   `footnoteById` (`Map<string, FootnoteDefinition>`)
     — footnote definitions by their uppercased identifier
-*   `footnoteCounts` (`Record<string, number>`)
+*   `footnoteCounts` (`Map<string, number>`)
     — counts for how often the same footnote was called
 *   `footnoteOrder` (`Array<string>`)
     — identifiers of order when footnote calls first appear in tree order
@@ -299,7 +301,6 @@ Info passed around about the current state (TypeScript type).
 *   `options` ([`Options`][api-options])
     — configuration
 *   `patch` (`(from: MdastNode, to: HastNode) => undefined`)
-    — copy a node’s positional info
 *   `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
     — wrap `nodes` with line endings between each node, adds initial/final line
     endings when `loose`
