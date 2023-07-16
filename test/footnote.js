@@ -9,10 +9,12 @@ import {toHast} from '../index.js'
 test('footnote', () => {
   let tree = toHast({
     type: 'root',
+    // @ts-expect-error: to do: remove `footnote`s.
     children: [{type: 'footnote', children: [{type: 'text', value: 'alpha'}]}]
   })
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
@@ -39,11 +41,13 @@ test('footnote', () => {
         type: 'paragraph',
         children: [{type: 'footnoteReference', identifier: '1'}]
       },
+      // @ts-expect-error: to do: remove `footnote`s.
       {type: 'footnote', children: [{type: 'text', value: 'charlie'}]}
     ]
   })
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup>
@@ -83,6 +87,7 @@ test('footnote', () => {
   })
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
@@ -112,6 +117,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<table>
 <thead>
@@ -153,6 +159,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<table>
 <thead>
@@ -183,6 +190,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p>Call<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
@@ -204,6 +212,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Voetnoten</h2>
@@ -225,6 +234,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#fn-1" id="fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
@@ -246,6 +256,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h1 class="sr-only" id="footnote-label">Footnotes</h1>
@@ -267,6 +278,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 id="footnote-label">Footnotes</h2>
@@ -290,6 +302,7 @@ test('footnote', () => {
   )
   assert(tree, 'expected node')
   assert.equal(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(tree),
     `<p>a<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__" data-footnote-ref aria-describedby="footnote-label">1</a></sup> b<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup> c<sup><a href="#user-content-fn-constructor" id="user-content-fnref-constructor" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>

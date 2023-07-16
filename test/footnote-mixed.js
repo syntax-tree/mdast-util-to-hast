@@ -11,6 +11,7 @@ test('footnote', () => {
         type: 'paragraph',
         children: [
           {type: 'text', value: 'alpha'},
+          // @ts-expect-error: to do: remove.
           {type: 'footnote', children: [{type: 'text', value: 'bravo'}]}
         ]
       },
@@ -33,6 +34,7 @@ test('footnote', () => {
   assert(mdast, 'expected node')
 
   assert.deepEqual(
+    // @ts-expect-error: to do: remove when `to-html` is released.
     toHtml(mdast),
     `<p>alpha<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <p>charlie<sup><a href="#user-content-fn-x" id="user-content-fnref-x" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>

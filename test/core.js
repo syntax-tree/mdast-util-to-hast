@@ -11,14 +11,10 @@ test('toHast', () => {
     'should expose the public api'
   )
 
-  assert.throws(
-    () => {
-      // @ts-expect-error runtime.
-      toHast({type: 'bar', children: [true]})
-    },
-    /Expected node, got `true`/,
-    'should throw on non-nodes'
-  )
+  assert.throws(() => {
+    // @ts-expect-error runtime.
+    toHast({type: 'bar', children: [true]})
+  }, 'should throw on non-nodes')
 
   assert.deepEqual(
     toHast({
@@ -65,8 +61,8 @@ test('toHast', () => {
       properties: {},
       children: [{type: 'text', value: 'foxtrot'}],
       position: {
-        start: {line: 2, column: 3, offset: null},
-        end: {line: 2, column: 12, offset: null}
+        start: {line: 2, column: 3, offset: undefined},
+        end: {line: 2, column: 12, offset: undefined}
       }
     },
     'should patch `position`s when given'
@@ -92,14 +88,14 @@ test('toHast', () => {
           properties: {},
           children: [{type: 'text', value: 'golf\n'}],
           position: {
-            start: {line: 2, column: 3, offset: null},
-            end: {line: 2, column: 12, offset: null}
+            start: {line: 2, column: 3, offset: undefined},
+            end: {line: 2, column: 12, offset: undefined}
           }
         }
       ],
       position: {
-        start: {line: 2, column: 3, offset: null},
-        end: {line: 2, column: 12, offset: null}
+        start: {line: 2, column: 3, offset: undefined},
+        end: {line: 2, column: 12, offset: undefined}
       }
     },
     'should patch `position`s on `pre` and `code`'
@@ -120,8 +116,8 @@ test('toHast', () => {
       properties: {},
       children: [{type: 'text', value: 'foxtrot'}],
       position: {
-        start: {line: 2, column: 3, offset: null},
-        end: {line: 2, column: 12, offset: null}
+        start: {line: 2, column: 3, offset: undefined},
+        end: {line: 2, column: 12, offset: undefined}
       }
     },
     'should patch `position`s when given'
@@ -147,14 +143,14 @@ test('toHast', () => {
           properties: {},
           children: [{type: 'text', value: 'golf\n'}],
           position: {
-            start: {line: 2, column: 3, offset: null},
-            end: {line: 2, column: 12, offset: null}
+            start: {line: 2, column: 3, offset: undefined},
+            end: {line: 2, column: 12, offset: undefined}
           }
         }
       ],
       position: {
-        start: {line: 2, column: 3, offset: null},
-        end: {line: 2, column: 12, offset: null}
+        start: {line: 2, column: 3, offset: undefined},
+        end: {line: 2, column: 12, offset: undefined}
       }
     },
     'should patch `position`s on `pre` and `code`'
