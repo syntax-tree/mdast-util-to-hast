@@ -4,12 +4,6 @@ import type {State} from './lib/state.js'
 // Expose types.
 export type {Handler, Handlers, Options, State} from './lib/state.js'
 
-// To do: next major: remove.
-/**
- * Deprecated: use `State`.
- */
-export type H = State
-
 // Expose JS API.
 export {handlers as defaultHandlers} from './lib/handlers/index.js'
 // To do: next major: remove.
