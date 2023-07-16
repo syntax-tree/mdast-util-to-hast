@@ -6,12 +6,7 @@ import * as mod from '../index.js'
 
 test('toHast', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(mod).sort(), [
-      'all',
-      'defaultHandlers',
-      'one',
-      'toHast'
-    ])
+    assert.deepEqual(Object.keys(mod).sort(), ['defaultHandlers', 'toHast'])
   })
 
   await t.test('should throw on non-nodes', async function () {

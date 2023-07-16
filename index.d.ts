@@ -6,8 +6,6 @@ export type {Handler, Handlers, Options, State} from './lib/state.js'
 
 // Expose JS API.
 export {handlers as defaultHandlers} from './lib/handlers/index.js'
-// To do: next major: remove.
-export {all, one} from './lib/state.js'
 export {toHast} from './lib/index.js'
 
 /**
