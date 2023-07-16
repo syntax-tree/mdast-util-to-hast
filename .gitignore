@@ -5,3 +5,4 @@ coverage/
 node_modules/
 yarn.lock
 !/index.d.ts
+!/test/types.d.ts

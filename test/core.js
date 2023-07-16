@@ -19,8 +19,13 @@ test('toHast', async function (t) {
 
   await t.test('should throw on non-nodes', async function () {
     assert.throws(function () {
-      // @ts-expect-error: check that non-node children throw at runtime.
-      toHast({type: 'bar', children: [true]})
+      toHast({
+        type: 'paragraph',
+        children: [
+          // @ts-expect-error: check that non-node children throw at runtime.
+          true
+        ]
+      })
     })
   })
 
@@ -255,10 +260,8 @@ test('toHast', async function (t) {
   const customMdast = {
     type: 'paragraph',
     children: [
-      // @ts-expect-error: check how a custom literal is handled.
-      {type: 'a', value: 'alpha'},
-      // @ts-expect-error: check how a custom parent is handled.
-      {type: 'b', children: [{type: 'image', url: 'bravo'}]},
+      {type: 'alpha', value: 'alpha'},
+      {type: 'bravo', children: [{type: 'image', url: 'bravo'}]},
       {type: 'text', value: 'charlie'}
     ]
   }
@@ -297,29 +300,21 @@ test('toHast', async function (t) {
   await t.test('should support `unknownHandler`', async function () {
     assert.deepEqual(
       toHast(customMdast, {
-        // To do: improved test.
-        // @ts-expect-error `hast` expected, but this returns unknown mdast nodes.
-        unknownHandler(_, /** @type {Nodes} */ node) {
-          return node
+        unknownHandler() {
+          return {type: 'text', value: 'unknown!'}
         }
       }),
-      h('p', [
-        {type: 'a', value: 'alpha'},
-        // To do: register custom?
-        // @ts-expect-error: custom.
-        {type: 'b', children: [{type: 'image', url: 'bravo'}]},
-        'charlie'
-      ])
+      h('p', ['unknown!', 'unknown!', 'charlie'])
     )
   })
 
   await t.test('should support `passThrough`', async function () {
     assert.deepEqual(
-      toHast(customMdast, {passThrough: ['a', 'b']}),
+      toHast(customMdast, {passThrough: ['alpha', 'bravo']}),
       h('p', [
-        {type: 'a', value: 'alpha'},
-        // @ts-expect-error: custom.
-        {type: 'b', children: [h('img', {src: 'bravo'})]},
+        {type: 'alpha', value: 'alpha'},
+        // @ts-expect-error: to do: remove when `hastscript` is released.
+        {type: 'bravo', children: [h('img', {src: 'bravo'})]},
         'charlie'
       ])
     )
