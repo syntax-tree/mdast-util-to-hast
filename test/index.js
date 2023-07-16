@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unassigned-import */
-import './core.js'
 import './blockquote.js'
 import './break.js'
 import './code.js'
+import './core.js'
 import './definition.js'
 import './delete.js'
 import './emphasis.js'
@@ -26,5 +26,4 @@ import './text.js'
 import './thematic-break.js'
 import './toml.js'
 import './yaml.js'
-import './handlers-option.js'
 /* eslint-enable import/no-unassigned-import */

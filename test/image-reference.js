@@ -8,11 +8,13 @@ test('imageReference', async function (t) {
     'should fall back on `imageReference`s without definition',
     async function () {
       assert.deepEqual(
-        toHast(
-          // @ts-expect-error: check how missing `referenceType` is handled.
-          {type: 'imageReference', identifier: 'alpha', alt: 'bravo'}
-        ),
-        {type: 'text', value: '![bravo]'}
+        toHast({
+          type: 'imageReference',
+          referenceType: 'shortcut',
+          identifier: 'alpha',
+          alt: 'bravo'
+        }),
+        {type: 'root', children: [{type: 'text', value: '![bravo]'}]}
       )
     }
   )
@@ -25,7 +27,7 @@ test('imageReference', async function (t) {
         referenceType: 'full',
         alt: 'delta'
       }),
-      {type: 'text', value: '![delta][charlie]'}
+      {type: 'root', children: [{type: 'text', value: '![delta][charlie]'}]}
     )
   })
 
@@ -39,7 +41,7 @@ test('imageReference', async function (t) {
           referenceType: 'collapsed',
           alt: 'foxtrot'
         }),
-        {type: 'text', value: '![foxtrot][]'}
+        {type: 'root', children: [{type: 'text', value: '![foxtrot][]'}]}
       )
     }
   )
@@ -89,7 +91,7 @@ test('imageReference', async function (t) {
           referenceType: 'full',
           alt: 'mike'
         }),
-        {type: 'text', value: '![mike][Lima]'}
+        {type: 'root', children: [{type: 'text', value: '![mike][Lima]'}]}
       )
     }
   )

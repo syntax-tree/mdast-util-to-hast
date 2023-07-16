@@ -1,12 +1,20 @@
+/**
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('mdast').Paragraph} Paragraph
+ * @typedef {import('mdast').Nodes} Nodes
+ */
+
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
 import {toHast} from '../index.js'
-import * as mod from '../index.js'
 
 test('toHast', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(mod).sort(), ['defaultHandlers', 'toHast'])
+    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+      'defaultHandlers',
+      'toHast'
+    ])
   })
 
   await t.test('should throw on non-nodes', async function () {
@@ -241,4 +249,78 @@ test('toHast', async function (t) {
       )
     }
   )
+
+  /** @type {Paragraph} */
+  const customMdast = {
+    type: 'paragraph',
+    children: [
+      // @ts-expect-error: check how a custom literal is handled.
+      {type: 'a', value: 'alpha'},
+      // @ts-expect-error: check how a custom parent is handled.
+      {type: 'b', children: [{type: 'image', url: 'bravo'}]},
+      {type: 'text', value: 'charlie'}
+    ]
+  }
+
+  await t.test('should override default handlers', async function () {
+    assert.deepEqual(
+      toHast(
+        {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]},
+        {
+          handlers: {
+            paragraph(h, /** @type {Paragraph} */ node) {
+              /** @type {Element} */
+              const result = {
+                type: 'element',
+                tagName: 'p',
+                properties: {},
+                children: [{type: 'text', value: 'bravo'}]
+              }
+              h.patch(node, result)
+              return h.applyData(node, result)
+            }
+          }
+        }
+      ),
+      h('p', 'bravo')
+    )
+  })
+
+  await t.test('should support unknown nodes by default', async function () {
+    assert.deepEqual(
+      toHast(customMdast),
+      h('p', ['alpha', h('div', [h('img', {src: 'bravo'})]), 'charlie'])
+    )
+  })
+
+  await t.test('should support `unknownHandler`', async function () {
+    assert.deepEqual(
+      toHast(customMdast, {
+        // To do: improved test.
+        // @ts-expect-error `hast` expected, but this returns unknown mdast nodes.
+        unknownHandler(_, /** @type {Nodes} */ node) {
+          return node
+        }
+      }),
+      h('p', [
+        {type: 'a', value: 'alpha'},
+        // To do: register custom?
+        // @ts-expect-error: custom.
+        {type: 'b', children: [{type: 'image', url: 'bravo'}]},
+        'charlie'
+      ])
+    )
+  })
+
+  await t.test('should support `passThrough`', async function () {
+    assert.deepEqual(
+      toHast(customMdast, {passThrough: ['a', 'b']}),
+      h('p', [
+        {type: 'a', value: 'alpha'},
+        // @ts-expect-error: custom.
+        {type: 'b', children: [h('img', {src: 'bravo'})]},
+        'charlie'
+      ])
+    )
+  })
 })
