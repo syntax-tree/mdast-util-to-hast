@@ -4,6 +4,9 @@ import {toHast} from '../index.js'
 
 test('yaml', async function (t) {
   await t.test('should ignore `yaml`', async function () {
-    assert.deepEqual(toHast({type: 'yaml', value: 'alpha'}), undefined)
+    assert.deepEqual(toHast({type: 'yaml', value: 'alpha'}), {
+      type: 'root',
+      children: []
+    })
   })
 })

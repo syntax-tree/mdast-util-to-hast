@@ -9,7 +9,7 @@ test('toml', async function (t) {
       // @ts-expect-error: check how a `toml` node is handled (not registered
       // normally, but supported here).
       toHast({type: 'toml', value: 'alpha'}),
-      undefined
+      {type: 'root', children: []}
     )
   })
 })

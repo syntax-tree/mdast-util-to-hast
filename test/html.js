@@ -4,7 +4,10 @@ import {toHast} from '../index.js'
 
 test('HTML', async function (t) {
   await t.test('should ignore `html`', async function () {
-    assert.equal(toHast({type: 'html', value: '<alpha></alpha>'}), undefined)
+    assert.deepEqual(toHast({type: 'html', value: '<alpha></alpha>'}), {
+      type: 'root',
+      children: []
+    })
   })
 
   await t.test(

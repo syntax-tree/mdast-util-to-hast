@@ -135,7 +135,7 @@ Transform mdast to hast.
 
 ###### Returns
 
-hast tree ([`HastNode | undefined`][hast-node]).
+hast tree ([`HastNode`][hast-node]).
 
 ##### Notes
 

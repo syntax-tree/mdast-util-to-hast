@@ -5,13 +5,13 @@ import {toHast} from '../index.js'
 
 test('definition', async function (t) {
   await t.test('should ignore `definition`', async function () {
-    assert.equal(
+    assert.deepEqual(
       toHast({
         type: 'definition',
         identifier: 'alpha',
         url: 'bravo'
       }),
-      undefined
+      {type: 'root', children: []}
     )
   })
 

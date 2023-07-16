@@ -13,7 +13,7 @@ test('footnoteDefinition', async function (t) {
           {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
         ]
       }),
-      undefined
+      {type: 'root', children: []}
     )
   })
 
