@@ -10,65 +10,6 @@ test('footnote', async function (t) {
   await t.test('should render `footnote`s (#1)', async function () {
     const tree = toHast({
       type: 'root',
-      // @ts-expect-error: to do: remove `footnote`s.
-      children: [{type: 'footnote', children: [{type: 'text', value: 'alpha'}]}]
-    })
-    assert(tree, 'expected node')
-    assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
-      `<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup>
-<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
-<ol>
-<li id="user-content-fn-1">
-<p>alpha <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
-</li>
-</ol>
-</section>`
-    )
-  })
-
-  await t.test('should render `footnote`s (#2)', async function () {
-    const tree = toHast({
-      type: 'root',
-      children: [
-        {
-          type: 'footnoteDefinition',
-          identifier: '1',
-          children: [
-            {type: 'paragraph', children: [{type: 'text', value: 'bravo'}]}
-          ]
-        },
-        {
-          type: 'paragraph',
-          children: [{type: 'footnoteReference', identifier: '1'}]
-        },
-        // @ts-expect-error: to do: remove `footnote`s.
-        {type: 'footnote', children: [{type: 'text', value: 'charlie'}]}
-      ]
-    })
-    assert(tree, 'expected node')
-    assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
-      `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
-<sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup>
-<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
-<ol>
-<li id="user-content-fn-1">
-<p>bravo <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
-</li>
-<li id="user-content-fn-2">
-<p>charlie <a href="#user-content-fnref-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
-</li>
-</ol>
-</section>`
-    )
-  })
-
-  await t.test('should render `footnote`s (#3)', async function () {
-    const tree = toHast({
-      type: 'root',
       children: [
         {
           type: 'footnoteDefinition',
