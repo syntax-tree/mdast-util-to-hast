@@ -135,7 +135,7 @@ Transform mdast to hast.
 
 ###### Returns
 
-hast tree ([`HastNode | null | undefined`][hast-node]).
+hast tree ([`HastNode | undefined`][hast-node]).
 
 ##### Notes
 
@@ -214,12 +214,12 @@ Handle a node (TypeScript).
     — info passed around
 *   `node` ([`MdastNode`][mdast-node])
     — node to handle
-*   `parent` ([`MdastNode | null | undefined`][mdast-node])
+*   `parent` ([`MdastNode | undefined`][mdast-node])
     — parent of `node`
 
 ###### Returns
 
-Result ([`HastNode | Array<HastNode> | null | undefined`][mdast-node]).
+Result ([`Array<HastNode> | HastNode | undefined`][hast-node]).
 
 ### `Handlers`
 
