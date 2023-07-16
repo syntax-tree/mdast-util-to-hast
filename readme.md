@@ -269,11 +269,14 @@ Raw string of HTML embedded into HTML AST (TypeScript).
 ###### Type
 
 ```ts
-import type {Literal} from 'hast'
+import type {Data, Literal} from 'hast'
 
 interface Raw extends Literal {
   type: 'raw'
+  data?: RawData | undefined
 }
+
+interface RawData extends Data {}
 ```
 
 ### `State`
@@ -1341,10 +1344,10 @@ Raw nodes are typically ignored but are handled by
 ## Types
 
 This package is fully typed with [TypeScript][].
-It also exports [`Handler`][api-handler], [`Handlers`][api-handlers],
+It exports the [`Handler`][api-handler], [`Handlers`][api-handlers],
 [`Options`][api-options], [`Raw`][api-raw], and [`State`][api-state] types.
 
-It also registers the `Raw` node type with `@types/mdast`.
+It also registers the `Raw` node type with `@types/hast`.
 If you’re working with the syntax tree (and you pass
 `allowDangerousHtml: true`), make sure to import this utility somewhere in your
 types, as that registers the new node type in the tree.
@@ -1362,6 +1365,24 @@ const tree = { /* … */ }
 visit(tree, function (node) {
   // `node` can now be `raw`.
 })
+```
+
+Finally, it also registers the `hChildren`, `hName`, and `hProperties` fields
+on `Data` of `@types/mdast`.
+If you’re working with the syntax tree, make sure to import this utility
+somewhere in your types, as that registers the data fields in the tree.
+
+```js
+/**
+ * @typedef {import('mdast-util-to-hast')}
+ */
+
+import {visit} from 'unist-util-visit'
+
+/** @type {import('hast').Root} */
+const tree = { /* … */ }
+
+console.log(tree.data?.hName) // Types as `string | undefined`.
 ```
 
 ## Compatibility

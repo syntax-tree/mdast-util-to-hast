@@ -39,6 +39,7 @@ test('toHast', async function (t) {
     assert.deepEqual(
       toHast({
         type: 'strong',
+        // @ts-expect-error: remove when `h` is updated to support new hast.
         data: {hChildren: [h('i', 'bravo')]},
         children: [{type: 'text', value: 'charlie'}]
       }),

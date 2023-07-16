@@ -1,5 +1,4 @@
-import type {Data, Literal} from 'hast'
-import type {State} from './lib/state.js'
+import type {Data, ElementContent, Literal, Properties} from 'hast'
 
 // Expose types.
 export type {Handler, Handlers, Options, State} from './lib/state.js'
@@ -42,5 +41,37 @@ declare module 'hast' {
      * Raw string of HTML embedded into HTML AST.
      */
     raw: Raw
+  }
+}
+
+// Register data on mdast.
+declare module 'mdast' {
+  interface Data {
+    /**
+     * Field supported by `mdast-util-to-hast` to signal that a node should
+     * result in something with these children.
+     *
+     * When this is defined, when a parent is created, these children will
+     * be used.
+     */
+    hChildren?: ElementContent[] | undefined
+
+    /**
+     * Field supported by `mdast-util-to-hast` to signal that a node should
+     * result in a particular element, instead of its default behavior.
+     *
+     * When this is defined, an element with the given tag name is created.
+     * For example, when setting `hName` to `'b'`, a `<b>` element is created.
+     */
+    hName?: string | undefined
+
+    /**
+     * Field supported by `mdast-util-to-hast` to signal that a node should
+     * result in an element with these properties.
+     *
+     * When this is defined, when an element is created, these properties will
+     * be used.
+     */
+    hProperties?: Properties | undefined
   }
 }
