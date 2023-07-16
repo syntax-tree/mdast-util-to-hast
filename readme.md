@@ -17,8 +17,8 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`toHast(tree[, options])`](#tohasttree-options)
     *   [`defaultHandlers`](#defaulthandlers)
+    *   [`toHast(tree[, options])`](#tohasttree-options)
     *   [`Handler`](#handler)
     *   [`Handlers`](#handlers)
     *   [`Options`](#options)
@@ -62,7 +62,7 @@ turn markdown to HTML at a higher-level (easier) abstraction.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install mdast-util-to-hast
@@ -94,9 +94,9 @@ Say we have the following `example.md`:
 
 ```js
 import {fs} from 'node:fs/promises'
+import {toHtml} from 'hast-util-to-html'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
-import {toHtml} from 'hast-util-to-html'
 
 const markdown = String(await fs.readFile('example.md'))
 const mdast = fromMarkdown(markdown)
@@ -117,6 +117,10 @@ console.log(html)
 This package exports the identifiers [`defaultHandlers`][api-default-handlers]
 and [`toHast`][api-to-hast].
 There is no default export.
+
+### `defaultHandlers`
+
+Default handlers for nodes ([`Handlers`][api-handlers]).
 
 ### `toHast(tree[, options])`
 
@@ -199,10 +203,6 @@ The default behavior for unknown nodes is:
     `data.hName`), with its children mapped from mdast to hast as well
 
 This behavior can be changed by passing an `unknownHandler`.
-
-### `defaultHandlers`
-
-Default handlers for nodes ([`Handlers`][api-handlers]).
 
 ### `Handler`
 
@@ -346,11 +346,11 @@ The following example passes `allowDangerousHtml` to this utility
 (`hast-util-sanitize`):
 
 ```js
-import {fromMarkdown} from 'mdast-util-from-markdown'
-import {toHast} from 'mdast-util-to-hast'
 import {raw} from 'hast-util-raw'
 import {sanitize} from 'hast-util-sanitize'
 import {toHtml} from 'hast-util-to-html'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toHast} from 'mdast-util-to-hast'
 
 const markdown = 'It <i>works</i>! <img onerror="alert(1)">'
 const mdast = fromMarkdown(markdown)
@@ -380,11 +380,11 @@ should translate the labels associated with them.
 Let’s first set the stage:
 
 ```js
-import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toHtml} from 'hast-util-to-html'
 import {gfm} from 'micromark-extension-gfm'
+import {fromMarkdown} from 'mdast-util-from-markdown'
 import {gfmFromMarkdown} from 'mdast-util-gfm'
 import {toHast} from 'mdast-util-to-hast'
-import {toHtml} from 'hast-util-to-html'
 
 const markdown = 'Bonjour[^1]\n\n[^1]: Monde!'
 const mdast = fromMarkdown(markdown, {
@@ -457,8 +457,8 @@ For example, when we represent a mark element in markdown and want to turn it
 into a `<mark>` element in HTML, we can use a handler:
 
 ```js
-import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
+import {toHast} from 'mdast-util-to-hast'
 
 const mdast = {
   type: 'paragraph',
@@ -484,8 +484,8 @@ console.log(toHtml(hast))
 We can do the same through certain fields on nodes:
 
 ```js
-import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
+import {toHast} from 'mdast-util-to-hast'
 
 const mdast = {
   type: 'paragraph',
@@ -1365,10 +1365,13 @@ visit(tree, function (node) {
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `mdast-util-to-hast@^12`,
+compatible with Node.js 12.
 
 ## Security
 
@@ -1476,9 +1479,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/mdast-util-to-hast
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/mdast-util-to-hast.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-to-hast
 
-[size]: https://bundlephobia.com/result?p=mdast-util-to-hast
+[size]: https://bundlejs.com/?q=mdast-util-to-hast
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
