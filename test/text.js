@@ -23,14 +23,13 @@ test('text', async function (t) {
     async function () {
       assert.deepEqual(
         toHast({type: 'text', value: 'delta', data: {hName: 'span'}}),
-        // To do: keep `value`?
-        h('span')
+        h('span', 'delta')
       )
     }
   )
 
   await t.test(
-    'should not transform text nodes w/ `hProperties` w/o `hName` to an `element`',
+    'should ignore `hProperties` on text nodes w/o `hName`',
     async function () {
       assert.deepEqual(
         toHast({
@@ -38,7 +37,6 @@ test('text', async function (t) {
           value: 'echo',
           data: {hProperties: {className: ['foxtrot']}}
         }),
-        // To do: `div` or `span`?
         {type: 'text', value: 'echo'}
       )
     }
@@ -53,8 +51,7 @@ test('text', async function (t) {
           value: 'golf',
           data: {hName: 'span', hProperties: {className: ['hotel']}}
         }),
-        // To do: keep `value`?
-        h('span.hotel')
+        h('span.hotel', 'golf')
       )
     }
   )
@@ -68,7 +65,6 @@ test('text', async function (t) {
           value: 'india',
           data: {hChildren: [{type: 'text', value: 'juliett'}]}
         }),
-        // To do: `div` or `span`?
         {type: 'text', value: 'india'}
       )
     }

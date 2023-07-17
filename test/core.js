@@ -309,14 +309,25 @@ test('toHast', async function (t) {
   })
 
   await t.test('should support `passThrough`', async function () {
-    assert.deepEqual(
-      toHast(customMdast, {passThrough: ['alpha', 'bravo']}),
-      h('p', [
+    assert.deepEqual(toHast(customMdast, {passThrough: ['alpha', 'bravo']}), {
+      type: 'element',
+      tagName: 'p',
+      properties: {},
+      children: [
         {type: 'alpha', value: 'alpha'},
-        // @ts-expect-error: to do: remove when `hastscript` is released.
-        {type: 'bravo', children: [h('img', {src: 'bravo'})]},
-        'charlie'
-      ])
-    )
+        {
+          type: 'bravo',
+          children: [
+            {
+              type: 'element',
+              tagName: 'img',
+              properties: {src: 'bravo'},
+              children: []
+            }
+          ]
+        },
+        {type: 'text', value: 'charlie'}
+      ]
+    })
   })
 })
