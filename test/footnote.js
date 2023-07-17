@@ -8,7 +8,7 @@ import {toHtml} from 'hast-util-to-html'
 import {gfm} from 'micromark-extension-gfm'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {gfmFromMarkdown} from 'mdast-util-gfm'
-import {toHast} from '../index.js'
+import {toHast} from 'mdast-util-to-hast'
 
 test('footnote', async function (t) {
   await t.test('should render `footnote`s (#1)', async function () {

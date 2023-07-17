@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
-import {toHast} from '../index.js'
+import {toHast} from 'mdast-util-to-hast'
 
 test('list', async function (t) {
   await t.test('should transform ordered lists to `ol`', async function () {

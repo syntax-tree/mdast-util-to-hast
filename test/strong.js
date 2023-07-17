@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
-import {toHast} from '../index.js'
+import {toHast} from 'mdast-util-to-hast'
 
 test('strong', async function (t) {
   await t.test('should transform `strong` to `strong`', async function () {
