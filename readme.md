@@ -17,8 +17,12 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
+    *   [`defaultFootnoteBackContent(referenceIndex, rereferenceIndex)`](#defaultfootnotebackcontentreferenceindex-rereferenceindex)
+    *   [`defaultFootnoteBackLabel(referenceIndex, rereferenceIndex)`](#defaultfootnotebacklabelreferenceindex-rereferenceindex)
     *   [`defaultHandlers`](#defaulthandlers)
     *   [`toHast(tree[, options])`](#tohasttree-options)
+    *   [`FootnoteBackContentTemplate`](#footnotebackcontenttemplate)
+    *   [`FootnoteBackLabelTemplate`](#footnotebacklabeltemplate)
     *   [`Handler`](#handler)
     *   [`Handlers`](#handlers)
     *   [`Options`](#options)
@@ -114,9 +118,44 @@ console.log(html)
 
 ## API
 
-This package exports the identifiers [`defaultHandlers`][api-default-handlers]
-and [`toHast`][api-to-hast].
+This package exports the identifiers
+[`defaultFootnoteBackContent`][api-default-footnote-back-content],
+[`defaultFootnoteBackLabel`][api-default-footnote-back-label],
+[`defaultHandlers`][api-default-handlers], and
+[`toHast`][api-to-hast].
 There is no default export.
+
+### `defaultFootnoteBackContent(referenceIndex, rereferenceIndex)`
+
+Generate the default content that GitHub uses on backreferences.
+
+###### Parameters
+
+*   `referenceIndex` (`number`)
+    — index of the definition in the order that they are first referenced,
+    0-indexed
+*   `rereferenceIndex` (`number`)
+    — index of calls to the same definition, 0-indexed
+
+###### Returns
+
+Content (`Array<ElementContent>`).
+
+### `defaultFootnoteBackLabel(referenceIndex, rereferenceIndex)`
+
+Generate the default label that GitHub uses on backreferences.
+
+###### Parameters
+
+*   `referenceIndex` (`number`)
+    — index of the definition in the order that they are first referenced,
+    0-indexed
+*   `rereferenceIndex` (`number`)
+    — index of calls to the same definition, 0-indexed
+
+###### Returns
+
+Label (`string`).
 
 ### `defaultHandlers`
 
@@ -204,6 +243,76 @@ The default behavior for unknown nodes is:
 
 This behavior can be changed by passing an `unknownHandler`.
 
+### `FootnoteBackContentTemplate`
+
+Generate content for the backreference dynamically.
+
+For the following markdown:
+
+```markdown
+Alpha[^micromark], bravo[^micromark], and charlie[^remark].
+
+[^remark]: things about remark
+[^micromark]: things about micromark
+```
+
+This function will be called with:
+
+*   `0` and `0` for the backreference from `things about micromark` to
+    `alpha`, as it is the first used definition, and the first call to it
+*   `0` and `1` for the backreference from `things about micromark` to
+    `bravo`, as it is the first used definition, and the second call to it
+*   `1` and `0` for the backreference from `things about remark` to
+    `charlie`, as it is the second used definition
+
+###### Parameters
+
+*   `referenceIndex` (`number`)
+    — index of the definition in the order that they are first referenced,
+    0-indexed
+*   `rereferenceIndex` (`number`)
+    — index of calls to the same definition, 0-indexed
+
+###### Returns
+
+Content for the backreference when linking back from definitions to their
+reference (`Array<ElementContent>`, `ElementContent`, or `string`).
+
+### `FootnoteBackLabelTemplate`
+
+Generate a back label dynamically.
+
+For the following markdown:
+
+```markdown
+Alpha[^micromark], bravo[^micromark], and charlie[^remark].
+
+[^remark]: things about remark
+[^micromark]: things about micromark
+```
+
+This function will be called with:
+
+*   `0` and `0` for the backreference from `things about micromark` to
+    `alpha`, as it is the first used definition, and the first call to it
+*   `0` and `1` for the backreference from `things about micromark` to
+    `bravo`, as it is the first used definition, and the second call to it
+*   `1` and `0` for the backreference from `things about remark` to
+    `charlie`, as it is the second used definition
+
+###### Parameters
+
+*   `referenceIndex` (`number`)
+    — index of the definition in the order that they are first referenced,
+    0-indexed
+*   `rereferenceIndex` (`number`)
+    — index of calls to the same definition, 0-indexed
+
+###### Returns
+
+Back label to use when linking back from definitions to their reference
+(`string`).
+
 ### `Handler`
 
 Handle a node (TypeScript).
@@ -240,11 +349,18 @@ Configuration (TypeScript).
 *   `allowDangerousHtml` (`boolean`, default: `false`)
     — whether to persist raw HTML in markdown in the hast tree
 *   `clobberPrefix` (`string`, default: `'user-content-'`)
-    — prefix to use before the `id` attribute on footnotes to prevent it from
+    — prefix to use before the `id` property on footnotes to prevent them from
     *clobbering*
-*   `footnoteBackLabel` (`string`, default: `'Back to content'`)
-    — label to use from backreferences back to their footnote call (affects
-    screen readers)
+*   `footnoteBackContent`
+    ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
+    or `string`, default:
+    [`defaultFootnoteBackContent`][api-default-footnote-back-content])
+    — content of the backreference back to references
+*   `footnoteBackLabel`
+    ([`FootnoteBackLabelTemplate`][api-footnote-back-label-template]
+    or `string`, default:
+    [`defaultFootnoteBackLabel`][api-default-footnote-back-label])
+    — label to describe the backreference back to references
 *   `footnoteLabel` (`string`, default: `'Footnotes'`)
     — label to use for the footnotes section (affects screen readers)
 *   `footnoteLabelProperties`
@@ -408,7 +524,7 @@ console.log(html)
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>
@@ -420,14 +536,20 @@ In that case, it’s important to translate and define the labels relating to
 footnotes so that screen reader users can properly pronounce the page:
 
 ```diff
-@@ -9,7 +9,10 @@ const mdast = fromMarkdown(markdown, {
+@@ -9,7 +9,16 @@ const mdast = fromMarkdown(markdown, {
    extensions: [gfm()],
    mdastExtensions: [gfmFromMarkdown()]
  })
 -const hast = toHast(mdast)
 +const hast = toHast(mdast, {
 +  footnoteLabel: 'Notes de bas de page',
-+  footnoteBackLabel: 'Arrière'
++  footnoteBackLabel(referenceIndex, rereferenceIndex) {
++    return (
++      'Retour à la référence ' +
++      (referenceIndex + 1) +
++      (rereferenceIndex > 1 ? '-' + rereferenceIndex : '')
++    )
++  }
 +})
  const html = toHtml(hast)
 
@@ -443,8 +565,8 @@ footnotes so that screen reader users can properly pronounce the page:
 +<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Notes de bas de page</h2>
  <ol>
  <li id="user-content-fn-1">
--<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
-+<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Arrière">↩</a></p>
+-<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
++<p>Monde! <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Retour à la référence 1" class="data-footnote-backref">↩</a></p>
  </li>
  </ol>
  </section>
@@ -1344,8 +1466,14 @@ Raw nodes are typically ignored but are handled by
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the [`Handler`][api-handler], [`Handlers`][api-handlers],
-[`Options`][api-options], [`Raw`][api-raw], and [`State`][api-state] types.
+It exports the
+[`FootnoteBackContentTemplate`][api-footnote-back-content-template],
+[`FootnoteBackLabelTemplate`][api-footnote-back-label-template],
+[`Handler`][api-handler],
+[`Handlers`][api-handlers],
+[`Options`][api-options],
+[`Raw`][api-raw], and
+[`State`][api-state] types.
 
 It also registers the `Raw` node type with `@types/hast`.
 If you’re working with the syntax tree (and you pass
@@ -1567,9 +1695,15 @@ abide by its terms.
 
 [dfn-literal]: https://github.com/syntax-tree/hast#literal
 
+[api-default-footnote-back-content]: #defaultfootnotebackcontentreferenceindex-rereferenceindex
+
+[api-default-footnote-back-label]: #defaultfootnotebacklabelreferenceindex-rereferenceindex
+
 [api-default-handlers]: #defaulthandlers
 
-[api-to-hast]: #tohasttree-options
+[api-footnote-back-content-template]: #footnotebackcontenttemplate
+
+[api-footnote-back-label-template]: #footnotebacklabeltemplate
 
 [api-handler]: #handler
 
@@ -1580,3 +1714,5 @@ abide by its terms.
 [api-raw]: #raw
 
 [api-state]: #state
+
+[api-to-hast]: #tohasttree-options

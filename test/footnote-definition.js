@@ -63,9 +63,9 @@ test('footnoteDefinition', async function (t) {
                   'a',
                   {
                     href: '#user-content-fnref-charlie',
-                    dataFootnoteBackref: true,
-                    className: ['data-footnote-backref'],
-                    ariaLabel: 'Back to content'
+                    dataFootnoteBackref: '',
+                    ariaLabel: 'Back to reference 1',
+                    className: ['data-footnote-backref']
                   },
                   '↩'
                 )
@@ -138,9 +138,9 @@ test('footnoteDefinition', async function (t) {
                     'a',
                     {
                       href: '#user-content-fnref-echo',
-                      dataFootnoteBackref: true,
-                      className: ['data-footnote-backref'],
-                      ariaLabel: 'Back to content'
+                      dataFootnoteBackref: '',
+                      ariaLabel: 'Back to reference 1',
+                      className: ['data-footnote-backref']
                     },
                     '↩'
                   )

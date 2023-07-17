@@ -1,10 +1,18 @@
 import type {Data, ElementContent, Literal, Properties} from 'hast'
 
 // Expose types.
+export type {
+  FootnoteBackContentTemplate,
+  FootnoteBackLabelTemplate
+} from './lib/footer.js'
 export type {Handler, Handlers, Options, State} from './lib/state.js'
 
 // Expose JS API.
 export {handlers as defaultHandlers} from './lib/handlers/index.js'
+export {
+  defaultFootnoteBackContent,
+  defaultFootnoteBackLabel
+} from './lib/footer.js'
 export {toHast} from './lib/index.js'
 
 /**

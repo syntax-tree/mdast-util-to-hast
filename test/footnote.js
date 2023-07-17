@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('hast').ElementContent} ElementContent
+ */
+
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {toHtml} from 'hast-util-to-html'
@@ -40,7 +44,7 @@ test('footnote', async function (t) {
 <blockquote>
 <p>delta</p>
 </blockquote>
-<a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a>
+<a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a>
 </li>
 </ol>
 </section>`
@@ -82,10 +86,10 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 <li id="user-content-fn-2">
-<p>b <a href="#user-content-fnref-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>b <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
@@ -118,10 +122,10 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 <li id="user-content-fn-2">
-<p>b <a href="#user-content-fnref-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>b <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
@@ -145,7 +149,7 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>Recursion<sup><a href="#user-content-fn-1" id="user-content-fnref-1-3" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-4" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a> <a href="#user-content-fnref-1-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>2</sup></a> <a href="#user-content-fnref-1-3" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>3</sup></a> <a href="#user-content-fnref-1-4" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>4</sup></a></p>
+<p>Recursion<sup><a href="#user-content-fn-1" id="user-content-fnref-1-3" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-4" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-1-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a> <a href="#user-content-fnref-1-3" data-footnote-backref="" aria-label="Back to reference 1-3" class="data-footnote-backref">↩<sup>3</sup></a> <a href="#user-content-fnref-1-4" data-footnote-backref="" aria-label="Back to reference 1-4" class="data-footnote-backref">↩<sup>4</sup></a></p>
 </li>
 </ol>
 </section>`
@@ -171,7 +175,109 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Voetnoten</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Terug naar de inhoud">↩</a></p>
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Terug naar de inhoud" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
+
+  await t.test(
+    'should support `footnoteBackLabel` as a function',
+    async function () {
+      assert.equal(
+        toHtml(
+          // @ts-expect-error: to do: remove when `to-html` is released.
+          toHast(
+            fromMarkdown('[^1]\n[^1]: a', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            }),
+            {
+              footnoteBackLabel(referenceIndex, rereferenceIndex) {
+                return (
+                  'Terug naar referentie ' +
+                  (referenceIndex + 1) +
+                  (rereferenceIndex > 1 ? '-' + rereferenceIndex : '')
+                )
+              }
+            }
+          )
+        ),
+        `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Terug naar referentie 1" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
+
+  await t.test(
+    'should support `footnoteBackContent` as `string`',
+    async function () {
+      assert.equal(
+        toHtml(
+          // @ts-expect-error: to do: remove when `to-html` is released.
+          toHast(
+            fromMarkdown('[^1]\n[^1]: a', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            }),
+            {footnoteBackContent: '⬆️'}
+          )
+        ),
+        `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">⬆️</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
+
+  await t.test(
+    'should support `footnoteBackContent` as a function`',
+    async function () {
+      assert.equal(
+        toHtml(
+          // @ts-expect-error: to do: remove when `to-html` is released.
+          toHast(
+            fromMarkdown('[^1]\n[^1]: a', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            }),
+            {
+              footnoteBackContent(_, rereferenceIndex) {
+                /** @type {Array<ElementContent>} */
+                const result = [{type: 'text', value: '⬆️'}]
+
+                if (rereferenceIndex > 1) {
+                  result.push({
+                    type: 'element',
+                    tagName: 'sup',
+                    properties: {},
+                    children: [{type: 'text', value: String(rereferenceIndex)}]
+                  })
+                }
+
+                return result
+              }
+            }
+          )
+        ),
+        `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">⬆️</a></p>
 </li>
 </ol>
 </section>`
@@ -195,7 +301,7 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="fn-1">
-<p>a <a href="#fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>a <a href="#fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
@@ -218,7 +324,7 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h1 class="sr-only" id="footnote-label">Footnotes</h1>
 <ol>
 <li id="user-content-fn-1">
-<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
@@ -241,7 +347,7 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
-<p>a <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
@@ -266,10 +372,10 @@ test('footnote', async function (t) {
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-__proto__">
-<p>d <a href="#user-content-fnref-__proto__" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a> <a href="#user-content-fnref-__proto__-2" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩<sup>2</sup></a></p>
+<p>d <a href="#user-content-fnref-__proto__" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-__proto__-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
 </li>
 <li id="user-content-fn-constructor">
-<p>e <a href="#user-content-fnref-constructor" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
+<p>e <a href="#user-content-fnref-constructor" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section>`
