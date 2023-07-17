@@ -337,7 +337,7 @@ Handle nodes (TypeScript).
 ###### Type
 
 ```ts
-type Handlers = Record<string, Handler>
+type Handlers = Partial<Record<Nodes['type'], Handler>>
 ```
 
 ### `Options`
@@ -372,7 +372,7 @@ Configuration (TypeScript).
     — tag name to use for the footnote label
 *   `handlers` ([`Handlers`][api-handlers], optional)
     — extra handlers for nodes
-*   `passThrough` (`Array<string>`, optional)
+*   `passThrough` (`Array<Nodes['type']>`, optional)
     — list of custom mdast node types to pass through (keep) in hast (note that
     the node itself is passed, but eventual children are transformed)
 *   `unknownHandler` ([`Handler`][api-handler], optional)
