@@ -12,31 +12,34 @@ import {toHast} from '../index.js'
 
 test('footnote', async function (t) {
   await t.test('should render `footnote`s (#1)', async function () {
-    const tree = toHast({
-      type: 'root',
-      children: [
-        {
-          type: 'footnoteDefinition',
-          identifier: '1',
+    assert.equal(
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast({
+          type: 'root',
           children: [
             {
-              type: 'blockquote',
+              type: 'footnoteDefinition',
+              identifier: '1',
               children: [
-                {type: 'paragraph', children: [{type: 'text', value: 'delta'}]}
+                {
+                  type: 'blockquote',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      children: [{type: 'text', value: 'delta'}]
+                    }
+                  ]
+                }
               ]
+            },
+            {
+              type: 'paragraph',
+              children: [{type: 'footnoteReference', identifier: '1'}]
             }
           ]
-        },
-        {
-          type: 'paragraph',
-          children: [{type: 'footnoteReference', identifier: '1'}]
-        }
-      ]
-    })
-    assert(tree, 'expected node')
-    assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+        })
+      ),
       `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
@@ -52,22 +55,22 @@ test('footnote', async function (t) {
   })
 
   await t.test('should render footnotes in tables', async function () {
-    const tree = toHast(
-      fromMarkdown(
-        `| Footnotes |
+    assert.equal(
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown(
+            `| Footnotes |
 | ---- |
 | [^1] |
 | [^2] |
 
 [^1]: a
 [^2]: b`,
-        {extensions: [gfm()], mdastExtensions: [gfmFromMarkdown()]}
-      )
-    )
-    assert(tree, 'expected node')
-    assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+            {extensions: [gfm()], mdastExtensions: [gfmFromMarkdown()]}
+          )
+        )
+      ),
       `<table>
 <thead>
 <tr>
@@ -97,20 +100,20 @@ test('footnote', async function (t) {
   })
 
   await t.test('should render footnotes in table cells', async function () {
-    const tree = toHast(
-      fromMarkdown(
-        `| [^1] | [^2] |
+    assert.equal(
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown(
+            `| [^1] | [^2] |
 | ---- | ---- |
 
 [^1]: a
 [^2]: b`,
-        {extensions: [gfm()], mdastExtensions: [gfmFromMarkdown()]}
-      )
-    )
-    assert(tree, 'expected node')
-    assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+            {extensions: [gfm()], mdastExtensions: [gfmFromMarkdown()]}
+          )
+        )
+      ),
       `<table>
 <thead>
 <tr>
@@ -135,16 +138,16 @@ test('footnote', async function (t) {
   await t.test(
     'should render reused and resursive footnotes',
     async function () {
-      const tree = toHast(
-        fromMarkdown('Call[^1][^1]\n\n[^1]: Recursion[^1][^1]', {
-          extensions: [gfm()],
-          mdastExtensions: [gfmFromMarkdown()]
-        })
-      )
-      assert(tree, 'expected node')
       assert.equal(
-        // @ts-expect-error: to do: remove when `to-html` is released.
-        toHtml(tree),
+        toHtml(
+          // @ts-expect-error: to do: remove when `to-html` is released.
+          toHast(
+            fromMarkdown('Call[^1][^1]\n\n[^1]: Recursion[^1][^1]', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            })
+          )
+        ),
         `<p>Call<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup><sup><a href="#user-content-fn-1" id="user-content-fnref-1-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
@@ -160,17 +163,20 @@ test('footnote', async function (t) {
   await t.test(
     'should support `footnoteLabel`, `footnoteBackLabel`',
     async function () {
-      const tree = toHast(
-        fromMarkdown('[^1]\n[^1]: a', {
-          extensions: [gfm()],
-          mdastExtensions: [gfmFromMarkdown()]
-        }),
-        {footnoteLabel: 'Voetnoten', footnoteBackLabel: 'Terug naar de inhoud'}
-      )
-      assert(tree, 'expected node')
       assert.equal(
-        // @ts-expect-error: to do: remove when `to-html` is released.
-        toHtml(tree),
+        toHtml(
+          // @ts-expect-error: to do: remove when `to-html` is released.
+          toHast(
+            fromMarkdown('[^1]\n[^1]: a', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            }),
+            {
+              footnoteLabel: 'Voetnoten',
+              footnoteBackLabel: 'Terug naar de inhoud'
+            }
+          )
+        ),
         `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Voetnoten</h2>
 <ol>
@@ -286,17 +292,17 @@ test('footnote', async function (t) {
   )
 
   await t.test('should support an empty `clobberPrefix`', async function () {
-    const tree = toHast(
-      fromMarkdown('[^1]\n[^1]: a', {
-        extensions: [gfm()],
-        mdastExtensions: [gfmFromMarkdown()]
-      }),
-      {clobberPrefix: ''}
-    )
-    assert(tree, 'expected node')
     assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown('[^1]\n[^1]: a', {
+            extensions: [gfm()],
+            mdastExtensions: [gfmFromMarkdown()]
+          }),
+          {clobberPrefix: ''}
+        )
+      ),
       `<p><sup><a href="#fn-1" id="fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
@@ -309,17 +315,17 @@ test('footnote', async function (t) {
   })
 
   await t.test('should support a `footnoteLabelTagName`', async function () {
-    const tree = toHast(
-      fromMarkdown('[^1]\n[^1]: a', {
-        extensions: [gfm()],
-        mdastExtensions: [gfmFromMarkdown()]
-      }),
-      {footnoteLabelTagName: 'h1'}
-    )
-    assert(tree, 'expected node')
     assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown('[^1]\n[^1]: a', {
+            extensions: [gfm()],
+            mdastExtensions: [gfmFromMarkdown()]
+          }),
+          {footnoteLabelTagName: 'h1'}
+        )
+      ),
       `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h1 class="sr-only" id="footnote-label">Footnotes</h1>
 <ol>
@@ -332,17 +338,17 @@ test('footnote', async function (t) {
   })
 
   await t.test('should support a `footnoteLabelProperties`', async function () {
-    const tree = toHast(
-      fromMarkdown('[^1]\n[^1]: a', {
-        extensions: [gfm()],
-        mdastExtensions: [gfmFromMarkdown()]
-      }),
-      {footnoteLabelProperties: {}}
-    )
-    assert(tree, 'expected node')
     assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown('[^1]\n[^1]: a', {
+            extensions: [gfm()],
+            mdastExtensions: [gfmFromMarkdown()]
+          }),
+          {footnoteLabelProperties: {}}
+        )
+      ),
       `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
 <section data-footnotes class="footnotes"><h2 id="footnote-label">Footnotes</h2>
 <ol>
@@ -355,19 +361,19 @@ test('footnote', async function (t) {
   })
 
   await t.test('should support funky footnote identifiers', async function () {
-    const tree = toHast(
-      fromMarkdown(
-        'a[^__proto__] b[^__proto__] c[^constructor]\n\n[^__proto__]: d\n[^constructor]: e',
-        {
-          extensions: [gfm()],
-          mdastExtensions: [gfmFromMarkdown()]
-        }
-      )
-    )
-    assert(tree, 'expected node')
     assert.equal(
-      // @ts-expect-error: to do: remove when `to-html` is released.
-      toHtml(tree),
+      toHtml(
+        // @ts-expect-error: to do: remove when `to-html` is released.
+        toHast(
+          fromMarkdown(
+            'a[^__proto__] b[^__proto__] c[^constructor]\n\n[^__proto__]: d\n[^constructor]: e',
+            {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            }
+          )
+        )
+      ),
       `<p>a<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__" data-footnote-ref aria-describedby="footnote-label">1</a></sup> b<sup><a href="#user-content-fn-__proto__" id="user-content-fnref-__proto__-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup> c<sup><a href="#user-content-fn-constructor" id="user-content-fnref-constructor" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>
 <section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
