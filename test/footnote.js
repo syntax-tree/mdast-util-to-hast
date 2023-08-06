@@ -14,7 +14,6 @@ test('footnote', async function (t) {
   await t.test('should render `footnote`s (#1)', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast({
           type: 'root',
           children: [
@@ -57,7 +56,6 @@ test('footnote', async function (t) {
   await t.test('should render footnotes in tables', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown(
             `| Footnotes |
@@ -102,7 +100,6 @@ test('footnote', async function (t) {
   await t.test('should render footnotes in table cells', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown(
             `| [^1] | [^2] |
@@ -140,7 +137,6 @@ test('footnote', async function (t) {
     async function () {
       assert.equal(
         toHtml(
-          // @ts-expect-error: to do: remove when `to-html` is released.
           toHast(
             fromMarkdown('Call[^1][^1]\n\n[^1]: Recursion[^1][^1]', {
               extensions: [gfm()],
@@ -165,7 +161,6 @@ test('footnote', async function (t) {
     async function () {
       assert.equal(
         toHtml(
-          // @ts-expect-error: to do: remove when `to-html` is released.
           toHast(
             fromMarkdown('[^1]\n[^1]: a', {
               extensions: [gfm()],
@@ -194,7 +189,6 @@ test('footnote', async function (t) {
     async function () {
       assert.equal(
         toHtml(
-          // @ts-expect-error: to do: remove when `to-html` is released.
           toHast(
             fromMarkdown('[^1]\n[^1]: a', {
               extensions: [gfm()],
@@ -228,7 +222,6 @@ test('footnote', async function (t) {
     async function () {
       assert.equal(
         toHtml(
-          // @ts-expect-error: to do: remove when `to-html` is released.
           toHast(
             fromMarkdown('[^1]\n[^1]: a', {
               extensions: [gfm()],
@@ -254,7 +247,6 @@ test('footnote', async function (t) {
     async function () {
       assert.equal(
         toHtml(
-          // @ts-expect-error: to do: remove when `to-html` is released.
           toHast(
             fromMarkdown('[^1]\n[^1]: a', {
               extensions: [gfm()],
@@ -294,7 +286,6 @@ test('footnote', async function (t) {
   await t.test('should support an empty `clobberPrefix`', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown('[^1]\n[^1]: a', {
             extensions: [gfm()],
@@ -317,7 +308,6 @@ test('footnote', async function (t) {
   await t.test('should support a `footnoteLabelTagName`', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown('[^1]\n[^1]: a', {
             extensions: [gfm()],
@@ -340,7 +330,6 @@ test('footnote', async function (t) {
   await t.test('should support a `footnoteLabelProperties`', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown('[^1]\n[^1]: a', {
             extensions: [gfm()],
@@ -363,7 +352,6 @@ test('footnote', async function (t) {
   await t.test('should support funky footnote identifiers', async function () {
     assert.equal(
       toHtml(
-        // @ts-expect-error: to do: remove when `to-html` is released.
         toHast(
           fromMarkdown(
             'a[^__proto__] b[^__proto__] c[^constructor]\n\n[^__proto__]: d\n[^constructor]: e',
