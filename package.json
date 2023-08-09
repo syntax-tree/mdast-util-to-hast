@@ -109,6 +109,7 @@
       "import/no-cycle": "error",
       "max-depth": "off",
       "unicorn/prefer-at": "off",
+      "unicorn/prefer-code-point": "off",
       "unicorn/prefer-string-replace-all": "off"
     }
   }
