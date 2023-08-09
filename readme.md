@@ -315,7 +315,7 @@ Back label to use when linking back from definitions to their reference
 
 ### `Handler`
 
-Handle a node (TypeScript).
+Handle a node (TypeScript type).
 
 ###### Parameters
 
@@ -332,7 +332,7 @@ Result ([`Array<HastNode> | HastNode | undefined`][hast-node]).
 
 ### `Handlers`
 
-Handle nodes (TypeScript).
+Handle nodes (TypeScript type).
 
 ###### Type
 
@@ -342,7 +342,7 @@ type Handlers = Partial<Record<Nodes['type'], Handler>>
 
 ### `Options`
 
-Configuration (TypeScript).
+Configuration (TypeScript type).
 
 ###### Fields
 
@@ -380,7 +380,7 @@ Configuration (TypeScript).
 
 ### `Raw`
 
-Raw string of HTML embedded into HTML AST (TypeScript).
+Raw string of HTML embedded into HTML AST (TypeScript type).
 
 ###### Type
 
