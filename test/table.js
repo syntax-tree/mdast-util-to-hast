@@ -30,7 +30,12 @@ test('table', async function (t) {
               children: [
                 {
                   type: 'tableCell',
-                  children: [{type: 'text', value: 'charlie'}]
+                  children: [{type: 'text', value: 'charlie'}],
+                  data: {
+                    hProperties: {
+                      className: ['foo', 'bar']
+                    }
+                  }
                 }
               ]
             }
@@ -60,7 +65,7 @@ test('table', async function (t) {
           '\n',
           h('tr', [
             '\n',
-            h('td', {align: 'left'}, 'charlie'),
+            h('td', {align: 'left', class: 'foo bar'}, 'charlie'),
             '\n',
             h('td', {align: 'right'}),
             '\n'
