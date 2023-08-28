@@ -65,7 +65,7 @@ test('table', async function (t) {
           '\n',
           h('tr', [
             '\n',
-            h('td', {align: 'left', className: ['foo', ''bar']}, 'charlie'),
+            h('td', {align: 'left', className: ['foo', 'bar']}, 'charlie'),
             '\n',
             h('td', {align: 'right'}),
             '\n'
