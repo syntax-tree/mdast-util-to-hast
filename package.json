@@ -40,7 +40,8 @@
     "micromark-util-sanitize-uri": "^2.0.0",
     "trim-lines": "^3.0.0",
     "unist-util-position": "^5.0.0",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

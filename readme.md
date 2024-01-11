@@ -351,6 +351,8 @@ Configuration (TypeScript type).
 *   `clobberPrefix` (`string`, default: `'user-content-'`)
     — prefix to use before the `id` property on footnotes to prevent them from
     *clobbering*
+*   `file` ([`VFile`][vfile], optional)
+    — corresponding virtual file representing the input document
 *   `footnoteBackContent`
     ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
     or `string`, default:
@@ -1686,6 +1688,8 @@ abide by its terms.
 [hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
+
+[vfile]: https://github.com/vfile/vfile
 
 [clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
 

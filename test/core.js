@@ -6,7 +6,8 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {h} from 'hastscript'
-import {toHast} from 'mdast-util-to-hast'
+import {toHast, defaultHandlers} from 'mdast-util-to-hast'
+import {VFile} from 'vfile'
 
 test('toHast', async function (t) {
   await t.test('should expose the public api', async function () {
@@ -272,7 +273,7 @@ test('toHast', async function (t) {
         {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]},
         {
           handlers: {
-            paragraph(h, /** @type {Paragraph} */ node) {
+            paragraph(state, /** @type {Paragraph} */ node) {
               /** @type {Element} */
               const result = {
                 type: 'element',
@@ -280,14 +281,37 @@ test('toHast', async function (t) {
                 properties: {},
                 children: [{type: 'text', value: 'bravo'}]
               }
-              h.patch(node, result)
-              return h.applyData(node, result)
+              state.patch(node, result)
+              return state.applyData(node, result)
             }
           }
         }
       ),
       h('p', 'bravo')
     )
+  })
+
+  await t.test('should support files', async function () {
+    const file = new VFile('alpha')
+
+    assert.deepEqual(
+      toHast(
+        {type: 'paragraph', children: [{type: 'text', value: 'alpha'}]},
+        {
+          file,
+          handlers: {
+            paragraph(state, /** @type {Paragraph} */ node) {
+              assert(state.options.file)
+              state.options.file.message('Warning!')
+              return defaultHandlers.paragraph(state, node)
+            }
+          }
+        }
+      ),
+      h('p', 'alpha')
+    )
+
+    assert.deepEqual(file.messages.map(String), ['1:1: Warning!'])
   })
 
   await t.test('should support unknown nodes by default', async function () {
