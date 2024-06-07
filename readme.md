@@ -12,39 +12,39 @@
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`defaultFootnoteBackContent(referenceIndex, rereferenceIndex)`](#defaultfootnotebackcontentreferenceindex-rereferenceindex)
-    *   [`defaultFootnoteBackLabel(referenceIndex, rereferenceIndex)`](#defaultfootnotebacklabelreferenceindex-rereferenceindex)
-    *   [`defaultHandlers`](#defaulthandlers)
-    *   [`toHast(tree[, options])`](#tohasttree-options)
-    *   [`FootnoteBackContentTemplate`](#footnotebackcontenttemplate)
-    *   [`FootnoteBackLabelTemplate`](#footnotebacklabeltemplate)
-    *   [`Handler`](#handler)
-    *   [`Handlers`](#handlers)
-    *   [`Options`](#options)
-    *   [`Raw`](#raw)
-    *   [`State`](#state)
-*   [Examples](#examples)
-    *   [Example: supporting HTML in markdown naïvely](#example-supporting-html-in-markdown-naïvely)
-    *   [Example: supporting HTML in markdown properly](#example-supporting-html-in-markdown-properly)
-    *   [Example: footnotes in languages other than English](#example-footnotes-in-languages-other-than-english)
-    *   [Example: supporting custom nodes](#example-supporting-custom-nodes)
-*   [Algorithm](#algorithm)
-    *   [Default handling](#default-handling)
-    *   [Fields on nodes](#fields-on-nodes)
-*   [CSS](#css)
-*   [Syntax tree](#syntax-tree)
-    *   [Nodes](#nodes)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [Install](#install)
+* [Use](#use)
+* [API](#api)
+  * [`defaultFootnoteBackContent(referenceIndex, rereferenceIndex)`](#defaultfootnotebackcontentreferenceindex-rereferenceindex)
+  * [`defaultFootnoteBackLabel(referenceIndex, rereferenceIndex)`](#defaultfootnotebacklabelreferenceindex-rereferenceindex)
+  * [`defaultHandlers`](#defaulthandlers)
+  * [`toHast(tree[, options])`](#tohasttree-options)
+  * [`FootnoteBackContentTemplate`](#footnotebackcontenttemplate)
+  * [`FootnoteBackLabelTemplate`](#footnotebacklabeltemplate)
+  * [`Handler`](#handler)
+  * [`Handlers`](#handlers)
+  * [`Options`](#options)
+  * [`Raw`](#raw)
+  * [`State`](#state)
+* [Examples](#examples)
+  * [Example: supporting HTML in markdown naïvely](#example-supporting-html-in-markdown-naïvely)
+  * [Example: supporting HTML in markdown properly](#example-supporting-html-in-markdown-properly)
+  * [Example: footnotes in languages other than English](#example-footnotes-in-languages-other-than-english)
+  * [Example: supporting custom nodes](#example-supporting-custom-nodes)
+* [Algorithm](#algorithm)
+  * [Default handling](#default-handling)
+  * [Fields on nodes](#fields-on-nodes)
+* [CSS](#css)
+* [Syntax tree](#syntax-tree)
+  * [Nodes](#nodes)
+* [Types](#types)
+* [Compatibility](#compatibility)
+* [Security](#security)
+* [Related](#related)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
@@ -131,11 +131,11 @@ Generate the default content that GitHub uses on backreferences.
 
 ###### Parameters
 
-*   `referenceIndex` (`number`)
-    — index of the definition in the order that they are first referenced,
-    0-indexed
-*   `rereferenceIndex` (`number`)
-    — index of calls to the same definition, 0-indexed
+* `referenceIndex` (`number`)
+  — index of the definition in the order that they are first referenced,
+  0-indexed
+* `rereferenceIndex` (`number`)
+  — index of calls to the same definition, 0-indexed
 
 ###### Returns
 
@@ -147,11 +147,11 @@ Generate the default label that GitHub uses on backreferences.
 
 ###### Parameters
 
-*   `referenceIndex` (`number`)
-    — index of the definition in the order that they are first referenced,
-    0-indexed
-*   `rereferenceIndex` (`number`)
-    — index of calls to the same definition, 0-indexed
+* `referenceIndex` (`number`)
+  — index of the definition in the order that they are first referenced,
+  0-indexed
+* `rereferenceIndex` (`number`)
+  — index of calls to the same definition, 0-indexed
 
 ###### Returns
 
@@ -167,10 +167,10 @@ Transform mdast to hast.
 
 ###### Parameters
 
-*   `tree` ([`MdastNode`][mdast-node])
-    — mdast tree
-*   `options` ([`Options`][api-options], optional)
-    — configuration
+* `tree` ([`MdastNode`][mdast-node])
+  — mdast tree
+* `options` ([`Options`][api-options], optional)
+  — configuration
 
 ###### Returns
 
@@ -184,14 +184,14 @@ Raw HTML is available in mdast as [`html`][mdast-html] nodes and can be embedded
 in hast as semistandard `raw` nodes.
 Most utilities ignore `raw` nodes but two notable ones don’t:
 
-*   [`hast-util-to-html`][hast-util-to-html] also has an option
-    `allowDangerousHtml` which will output the raw HTML.
-    This is typically discouraged as noted by the option name but is useful if
-    you completely trust authors
-*   [`hast-util-raw`][hast-util-raw] can handle the raw embedded HTML strings by
-    parsing them into standard hast nodes (`element`, `text`, etc).
-    This is a heavy task as it needs a full HTML parser, but it is the only way
-    to support untrusted content
+* [`hast-util-to-html`][hast-util-to-html] also has an option
+  `allowDangerousHtml` which will output the raw HTML.
+  This is typically discouraged as noted by the option name but is useful if
+  you completely trust authors
+* [`hast-util-raw`][hast-util-raw] can handle the raw embedded HTML strings by
+  parsing them into standard hast nodes (`element`, `text`, etc).
+  This is a heavy task as it needs a full HTML parser, but it is the only way
+  to support untrusted content
 
 ###### Footnotes
 
@@ -235,11 +235,11 @@ More information on how to handle clobbering and the prefix is explained in
 Unknown nodes are nodes with a type that isn’t in `handlers` or `passThrough`.
 The default behavior for unknown nodes is:
 
-*   when the node has a `value` (and doesn’t have `data.hName`,
-    `data.hProperties`, or `data.hChildren`, see later), create a hast `text`
-    node
-*   otherwise, create a `<div>` element (which could be changed with
-    `data.hName`), with its children mapped from mdast to hast as well
+* when the node has a `value` (and doesn’t have `data.hName`,
+  `data.hProperties`, or `data.hChildren`, see later), create a hast `text`
+  node
+* otherwise, create a `<div>` element (which could be changed with
+  `data.hName`), with its children mapped from mdast to hast as well
 
 This behavior can be changed by passing an `unknownHandler`.
 
@@ -258,20 +258,20 @@ Alpha[^micromark], bravo[^micromark], and charlie[^remark].
 
 This function will be called with:
 
-*   `0` and `0` for the backreference from `things about micromark` to
-    `alpha`, as it is the first used definition, and the first call to it
-*   `0` and `1` for the backreference from `things about micromark` to
-    `bravo`, as it is the first used definition, and the second call to it
-*   `1` and `0` for the backreference from `things about remark` to
-    `charlie`, as it is the second used definition
+* `0` and `0` for the backreference from `things about micromark` to
+  `alpha`, as it is the first used definition, and the first call to it
+* `0` and `1` for the backreference from `things about micromark` to
+  `bravo`, as it is the first used definition, and the second call to it
+* `1` and `0` for the backreference from `things about remark` to
+  `charlie`, as it is the second used definition
 
 ###### Parameters
 
-*   `referenceIndex` (`number`)
-    — index of the definition in the order that they are first referenced,
-    0-indexed
-*   `rereferenceIndex` (`number`)
-    — index of calls to the same definition, 0-indexed
+* `referenceIndex` (`number`)
+  — index of the definition in the order that they are first referenced,
+  0-indexed
+* `rereferenceIndex` (`number`)
+  — index of calls to the same definition, 0-indexed
 
 ###### Returns
 
@@ -293,20 +293,20 @@ Alpha[^micromark], bravo[^micromark], and charlie[^remark].
 
 This function will be called with:
 
-*   `0` and `0` for the backreference from `things about micromark` to
-    `alpha`, as it is the first used definition, and the first call to it
-*   `0` and `1` for the backreference from `things about micromark` to
-    `bravo`, as it is the first used definition, and the second call to it
-*   `1` and `0` for the backreference from `things about remark` to
-    `charlie`, as it is the second used definition
+* `0` and `0` for the backreference from `things about micromark` to
+  `alpha`, as it is the first used definition, and the first call to it
+* `0` and `1` for the backreference from `things about micromark` to
+  `bravo`, as it is the first used definition, and the second call to it
+* `1` and `0` for the backreference from `things about remark` to
+  `charlie`, as it is the second used definition
 
 ###### Parameters
 
-*   `referenceIndex` (`number`)
-    — index of the definition in the order that they are first referenced,
-    0-indexed
-*   `rereferenceIndex` (`number`)
-    — index of calls to the same definition, 0-indexed
+* `referenceIndex` (`number`)
+  — index of the definition in the order that they are first referenced,
+  0-indexed
+* `rereferenceIndex` (`number`)
+  — index of calls to the same definition, 0-indexed
 
 ###### Returns
 
@@ -319,12 +319,12 @@ Handle a node (TypeScript type).
 
 ###### Parameters
 
-*   `state` ([`State`][api-state])
-    — info passed around
-*   `node` ([`MdastNode`][mdast-node])
-    — node to handle
-*   `parent` ([`MdastNode | undefined`][mdast-node])
-    — parent of `node`
+* `state` ([`State`][api-state])
+  — info passed around
+* `node` ([`MdastNode`][mdast-node])
+  — node to handle
+* `parent` ([`MdastNode | undefined`][mdast-node])
+  — parent of `node`
 
 ###### Returns
 
@@ -346,39 +346,39 @@ Configuration (TypeScript type).
 
 ###### Fields
 
-*   `allowDangerousHtml` (`boolean`, default: `false`)
-    — whether to persist raw HTML in markdown in the hast tree
-*   `clobberPrefix` (`string`, default: `'user-content-'`)
-    — prefix to use before the `id` property on footnotes to prevent them from
-    *clobbering*
-*   `file` ([`VFile`][vfile], optional)
-    — corresponding virtual file representing the input document
-*   `footnoteBackContent`
-    ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
-    or `string`, default:
-    [`defaultFootnoteBackContent`][api-default-footnote-back-content])
-    — content of the backreference back to references
-*   `footnoteBackLabel`
-    ([`FootnoteBackLabelTemplate`][api-footnote-back-label-template]
-    or `string`, default:
-    [`defaultFootnoteBackLabel`][api-default-footnote-back-label])
-    — label to describe the backreference back to references
-*   `footnoteLabel` (`string`, default: `'Footnotes'`)
-    — label to use for the footnotes section (affects screen readers)
-*   `footnoteLabelProperties`
-    ([`Properties`][properties], default: `{className: ['sr-only']}`)
-    — properties to use on the footnote label
-    (note that `id: 'footnote-label'` is always added as footnote calls use it
-    with `aria-describedby` to provide an accessible label)
-*   `footnoteLabelTagName` (`string`, default: `h2`)
-    — tag name to use for the footnote label
-*   `handlers` ([`Handlers`][api-handlers], optional)
-    — extra handlers for nodes
-*   `passThrough` (`Array<Nodes['type']>`, optional)
-    — list of custom mdast node types to pass through (keep) in hast (note that
-    the node itself is passed, but eventual children are transformed)
-*   `unknownHandler` ([`Handler`][api-handler], optional)
-    — handle all unknown nodes
+* `allowDangerousHtml` (`boolean`, default: `false`)
+  — whether to persist raw HTML in markdown in the hast tree
+* `clobberPrefix` (`string`, default: `'user-content-'`)
+  — prefix to use before the `id` property on footnotes to prevent them from
+  *clobbering*
+* `file` ([`VFile`][vfile], optional)
+  — corresponding virtual file representing the input document
+* `footnoteBackContent`
+  ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
+  or `string`, default:
+  [`defaultFootnoteBackContent`][api-default-footnote-back-content])
+  — content of the backreference back to references
+* `footnoteBackLabel`
+  ([`FootnoteBackLabelTemplate`][api-footnote-back-label-template]
+  or `string`, default:
+  [`defaultFootnoteBackLabel`][api-default-footnote-back-label])
+  — label to describe the backreference back to references
+* `footnoteLabel` (`string`, default: `'Footnotes'`)
+  — label to use for the footnotes section (affects screen readers)
+* `footnoteLabelProperties`
+  ([`Properties`][properties], default: `{className: ['sr-only']}`)
+  — properties to use on the footnote label
+  (note that `id: 'footnote-label'` is always added as footnote calls use it
+  with `aria-describedby` to provide an accessible label)
+* `footnoteLabelTagName` (`string`, default: `h2`)
+  — tag name to use for the footnote label
+* `handlers` ([`Handlers`][api-handlers], optional)
+  — extra handlers for nodes
+* `passThrough` (`Array<Nodes['type']>`, optional)
+  — list of custom mdast node types to pass through (keep) in hast (note that
+  the node itself is passed, but eventual children are transformed)
+* `unknownHandler` ([`Handler`][api-handler], optional)
+  — handle all unknown nodes
 
 ### `Raw`
 
@@ -403,28 +403,28 @@ Info passed around about the current state (TypeScript type).
 
 ###### Fields
 
-*   `all` (`(node: MdastNode) => Array<HastNode>`)
-    — transform the children of an mdast parent to hast
-*   `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
-    — honor the `data` of `from` and maybe generate an element instead of `to`
-*   `definitionById` (`Map<string, Definition>`)
-    — definitions by their uppercased identifier
-*   `footnoteById` (`Map<string, FootnoteDefinition>`)
-    — footnote definitions by their uppercased identifier
-*   `footnoteCounts` (`Map<string, number>`)
-    — counts for how often the same footnote was called
-*   `footnoteOrder` (`Array<string>`)
-    — identifiers of order when footnote calls first appear in tree order
-*   `handlers` ([`Handlers`][api-handlers])
-    — applied node handlers
-*   `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
-    — transform an mdast node to hast
-*   `options` ([`Options`][api-options])
-    — configuration
-*   `patch` (`(from: MdastNode, to: HastNode) => undefined`)
-*   `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
-    — wrap `nodes` with line endings between each node, adds initial/final line
-    endings when `loose`
+* `all` (`(node: MdastNode) => Array<HastNode>`)
+  — transform the children of an mdast parent to hast
+* `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
+  — honor the `data` of `from` and maybe generate an element instead of `to`
+* `definitionById` (`Map<string, Definition>`)
+  — definitions by their uppercased identifier
+* `footnoteById` (`Map<string, FootnoteDefinition>`)
+  — footnote definitions by their uppercased identifier
+* `footnoteCounts` (`Map<string, number>`)
+  — counts for how often the same footnote was called
+* `footnoteOrder` (`Array<string>`)
+  — identifiers of order when footnote calls first appear in tree order
+* `handlers` ([`Handlers`][api-handlers])
+  — applied node handlers
+* `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
+  — transform an mdast node to hast
+* `options` ([`Options`][api-options])
+  — configuration
+* `patch` (`(from: MdastNode, to: HastNode) => undefined`)
+* `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
+  — wrap `nodes` with line endings between each node, adds initial/final line
+  endings when `loose`
 
 ## Examples
 
@@ -1163,7 +1163,8 @@ Anything!
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`table`, `thead`, `tbody`, `tr`, `td`, `th`)
+[`element`](https://github.com/syntax-tree/hast#element) (`table`, `thead`,
+`tbody`, `tr`, `td`, `th`)
 
 </td>
 <td>
@@ -1292,9 +1293,9 @@ plugin does understand because they define a certain hast structure.
 
 The following fields can be used:
 
-*   `node.data.hName` — define the element’s tag name
-*   `node.data.hProperties` — define extra properties to use
-*   `node.data.hChildren` — define hast children to use
+* `node.data.hName` — define the element’s tag name
+* `node.data.hProperties` — define extra properties to use
+* `node.data.hChildren` — define hast children to use
 
 ###### `hName`
 
@@ -1596,12 +1597,12 @@ Use [`hast-util-sanitize`][hast-util-sanitize] to make the hast tree safe.
 
 ## Related
 
-*   [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
-    — transform hast to mdast
-*   [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
-    — transform hast to xast
-*   [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
-    — sanitize hast nodes
+* [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
+  — transform hast to mdast
+* [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
+  — transform hast to xast
+* [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
+  — sanitize hast nodes
 
 ## Contribute
 
