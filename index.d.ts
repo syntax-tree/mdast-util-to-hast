@@ -37,6 +37,15 @@ export interface RawData extends Data {}
 
 // Register nodes in content.
 declare module 'hast' {
+  interface ElementData {
+    /**
+     * Custom info relating to the node, if `<code>` in `<pre>`.
+     *
+     * Defined by `mdast-util-to-hast` (`remark-rehype`).
+     */
+    meta?: string | null | undefined
+  }
+
   interface ElementContentMap {
     /**
      * Raw string of HTML embedded into HTML AST.
