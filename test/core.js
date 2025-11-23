@@ -1,6 +1,6 @@
 /**
- * @typedef {import('hast').Element} Element
- * @typedef {import('mdast').Paragraph} Paragraph
+ * @import {Element} from 'hast'
+ * @import {Paragraph} from 'mdast'
  */
 
 import assert from 'node:assert/strict'
