@@ -34,6 +34,13 @@ test('code', async function (t) {
     }
   )
 
+  await t.test('should transform `lang` w/ spaces', async function () {
+    assert.deepEqual(
+      toHast({type: 'code', lang: 'js python\truby', value: 'echo()'}),
+      h('pre', [h('code', {className: ['language-js']}, 'echo()\n')])
+    )
+  })
+
   await t.test('should support `meta`', async function () {
     assert.deepEqual(
       toHast({type: 'code', lang: 'js', meta: 'echo', value: 'foxtrot()'}),
