@@ -32,19 +32,60 @@ test('break', async function (t) {
     )
   })
 
-  await t.test('should trim text after a `br` (#2)', async function () {
-    assert.deepEqual(
-      toHast({
-        type: 'paragraph',
-        children: [
-          {type: 'text', value: 'alpha'},
-          {type: 'break'},
-          {type: 'emphasis', children: [{type: 'text', value: '  bravo'}]}
-        ]
-      }),
-      h('p', ['alpha', h('br'), '\n', h('em', 'bravo')])
-    )
-  })
+  await t.test(
+    'should not trim text inside `emphasis` after a `br`',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'alpha'},
+            {type: 'break'},
+            {type: 'emphasis', children: [{type: 'text', value: '  bravo'}]}
+          ]
+        }),
+        h('p', ['alpha', h('br'), '\n', h('em', '  bravo')])
+      )
+    }
+  )
+
+  await t.test(
+    'should not trim text inside a `link` after a `br`',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'alpha'},
+            {type: 'break'},
+            {
+              type: 'link',
+              url: 'u',
+              children: [{type: 'text', value: '  bravo'}]
+            }
+          ]
+        }),
+        h('p', ['alpha', h('br'), '\n', h('a', {href: 'u'}, '  bravo')])
+      )
+    }
+  )
+
+  await t.test(
+    'should not trim text inside `inlineCode` after a `br`',
+    async function () {
+      assert.deepEqual(
+        toHast({
+          type: 'paragraph',
+          children: [
+            {type: 'text', value: 'alpha'},
+            {type: 'break'},
+            {type: 'inlineCode', value: '  bravo'}
+          ]
+        }),
+        h('p', ['alpha', h('br'), '\n', h('code', '  bravo')])
+      )
+    }
+  )
 
   await t.test('should trim text after a `br` (#3)', async function () {
     assert.deepEqual(
