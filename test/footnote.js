@@ -375,4 +375,35 @@ test('footnote', async function (t) {
 </section>`
     )
   })
+
+  await t.test(
+    'should render back references for footnote calls inside later footnote definitions',
+    async function () {
+      assert.equal(
+        toHtml(
+          toHast(
+            fromMarkdown(
+              'Text.[^1]\n\n[^1]: One.\n[^2]: Two, see also note 1.[^1]\n\nMore.[^2]\n',
+              {
+                extensions: [gfm()],
+                mdastExtensions: [gfmFromMarkdown()]
+              }
+            )
+          )
+        ),
+        `<p>Text.<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<p>More.<sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>One. <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-1-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-2">
+<p>Two, see also note 1.<sup><a href="#user-content-fn-1" id="user-content-fnref-1-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
 })
