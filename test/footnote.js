@@ -375,4 +375,58 @@ test('footnote', async function (t) {
 </section>`
     )
   })
+
+  await t.test(
+    'should add back references for calls in later definitions',
+    async function () {
+      assert.equal(
+        toHtml(
+          toHast(
+            fromMarkdown('[^1] [^2]\n[^1]: a\n[^2]: b[^1]', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            })
+          )
+        ),
+        `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-1-2" data-footnote-backref="" aria-label="Back to reference 1-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-2">
+<p>b<sup><a href="#user-content-fn-1" id="user-content-fnref-1-2" data-footnote-ref aria-describedby="footnote-label">1</a></sup> <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
+
+  await t.test(
+    'should render footnotes only called in definitions',
+    async function () {
+      assert.equal(
+        toHtml(
+          toHast(
+            fromMarkdown('[^1]\n[^1]: a[^2]\n[^2]: b', {
+              extensions: [gfm()],
+              mdastExtensions: [gfmFromMarkdown()]
+            })
+          )
+        ),
+        `<p><sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
+<section data-footnotes class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>a<sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref aria-describedby="footnote-label">2</a></sup> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p>b <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>`
+      )
+    }
+  )
 })
