@@ -45,8 +45,8 @@
 
 ## What is this?
 
-This package is a utility that takes an [mdast][github-mdast] (markdown)
-syntax tree as input and turns it into a [hast][github-hast] (HTML) syntax tree.
+This package is a utility that takes an [mdast][github-mdast] (markdown) syntax
+tree as input and turns it into a [hast][github-hast] (HTML) syntax tree.
 
 ## When should I use this?
 
@@ -57,8 +57,8 @@ The hast utility [`hast-util-to-mdast`][github-hast-util-to-mdast] does the
 inverse of this utility.
 It turns HTML into markdown.
 
-The remark plugin [`remark-rehype`][github-remark-rehype] wraps this utility
-to also turn markdown to HTML at a higher-level (easier) abstraction.
+The remark plugin [`remark-rehype`][github-remark-rehype] wraps this utility to
+also turn markdown to HTML at a higher-level (easier) abstraction.
 
 ## Install
 
@@ -112,8 +112,8 @@ console.log(html)
 This package exports the identifiers
 [`defaultFootnoteBackContent`][api-default-footnote-back-content],
 [`defaultFootnoteBackLabel`][api-default-footnote-back-label],
-[`defaultHandlers`][api-default-handlers], and
-[`toHast`][api-to-hast].
+[`defaultHandlers`][api-default-handlers],
+and [`toHast`][api-to-hast].
 There is no default export.
 
 ### `defaultFootnoteBackContent(referenceIndex, rereferenceIndex)`
@@ -177,34 +177,37 @@ Most utilities ignore `raw` nodes but two notable ones don’t:
 
 * [`hast-util-to-html`][github-hast-util-to-html] also has an option
   `allowDangerousHtml` which will output the raw HTML.
-  This is typically discouraged as noted by the option name but is useful if
-  you completely trust authors
+  This is typically discouraged as noted by the option name but is useful if you
+  completely trust authors
 * [`hast-util-raw`][github-hast-util-raw] can handle the raw embedded HTML
   strings by parsing them into standard hast nodes (`element`, `text`, etc).
-  This is a heavy task as it needs a full HTML parser, but it is the only way
-  to support untrusted content
+  This is a heavy task as it needs a full HTML parser,
+  but it is the only way to support untrusted content
 
 ###### Footnotes
 
 Many options supported here relate to footnotes.
 Footnotes are not specified by CommonMark, which we follow by default.
-They are supported by GitHub, so footnotes can be enabled in markdown with
+They are supported by GitHub,
+so footnotes can be enabled in markdown with
 [`mdast-util-gfm`][github-mdast-util-gfm].
 
-The options `footnoteBackLabel` and `footnoteLabel` define natural language
-that explains footnotes, which is hidden for sighted users but shown to
-assistive technology.
+The options `footnoteBackLabel` and `footnoteLabel` define natural language that
+explains footnotes,
+which is hidden for sighted users but shown to assistive technology.
 When your page is not in English, you must define translated values.
 
-Back references use ARIA attributes, but the section label itself uses a
-heading that is hidden with an `sr-only` class.
-To show it to sighted users, define different attributes in
-`footnoteLabelProperties`.
+Back references use ARIA attributes,
+but the section label itself uses a heading that is hidden with an `sr-only`
+class.
+To show it to sighted users,
+define different attributes in `footnoteLabelProperties`.
 
 ###### Clobbering
 
-Footnotes introduces a problem, as it links footnote calls to footnote
-definitions on the page through `id` attributes generated from user content,
+Footnotes introduces a problem,
+as it links footnote calls to footnote definitions on the page through `id`
+attributes generated from user content,
 which results in DOM clobbering.
 
 DOM clobbering is this:
@@ -228,10 +231,11 @@ Unknown nodes are nodes with a type that isn’t in `handlers` or `passThrough`.
 The default behavior for unknown nodes is:
 
 * when the node has a `value` (and doesn’t have `data.hName`,
-  `data.hProperties`, or `data.hChildren`, see later), create a hast `text`
-  node
-* otherwise, create a `<div>` element (which could be changed with
-  `data.hName`), with its children mapped from mdast to hast as well
+  `data.hProperties`, or `data.hChildren`, see later),
+  create a hast `text` node
+* otherwise,
+  create a `<div>` element (which could be changed with `data.hName`),
+  with its children mapped from mdast to hast as well
 
 This behavior can be changed by passing an `unknownHandler`.
 
@@ -250,12 +254,14 @@ Alpha[^micromark], bravo[^micromark], and charlie[^remark].
 
 This function will be called with:
 
-* `0` and `0` for the backreference from `things about micromark` to
-  `alpha`, as it is the first used definition, and the first call to it
-* `0` and `1` for the backreference from `things about micromark` to
-  `bravo`, as it is the first used definition, and the second call to it
-* `1` and `0` for the backreference from `things about remark` to
-  `charlie`, as it is the second used definition
+* `0` and `0` for the backreference from `things about micromark` to `alpha`,
+  as it is the first used definition,
+  and the first call to it
+* `0` and `1` for the backreference from `things about micromark` to `bravo`,
+  as it is the first used definition,
+  and the second call to it
+* `1` and `0` for the backreference from `things about remark` to `charlie`,
+  as it is the second used definition
 
 ###### Parameters
 
@@ -285,12 +291,14 @@ Alpha[^micromark], bravo[^micromark], and charlie[^remark].
 
 This function will be called with:
 
-* `0` and `0` for the backreference from `things about micromark` to
-  `alpha`, as it is the first used definition, and the first call to it
-* `0` and `1` for the backreference from `things about micromark` to
-  `bravo`, as it is the first used definition, and the second call to it
-* `1` and `0` for the backreference from `things about remark` to
-  `charlie`, as it is the second used definition
+* `0` and `0` for the backreference from `things about micromark` to `alpha`,
+  as it is the first used definition,
+  and the first call to it
+* `0` and `1` for the backreference from `things about micromark` to `bravo`,
+  as it is the first used definition,
+  and the second call to it
+* `1` and `0` for the backreference from `things about remark` to `charlie`,
+  as it is the second used definition
 
 ###### Parameters
 
@@ -346,14 +354,13 @@ Configuration (TypeScript type).
 * `file` ([`VFile`][github-vfile], optional)
   — corresponding virtual file representing the input document
 * `footnoteBackContent`
-  ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
-  or `string`, default:
+  ([`FootnoteBackContentTemplate`][api-footnote-back-content-template] or
+  `string`, default:
   [`defaultFootnoteBackContent`][api-default-footnote-back-content])
   — content of the backreference back to references
 * `footnoteBackLabel`
-  ([`FootnoteBackLabelTemplate`][api-footnote-back-label-template]
-  or `string`, default:
-  [`defaultFootnoteBackLabel`][api-default-footnote-back-label])
+  ([`FootnoteBackLabelTemplate`][api-footnote-back-label-template] or `string`,
+  default: [`defaultFootnoteBackLabel`][api-default-footnote-back-label])
   — label to describe the backreference back to references
 * `footnoteLabel` (`string`, default: `'Footnotes'`)
   — label to use for the footnotes section (affects screen readers)
@@ -397,7 +404,8 @@ Info passed around about the current state (TypeScript type).
 
 * `all` (`(node: MdastNode) => Array<HastNode>`)
   — transform the children of an mdast parent to hast
-* `applyData` (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
+* `applyData`
+  (`<Type extends HastNode>(from: MdastNode, to: Type) => Type | HastElement`)
   — honor the `data` of `from` and maybe generate an element instead of `to`
 * `definitionById` (`Map<string, Definition>`)
   — definitions by their uppercased identifier
@@ -409,22 +417,25 @@ Info passed around about the current state (TypeScript type).
   — identifiers of order when footnote calls first appear in tree order
 * `handlers` ([`Handlers`][api-handlers])
   — applied node handlers
-* `one` (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
+* `one`
+  (`(node: MdastNode, parent: MdastNode | undefined) => HastNode | Array<HastNode> | undefined`)
   — transform an mdast node to hast
 * `options` ([`Options`][api-options])
   — configuration
 * `patch` (`(from: MdastNode, to: HastNode) => undefined`)
-* `wrap` (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
-  — wrap `nodes` with line endings between each node, adds initial/final line
-  endings when `loose`
+* `wrap`
+  (`<Type extends HastNode>(nodes: Array<Type>, loose?: boolean) => Array<Type | HastText>`)
+  — wrap `nodes` with line endings between each node,
+  adds initial/final line endings when `loose`
 
 ## Examples
 
 ### Example: supporting HTML in markdown naïvely
 
 If you completely trust authors (or plugins) and want to allow them to HTML *in*
-markdown, and the last utility has an `allowDangerousHtml` option as well (such
-as `hast-util-to-html`) you can pass `allowDangerousHtml` to this utility
+markdown,
+and the last utility has an `allowDangerousHtml` option as well (such as
+`hast-util-to-html`) you can pass `allowDangerousHtml` to this utility
 (`mdast-util-to-hast`):
 
 ```js
@@ -446,14 +457,15 @@ console.log(html)
 <p>It <i>works</i>! <img onerror="alert(1)"></p>
 ```
 
-> ⚠️ **Danger**: observe that the XSS attack through the `onerror` attribute
-> is still present.
+> ⚠️ **Danger**: observe that the XSS attack through the `onerror` attribute is
+> still present.
 
 ### Example: supporting HTML in markdown properly
 
-If you do not trust the authors of the input markdown, or if you want to make
-sure that further utilities can see HTML embedded in markdown, use
-[`hast-util-raw`][github-hast-util-raw].
+If you do not trust the authors of the input markdown,
+or if you want to make sure that further utilities can see HTML embedded in
+markdown,
+use [`hast-util-raw`][github-hast-util-raw].
 The following example passes `allowDangerousHtml` to this utility
 (`mdast-util-to-hast`), then turns the raw embedded HTML into proper HTML nodes
 (`hast-util-raw`), and finally sanitizes the HTML by only allowing safe things
@@ -481,15 +493,16 @@ console.log(html)
 <p>It <i>works</i>! <img></p>
 ```
 
-> 👉 **Note**: observe that the XSS attack through the `onerror` attribute
-> is no longer present.
+> 👉 **Note**: observe that the XSS attack through the `onerror` attribute is no
+> longer present.
 
 ### Example: footnotes in languages other than English
 
 If you know that the markdown is authored in a language other than English,
 and you’re using `micromark-extension-gfm` and `mdast-util-gfm` to match how
-GitHub renders markdown, and you know that footnotes are (or can?) be used, you
-should translate the labels associated with them.
+GitHub renders markdown,
+and you know that footnotes are (or can?) be used,
+you should translate the labels associated with them.
 
 Let’s first set the stage:
 
@@ -526,8 +539,9 @@ console.log(html)
 
 This is a mix of English and French that screen readers can’t handle nicely.
 Let’s say our program does know that the markdown is in French.
-In that case, it’s important to translate and define the labels relating to
-footnotes so that screen reader users can properly pronounce the page:
+In that case,
+it’s important to translate and define the labels relating to footnotes so that
+screen reader users can properly pronounce the page:
 
 ```diff
 @@ -9,7 +9,16 @@ const mdast = fromMarkdown(markdown, {
@@ -570,11 +584,13 @@ footnotes so that screen reader users can properly pronounce the page:
 
 This project supports CommonMark and the GFM constructs (footnotes,
 strikethrough, tables) and the frontmatter constructs YAML and TOML.
-Support can be extended to other constructs in two ways: a) with handlers, b)
-through fields on nodes.
+Support can be extended to other constructs in two ways: a) with handlers,
+b) through fields on nodes.
 
-For example, when we represent a mark element in markdown and want to turn it
-into a `<mark>` element in HTML, we can use a handler:
+For example,
+when we represent a mark element in markdown and want to turn it into a `<mark>`
+element in HTML,
+we can use a handler:
 
 ```js
 import {toHtml} from 'hast-util-to-html'
@@ -623,8 +639,8 @@ console.log(toHtml(toHast(mdast)))
 
 ## Algorithm
 
-This project by default handles CommonMark, GFM (footnotes, strikethrough,
-tables) and common frontmatter (YAML, TOML).
+This project by default handles CommonMark,
+GFM (footnotes, strikethrough, tables) and common frontmatter (YAML, TOML).
 
 Existing handlers can be overwritten and handlers for more nodes can be added.
 It’s also possible to define how mdast is turned into hast through fields on
@@ -1155,8 +1171,7 @@ Anything!
 </td>
 <td>
 
-[`element`][github-hast-element] (`table`, `thead`,
-`tbody`, `tr`, `td`, `th`)
+[`element`][github-hast-element] (`table`, `thead`, `tbody`, `tr`, `td`, `th`)
 
 </td>
 <td>
@@ -1272,17 +1287,19 @@ n/a
 ### Fields on nodes
 
 A frequent problem arises when having to turn one syntax tree into another.
-As the original tree (in this case, mdast for markdown) is in some cases
-limited compared to the destination (in this case, hast for HTML) tree,
-is it possible to provide more info in the original to define what the
-result will be in the destination?
-This is possible by defining data on mdast nodes, which this utility will read
-as instructions on what hast nodes to create.
+As the original tree (in this case, mdast for markdown) is in some cases limited
+compared to the destination (in this case, hast for HTML) tree,
+is it possible to provide more info in the original to define what the result
+will be in the destination?
+This is possible by defining data on mdast nodes,
+which this utility will read as instructions on what hast nodes to create.
 
-An example is math, which is a nonstandard markdown extension, that this utility
-doesn’t understand.
-To solve this, `mdast-util-math` defines instructions on mdast nodes that this
-plugin does understand because they define a certain hast structure.
+An example is math,
+which is a nonstandard markdown extension,
+that this utility doesn’t understand.
+To solve this,
+`mdast-util-math` defines instructions on mdast nodes that this plugin does
+understand because they define a certain hast structure.
 
 The following fields can be used:
 
@@ -1396,18 +1413,20 @@ The following [mdast][github-mdast]:
 
 ## CSS
 
-Assuming you know how to use (semantic) HTML and CSS, then it should generally
-be straightforward to style the HTML produced by this plugin.
+Assuming you know how to use (semantic) HTML and CSS,
+then it should generally be straightforward to style the HTML produced by this
+plugin.
 With CSS, you can get creative and style the results as you please.
 
-Some semistandard features, notably GFMs tasklists and footnotes, generate HTML
-that be unintuitive, as it matches exactly what GitHub produces for their
-website.
+Some semistandard features,
+notably GFMs tasklists and footnotes,
+generate HTML that be unintuitive,
+as it matches exactly what GitHub produces for their website.
 There is a project,
 [`sindresorhus/github-markdown-css`][github-github-markdown-css],
-that exposes the stylesheet that GitHub uses for rendered markdown, which might
-either be inspirational for more complex features, or can be used as-is to
-exactly match how GitHub styles rendered markdown.
+that exposes the stylesheet that GitHub uses for rendered markdown,
+which might either be inspirational for more complex features,
+or can be used as-is to exactly match how GitHub styles rendered markdown.
 
 The following CSS is needed to make footnotes look a bit like GitHub:
 
@@ -1470,13 +1489,14 @@ It exports the
 [`Handler`][api-handler],
 [`Handlers`][api-handlers],
 [`Options`][api-options],
-[`Raw`][api-raw], and
-[`State`][api-state] types.
+[`Raw`][api-raw],
+and [`State`][api-state] types.
 
 It also registers the `Raw` node type with `@types/hast`.
 If you’re working with the syntax tree (and you pass
-`allowDangerousHtml: true`), make sure to import this utility somewhere in your
-types, as that registers the new node type in the tree.
+`allowDangerousHtml: true`),
+make sure to import this utility somewhere in your types,
+as that registers the new node type in the tree.
 
 ```js
 /**
@@ -1494,10 +1514,13 @@ visit(tree, function (node) {
 })
 ```
 
-Finally, it also registers the `hChildren`, `hName`, and `hProperties` fields
-on `Data` of `@types/mdast`.
-If you’re working with the syntax tree, make sure to import this utility
-somewhere in your types, as that registers the data fields in the tree.
+Finally,
+it also registers the `hChildren`,
+`hName`,
+and `hProperties` fields on `Data` of `@types/mdast`.
+If you’re working with the syntax tree,
+make sure to import this utility somewhere in your types,
+as that registers the data fields in the tree.
 
 ```js
 /**
@@ -1518,16 +1541,18 @@ console.log(tree.data?.hName) // Types as `string | undefined`.
 Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
 
-When we cut a new major release, we drop support for unmaintained versions of
-Node.
-This means we try to keep the current release line, `mdast-util-to-hast@^13`,
+When we cut a new major release,
+we drop support for unmaintained versions of Node.
+This means we try to keep the current release line,
+`mdast-util-to-hast@^13`,
 compatible with Node.js 16.
 
 ## Security
 
 Use of `mdast-util-to-hast` can open you up to a
 [cross-site scripting (XSS)][wikipedia-xss] attack.
-Embedded hast properties (`hName`, `hProperties`, `hChildren`), custom handlers,
+Embedded hast properties (`hName`, `hProperties`, `hChildren`),
+custom handlers,
 and the `allowDangerousHtml` option all provide openings.
 
 The following example shows how a script is injected where a benign code block
@@ -1583,7 +1608,8 @@ not enough to run unsafe code:
 ```
 
 If `allowDangerousHtml: true` is also given to `hast-util-to-html` (or
-`rehype-stringify`), the unsafe code runs:
+`rehype-stringify`),
+the unsafe code runs:
 
 ```html
 <h1>Hello</h1>
