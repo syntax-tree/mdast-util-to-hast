@@ -1,21 +1,21 @@
-name: main
-on:
-  - pull_request
-  - push
 jobs:
   main:
     name: ${{matrix.node}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{matrix.node}}
       - run: npm install
       - run: npm test
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v7
     strategy:
       matrix:
         node:
-          - lts/iron
+          - lts/krypton
           - node
+name: main
+on:
+  - pull_request
+  - push
