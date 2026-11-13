@@ -88,7 +88,7 @@ Say we have the following `example.md`:
 …and next to it a module `example.js`:
 
 ```js
-import {fs} from 'node:fs/promises'
+import fs from 'node:fs/promises'
 import {toHtml} from 'hast-util-to-html'
 import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toHast} from 'mdast-util-to-hast'
