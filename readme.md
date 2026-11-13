@@ -1,14 +1,11 @@
 # mdast-util-to-hast
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
+[![Build][badge-build-image]][badge-build-url]
+[![Coverage][badge-coverage-image]][badge-coverage-url]
+[![Downloads][badge-downloads-image]][badge-downloads-url]
+[![Size][badge-size-image]][badge-size-url]
 
-[mdast][] utility to transform to [hast][].
+[mdast][github-mdast] utility to transform to [hast][github-hast].
 
 ## Contents
 
@@ -48,25 +45,25 @@
 
 ## What is this?
 
-This package is a utility that takes an [mdast][] (markdown) syntax tree as
-input and turns it into a [hast][] (HTML) syntax tree.
+This package is a utility that takes an [mdast][github-mdast] (markdown)
+syntax tree as input and turns it into a [hast][github-hast] (HTML) syntax tree.
 
 ## When should I use this?
 
 This project is useful when you want to deal with ASTs and turn markdown to
 HTML.
 
-The hast utility [`hast-util-to-mdast`][hast-util-to-mdast] does the inverse of
-this utility.
+The hast utility [`hast-util-to-mdast`][github-hast-util-to-mdast] does the
+inverse of this utility.
 It turns HTML into markdown.
 
-The remark plugin [`remark-rehype`][remark-rehype] wraps this utility to also
-turn markdown to HTML at a higher-level (easier) abstraction.
+The remark plugin [`remark-rehype`][github-remark-rehype] wraps this utility
+to also turn markdown to HTML at a higher-level (easier) abstraction.
 
 ## Install
 
-This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][]:
+This package is [ESM only][github-gist-esm].
+In Node.js (version 16+), install with [npm][npmjs-install]:
 
 ```sh
 npm install mdast-util-to-hast
@@ -167,29 +164,29 @@ Transform mdast to hast.
 
 ###### Parameters
 
-* `tree` ([`MdastNode`][mdast-node])
+* `tree` ([`MdastNode`][github-mdast-nodes])
   — mdast tree
 * `options` ([`Options`][api-options], optional)
   — configuration
 
 ###### Returns
 
-hast tree ([`HastNode`][hast-node]).
+hast tree ([`HastNode`][github-hast-nodes]).
 
 ##### Notes
 
 ###### HTML
 
-Raw HTML is available in mdast as [`html`][mdast-html] nodes and can be embedded
-in hast as semistandard `raw` nodes.
+Raw HTML is available in mdast as [`html`][github-mdast-html] nodes and can be
+embedded in hast as semistandard `raw` nodes.
 Most utilities ignore `raw` nodes but two notable ones don’t:
 
-* [`hast-util-to-html`][hast-util-to-html] also has an option
+* [`hast-util-to-html`][github-hast-util-to-html] also has an option
   `allowDangerousHtml` which will output the raw HTML.
   This is typically discouraged as noted by the option name but is useful if
   you completely trust authors
-* [`hast-util-raw`][hast-util-raw] can handle the raw embedded HTML strings by
-  parsing them into standard hast nodes (`element`, `text`, etc).
+* [`hast-util-raw`][github-hast-util-raw] can handle the raw embedded HTML
+  strings by parsing them into standard hast nodes (`element`, `text`, etc).
   This is a heavy task as it needs a full HTML parser, but it is the only way
   to support untrusted content
 
@@ -198,7 +195,7 @@ Most utilities ignore `raw` nodes but two notable ones don’t:
 Many options supported here relate to footnotes.
 Footnotes are not specified by CommonMark, which we follow by default.
 They are supported by GitHub, so footnotes can be enabled in markdown with
-[`mdast-util-gfm`][mdast-util-gfm].
+[`mdast-util-gfm`][github-mdast-util-gfm].
 
 The options `footnoteBackLabel` and `footnoteLabel` define natural language
 that explains footnotes, which is hidden for sighted users but shown to
@@ -228,7 +225,8 @@ which is a security risk.
 Using a prefix solves this problem.
 
 More information on how to handle clobbering and the prefix is explained in
-[Example: headings (DOM clobbering) in `rehype-sanitize`][clobber-example].
+[Example: headings (DOM clobbering) in
+`rehype-sanitize`][github-rehype-sanitize-example-clobbering].
 
 ###### Unknown nodes
 
@@ -321,14 +319,14 @@ Handle a node (TypeScript type).
 
 * `state` ([`State`][api-state])
   — info passed around
-* `node` ([`MdastNode`][mdast-node])
+* `node` ([`MdastNode`][github-mdast-nodes])
   — node to handle
-* `parent` ([`MdastNode | undefined`][mdast-node])
+* `parent` ([`MdastNode | undefined`][github-mdast-nodes])
   — parent of `node`
 
 ###### Returns
 
-Result ([`Array<HastNode> | HastNode | undefined`][hast-node]).
+Result ([`Array<HastNode> | HastNode | undefined`][github-hast-nodes]).
 
 ### `Handlers`
 
@@ -351,7 +349,7 @@ Configuration (TypeScript type).
 * `clobberPrefix` (`string`, default: `'user-content-'`)
   — prefix to use before the `id` property on footnotes to prevent them from
   *clobbering*
-* `file` ([`VFile`][vfile], optional)
+* `file` ([`VFile`][github-vfile], optional)
   — corresponding virtual file representing the input document
 * `footnoteBackContent`
   ([`FootnoteBackContentTemplate`][api-footnote-back-content-template]
@@ -366,7 +364,7 @@ Configuration (TypeScript type).
 * `footnoteLabel` (`string`, default: `'Footnotes'`)
   — label to use for the footnotes section (affects screen readers)
 * `footnoteLabelProperties`
-  ([`Properties`][properties], default: `{className: ['sr-only']}`)
+  ([`Properties`][github-hast-properties], default: `{className: ['sr-only']}`)
   — properties to use on the footnote label
   (note that `id: 'footnote-label'` is always added as footnote calls use it
   with `aria-describedby` to provide an accessible label)
@@ -461,7 +459,7 @@ console.log(html)
 
 If you do not trust the authors of the input markdown, or if you want to make
 sure that further utilities can see HTML embedded in markdown, use
-[`hast-util-raw`][hast-util-raw].
+[`hast-util-raw`][github-hast-util-raw].
 The following example passes `allowDangerousHtml` to this utility
 (`mdast-util-to-hast`), then turns the raw embedded HTML into proper HTML nodes
 (`hast-util-raw`), and finally sanitizes the HTML by only allowing safe things
@@ -667,7 +665,7 @@ The following table gives insight into what input turns into what output:
 </td>
 <td>
 
-[`element`][hast-element] (`blockquote`)
+[`element`][github-hast-element] (`blockquote`)
 
 </td>
 <td>
@@ -696,7 +694,7 @@ before a line break…
 </td>
 <td>
 
-[`element`][hast-element] (`br`)
+[`element`][github-hast-element] (`br`)
 
 </td>
 <td>
@@ -725,7 +723,7 @@ backtick.fences('for blocks')
 </td>
 <td>
 
-[`element`][hast-element] (`pre` and `code`)
+[`element`][github-hast-element] (`pre` and `code`)
 
 </td>
 <td>
@@ -752,7 +750,7 @@ Two ~~tildes~~ for delete.
 </td>
 <td>
 
-[`element`][hast-element] (`del`)
+[`element`][github-hast-element] (`del`)
 
 </td>
 <td>
@@ -778,7 +776,7 @@ Some *asterisks* for emphasis.
 </td>
 <td>
 
-[`element`][hast-element] (`em`)
+[`element`][github-hast-element] (`em`)
 
 </td>
 <td>
@@ -808,7 +806,7 @@ With a [^caret].
 </td>
 <td>
 
-[`element`][hast-element] (`section`, `sup`, `a`)
+[`element`][github-hast-element] (`section`, `sup`, `a`)
 
 </td>
 <td>
@@ -835,7 +833,7 @@ With a [^caret].
 </td>
 <td>
 
-[`element`][hast-element] (`h1`…`h6`)
+[`element`][github-hast-element] (`h1`…`h6`)
 
 </td>
 <td>
@@ -850,7 +848,7 @@ With a [^caret].
 <tr>
 <th scope="row">
 
-[`html`][mdast-html]
+[`html`][github-mdast-html]
 
 </th>
 <td>
@@ -886,7 +884,7 @@ n/a
 </td>
 <td>
 
-[`element`][hast-element] (`img`)
+[`element`][github-hast-element] (`img`)
 
 </td>
 <td>
@@ -901,7 +899,7 @@ n/a
 <th scope="row">
 
 [`imageReference`](https://github.com/syntax-tree/mdast#imagereference),
-[`definition`][mdast-definition]
+[`definition`][github-mdast-definition]
 
 </th>
 <td>
@@ -915,7 +913,7 @@ n/a
 </td>
 <td>
 
-[`element`][hast-element] (`img`)
+[`element`][github-hast-element] (`img`)
 
 </td>
 <td>
@@ -941,7 +939,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`][hast-element] (`code`)
+[`element`][github-hast-element] (`code`)
 
 </td>
 <td>
@@ -967,7 +965,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`][hast-element] (`a`)
+[`element`][github-hast-element] (`a`)
 
 </td>
 <td>
@@ -982,7 +980,7 @@ Some `backticks` for inline code.
 <th scope="row">
 
 [`linkReference`](https://github.com/syntax-tree/mdast#linkreference),
-[`definition`][mdast-definition]
+[`definition`][github-mdast-definition]
 
 </th>
 <td>
@@ -996,7 +994,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`][hast-element] (`a`)
+[`element`][github-hast-element] (`a`)
 
 </td>
 <td>
@@ -1025,7 +1023,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`][hast-element] (`li` and `ol` or `ul`)
+[`element`][github-hast-element] (`li` and `ol` or `ul`)
 
 </td>
 <td>
@@ -1056,7 +1054,7 @@ Just some text…
 </td>
 <td>
 
-[`element`][hast-element] (`p`)
+[`element`][github-hast-element] (`p`)
 
 </td>
 <td>
@@ -1108,7 +1106,7 @@ Two **asterisks** for strong.
 </td>
 <td>
 
-[`element`][hast-element] (`strong`)
+[`element`][github-hast-element] (`strong`)
 
 </td>
 <td>
@@ -1163,7 +1161,7 @@ Anything!
 </td>
 <td>
 
-[`element`][hast-element] (`table`, `thead`,
+[`element`][github-hast-element] (`table`, `thead`,
 `tbody`, `tr`, `td`, `th`)
 
 </td>
@@ -1198,7 +1196,7 @@ Three asterisks for a thematic break:
 </td>
 <td>
 
-[`element`][hast-element] (`hr`)
+[`element`][github-hast-element] (`hr`)
 
 </td>
 <td>
@@ -1267,8 +1265,9 @@ n/a
 
 > 👉 **Note**: GFM prescribes that the obsolete `align` attribute on `td` and
 > `th` elements is used.
-> To use `style` attributes instead of obsolete features, combine this utility
-> with [`@mapbox/hast-util-table-cell-style`][hast-util-table-cell-style].
+> To use `style` attributes instead of obsolete features,
+> combine this utility with
+> [`@mapbox/hast-util-table-cell-style`][github-hast-util-table-cell-style].
 
 > 🧑‍🏫 **Info**: this project is concerned with turning one syntax tree into
 > another.
@@ -1300,7 +1299,7 @@ The following fields can be used:
 ###### `hName`
 
 `node.data.hName` sets the tag name of an element.
-The following [mdast][]:
+The following [mdast][github-mdast]:
 
 ```js
 {
@@ -1310,7 +1309,7 @@ The following [mdast][]:
 }
 ```
 
-…yields ([hast][]):
+…yields ([hast][github-hast]):
 
 ```js
 {
@@ -1324,7 +1323,7 @@ The following [mdast][]:
 ###### `hProperties`
 
 `node.data.hProperties` sets the properties of an element.
-The following [mdast][]:
+The following [mdast][github-mdast]:
 
 ```js
 {
@@ -1335,7 +1334,7 @@ The following [mdast][]:
 }
 ```
 
-…yields ([hast][]):
+…yields ([hast][github-hast]):
 
 ```js
 {
@@ -1353,7 +1352,7 @@ The following [mdast][]:
 ###### `hChildren`
 
 `node.data.hChildren` sets the children of an element.
-The following [mdast][]:
+The following [mdast][github-mdast]:
 
 ```js
 {
@@ -1374,7 +1373,7 @@ The following [mdast][]:
 }
 ```
 
-…yields ([hast][]):
+…yields ([hast][github-hast]):
 
 ```js
 {
@@ -1410,7 +1409,8 @@ With CSS, you can get creative and style the results as you please.
 Some semistandard features, notably GFMs tasklists and footnotes, generate HTML
 that be unintuitive, as it matches exactly what GitHub produces for their
 website.
-There is a project, [`sindresorhus/github-markdown-css`][github-markdown-css],
+There is a project,
+[`sindresorhus/github-markdown-css`][github-github-markdown-css],
 that exposes the stylesheet that GitHub uses for rendered markdown, which might
 either be inspirational for more complex features, or can be used as-is to
 exactly match how GitHub styles rendered markdown.
@@ -1449,7 +1449,7 @@ The following CSS is needed to make footnotes look a bit like GitHub:
 
 ## Syntax tree
 
-The following interfaces are added to **[hast][]** by this utility.
+The following interfaces are added to **[hast][github-hast]** by this utility.
 
 ### Nodes
 
@@ -1461,10 +1461,11 @@ interface Raw <: Literal {
 }
 ```
 
-**Raw** (**[Literal][dfn-literal]**) represents a string if raw HTML inside
-hast.
+**Raw** (**[Literal][github-hast-literal]**) represents a string if raw HTML
+inside hast.
 Raw nodes are typically ignored but are handled by
-[`hast-util-to-html`][hast-util-to-html] and [`hast-util-raw`][hast-util-raw].
+[`hast-util-to-html`][github-hast-util-to-html] and
+[`hast-util-raw`][github-hast-util-raw].
 
 ## Types
 
@@ -1531,7 +1532,7 @@ compatible with Node.js 16.
 ## Security
 
 Use of `mdast-util-to-hast` can open you up to a
-[cross-site scripting (XSS)][xss] attack.
+[cross-site scripting (XSS)][wikipedia-xss] attack.
 Embedded hast properties (`hName`, `hProperties`, `hChildren`), custom handlers,
 and the `allowDangerousHtml` option all provide openings.
 
@@ -1595,30 +1596,35 @@ If `allowDangerousHtml: true` is also given to `hast-util-to-html` (or
 <script>alert(3)</script>
 ```
 
-Use [`hast-util-sanitize`][hast-util-sanitize] to make the hast tree safe.
+Use [`hast-util-sanitize`][github-hast-util-sanitize] to make the hast tree
+safe.
 
 ## Related
 
-* [`hast-util-to-mdast`][hast-util-to-mdast]
+* [`hast-util-to-mdast`][github-hast-util-to-mdast]
   — transform hast to mdast
 * [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
   — transform hast to xast
-* [`hast-util-sanitize`][hast-util-sanitize]
+* [`hast-util-sanitize`][github-hast-util-sanitize]
   — sanitize hast nodes
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
-See [`support.md`][support] for ways to get help.
+See
+[`contributing.md`][health-contributing]
+in
+[`syntax-tree/.github`][health]
+for ways to get started.
+See [`support.md`][health-support] for ways to get help.
 
-This project has a [code of conduct][coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
+This project has a [code of conduct][health-coc].
+By interacting with this repository,
+organization,
+or community you agree to abide by its terms.
 
 ## License
 
-[MIT][license] © [Titus Wormer][author]
+[MIT][file-license] © [Titus Wormer][wooorm]
 
 <!-- Definitions -->
 
@@ -1644,86 +1650,78 @@ abide by its terms.
 
 [api-to-hast]: #tohasttree-options
 
-[author]: https://wooorm.com
+[badge-build-image]: https://github.com/syntax-tree/mdast-util-to-hast/workflows/main/badge.svg
 
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+[badge-build-url]: https://github.com/syntax-tree/mdast-util-to-hast/actions
 
-[build]: https://github.com/syntax-tree/mdast-util-to-hast/actions
+[badge-coverage-image]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
 
-[build-badge]: https://github.com/syntax-tree/mdast-util-to-hast/workflows/main/badge.svg
+[badge-coverage-url]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
 
-[chat]: https://github.com/syntax-tree/unist/discussions
+[badge-downloads-image]: https://img.shields.io/npm/dm/mdast-util-to-hast.svg
 
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
+[badge-downloads-url]: https://www.npmjs.com/package/mdast-util-to-hast
 
-[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
+[badge-size-image]: https://img.shields.io/bundlejs/size/mdast-util-to-hast
 
-[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
-
-[collective]: https://opencollective.com/unified
-
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
-
-[coverage]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
-
-[dfn-literal]: https://github.com/syntax-tree/hast#literal
-
-[downloads]: https://www.npmjs.com/package/mdast-util-to-hast
-
-[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-to-hast.svg
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+[badge-size-url]: https://bundlejs.com/?q=mdast-util-to-hast
 
 [esmsh]: https://esm.sh
 
-[github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
+[file-license]: license
 
-[hast]: https://github.com/syntax-tree/hast
+[github-gist-esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
-[hast-element]: https://github.com/syntax-tree/hast#element
+[github-github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
 
-[hast-node]: https://github.com/syntax-tree/hast#nodes
+[github-hast]: https://github.com/syntax-tree/hast
 
-[hast-util-raw]: https://github.com/syntax-tree/hast-util-raw
+[github-hast-element]: https://github.com/syntax-tree/hast#element
 
-[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+[github-hast-literal]: https://github.com/syntax-tree/hast#literal
 
-[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
+[github-hast-nodes]: https://github.com/syntax-tree/hast#nodes
 
-[hast-util-to-html]: https://github.com/syntax-tree/hast-util-to-html
+[github-hast-properties]: https://github.com/syntax-tree/hast#properties
 
-[hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+[github-hast-util-raw]: https://github.com/syntax-tree/hast-util-raw
 
-[license]: license
+[github-hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
 
-[mdast]: https://github.com/syntax-tree/mdast
+[github-hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
 
-[mdast-definition]: https://github.com/syntax-tree/mdast#definition
+[github-hast-util-to-html]: https://github.com/syntax-tree/hast-util-to-html
 
-[mdast-html]: https://github.com/syntax-tree/mdast#html
+[github-hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
 
-[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+[github-mdast]: https://github.com/syntax-tree/mdast
 
-[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+[github-mdast-definition]: https://github.com/syntax-tree/mdast#definition
 
-[npm]: https://docs.npmjs.com/cli/install
+[github-mdast-html]: https://github.com/syntax-tree/mdast#html
 
-[properties]: https://github.com/syntax-tree/hast#properties
+[github-mdast-nodes]: https://github.com/syntax-tree/mdast#nodes
 
-[remark-rehype]: https://github.com/remarkjs/remark-rehype
+[github-mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
 
-[size]: https://bundlejs.com/?q=mdast-util-to-hast
+[github-rehype-sanitize-example-clobbering]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
 
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size\&query=$.size.compressedSize\&url=https://deno.bundlejs.com/?q=mdast-util-to-hast
+[github-remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+[github-vfile]: https://github.com/vfile/vfile
 
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+[health]: https://github.com/syntax-tree/.github
+
+[health-coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
+
+[health-contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+
+[health-support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[npmjs-install]: https://docs.npmjs.com/cli/install
 
 [typescript]: https://www.typescriptlang.org
 
-[vfile]: https://github.com/vfile/vfile
+[wikipedia-xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
 
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
+[wooorm]: https://wooorm.com
