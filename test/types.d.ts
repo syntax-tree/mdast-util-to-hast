@@ -15,7 +15,7 @@ interface AlphaData extends Data {}
 
 interface Bravo extends Parent {
   type: 'bravo'
-  children: PhrasingContent[]
+  children: Array<PhrasingContent>
   data?: BravoData | undefined
 }
 
@@ -37,7 +37,7 @@ interface AlphaDataHast extends DataHast {}
 
 interface BravoHast extends ParentHast {
   type: 'bravo'
-  children: ElementContentHast[]
+  children: Array<ElementContentHast>
   data?: BravoDataHast | undefined
 }
 

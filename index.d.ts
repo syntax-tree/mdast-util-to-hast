@@ -71,7 +71,7 @@ declare module 'mdast' {
      * When this is defined, when a parent is created, these children will
      * be used.
      */
-    hChildren?: ElementContent[] | undefined
+    hChildren?: Array<ElementContent> | undefined
 
     /**
      * Field supported by `mdast-util-to-hast` to signal that a node should

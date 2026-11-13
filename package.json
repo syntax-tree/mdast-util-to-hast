@@ -45,9 +45,9 @@
     "vfile": "^6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^26.0.0",
     "@types/ungap__structured-clone": "^1.0.0",
-    "c8": "^9.0.0",
+    "c8": "^12.0.0",
     "hast-util-to-html": "^9.0.0",
     "hastscript": "^9.0.0",
     "mdast-util-from-markdown": "^2.0.0",
@@ -55,10 +55,10 @@
     "micromark-extension-gfm": "^3.0.0",
     "prettier": "^3.0.0",
     "remark-cli": "^12.0.0",
-    "remark-preset-wooorm": "^10.0.0",
+    "remark-preset-wooorm": "^11.0.0",
     "type-coverage": "^2.0.0",
-    "typescript": "^5.5.1-rc",
-    "xo": "^0.58.0"
+    "typescript": "^6.0.0",
+    "xo": "^5.0.0"
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
@@ -94,26 +94,5 @@
       "lib/state.d.ts"
     ],
     "strict": true
-  },
-  "xo": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/ban-types": "off",
-          "@typescript-eslint/consistent-type-definitions": "off"
-        }
-      }
-    ],
-    "prettier": true,
-    "rules": {
-      "import/no-cycle": "error",
-      "max-depth": "off",
-      "unicorn/prefer-at": "off",
-      "unicorn/prefer-code-point": "off",
-      "unicorn/prefer-string-replace-all": "off"
-    }
   }
 }

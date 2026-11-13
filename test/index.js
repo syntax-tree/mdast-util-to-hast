@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unassigned-import */
+/* eslint-disable import-x/no-unassigned-import, node-test/no-import-test-files -- these files register tests. */
 import './blockquote.js'
 import './break.js'
 import './code.js'
@@ -26,4 +26,3 @@ import './text.js'
 import './thematic-break.js'
 import './toml.js'
 import './yaml.js'
-/* eslint-enable import/no-unassigned-import */

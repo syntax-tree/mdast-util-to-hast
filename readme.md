@@ -667,7 +667,7 @@ The following table gives insight into what input turns into what output:
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`blockquote`)
+[`element`][hast-element] (`blockquote`)
 
 </td>
 <td>
@@ -696,7 +696,7 @@ before a line break…
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`br`)
+[`element`][hast-element] (`br`)
 
 </td>
 <td>
@@ -725,7 +725,7 @@ backtick.fences('for blocks')
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`pre` and `code`)
+[`element`][hast-element] (`pre` and `code`)
 
 </td>
 <td>
@@ -752,7 +752,7 @@ Two ~~tildes~~ for delete.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`del`)
+[`element`][hast-element] (`del`)
 
 </td>
 <td>
@@ -778,7 +778,7 @@ Some *asterisks* for emphasis.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`em`)
+[`element`][hast-element] (`em`)
 
 </td>
 <td>
@@ -808,7 +808,7 @@ With a [^caret].
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`section`, `sup`, `a`)
+[`element`][hast-element] (`section`, `sup`, `a`)
 
 </td>
 <td>
@@ -835,7 +835,7 @@ With a [^caret].
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`h1`…`h6`)
+[`element`][hast-element] (`h1`…`h6`)
 
 </td>
 <td>
@@ -850,7 +850,7 @@ With a [^caret].
 <tr>
 <th scope="row">
 
-[`html`](https://github.com/syntax-tree/mdast#html)
+[`html`][mdast-html]
 
 </th>
 <td>
@@ -886,7 +886,7 @@ n/a
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`img`)
+[`element`][hast-element] (`img`)
 
 </td>
 <td>
@@ -901,7 +901,7 @@ n/a
 <th scope="row">
 
 [`imageReference`](https://github.com/syntax-tree/mdast#imagereference),
-[`definition`](https://github.com/syntax-tree/mdast#definition)
+[`definition`][mdast-definition]
 
 </th>
 <td>
@@ -915,7 +915,7 @@ n/a
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`img`)
+[`element`][hast-element] (`img`)
 
 </td>
 <td>
@@ -941,7 +941,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`code`)
+[`element`][hast-element] (`code`)
 
 </td>
 <td>
@@ -967,7 +967,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`a`)
+[`element`][hast-element] (`a`)
 
 </td>
 <td>
@@ -982,7 +982,7 @@ Some `backticks` for inline code.
 <th scope="row">
 
 [`linkReference`](https://github.com/syntax-tree/mdast#linkreference),
-[`definition`](https://github.com/syntax-tree/mdast#definition)
+[`definition`][mdast-definition]
 
 </th>
 <td>
@@ -996,7 +996,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`a`)
+[`element`][hast-element] (`a`)
 
 </td>
 <td>
@@ -1025,7 +1025,7 @@ Some `backticks` for inline code.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`li` and `ol` or `ul`)
+[`element`][hast-element] (`li` and `ol` or `ul`)
 
 </td>
 <td>
@@ -1056,7 +1056,7 @@ Just some text…
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`p`)
+[`element`][hast-element] (`p`)
 
 </td>
 <td>
@@ -1108,7 +1108,7 @@ Two **asterisks** for strong.
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`strong`)
+[`element`][hast-element] (`strong`)
 
 </td>
 <td>
@@ -1163,7 +1163,7 @@ Anything!
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`table`, `thead`,
+[`element`][hast-element] (`table`, `thead`,
 `tbody`, `tr`, `td`, `th`)
 
 </td>
@@ -1198,7 +1198,7 @@ Three asterisks for a thematic break:
 </td>
 <td>
 
-[`element`](https://github.com/syntax-tree/hast#element) (`hr`)
+[`element`][hast-element] (`hr`)
 
 </td>
 <td>
@@ -1599,11 +1599,11 @@ Use [`hast-util-sanitize`][hast-util-sanitize] to make the hast tree safe.
 
 ## Related
 
-* [`hast-util-to-mdast`](https://github.com/syntax-tree/hast-util-to-mdast)
+* [`hast-util-to-mdast`][hast-util-to-mdast]
   — transform hast to mdast
 * [`hast-util-to-xast`](https://github.com/syntax-tree/hast-util-to-xast)
   — transform hast to xast
-* [`hast-util-sanitize`](https://github.com/syntax-tree/hast-util-sanitize)
+* [`hast-util-sanitize`][hast-util-sanitize]
   — sanitize hast nodes
 
 ## Contribute
@@ -1621,86 +1621,6 @@ abide by its terms.
 [MIT][license] © [Titus Wormer][author]
 
 <!-- Definitions -->
-
-[build-badge]: https://github.com/syntax-tree/mdast-util-to-hast/workflows/main/badge.svg
-
-[build]: https://github.com/syntax-tree/mdast-util-to-hast/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
-
-[coverage]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
-
-[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-to-hast.svg
-
-[downloads]: https://www.npmjs.com/package/mdast-util-to-hast
-
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=mdast-util-to-hast
-
-[size]: https://bundlejs.com/?q=mdast-util-to-hast
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/syntax-tree/unist/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[license]: license
-
-[author]: https://wooorm.com
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[esmsh]: https://esm.sh
-
-[typescript]: https://www.typescriptlang.org
-
-[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
-
-[support]: https://github.com/syntax-tree/.github/blob/main/support.md
-
-[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
-
-[mdast]: https://github.com/syntax-tree/mdast
-
-[mdast-node]: https://github.com/syntax-tree/mdast#nodes
-
-[mdast-html]: https://github.com/syntax-tree/mdast#html
-
-[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
-
-[hast]: https://github.com/syntax-tree/hast
-
-[hast-node]: https://github.com/syntax-tree/hast#nodes
-
-[properties]: https://github.com/syntax-tree/hast#properties
-
-[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
-
-[hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
-
-[hast-util-to-html]: https://github.com/syntax-tree/hast-util-to-html
-
-[hast-util-raw]: https://github.com/syntax-tree/hast-util-raw
-
-[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
-
-[remark-rehype]: https://github.com/remarkjs/remark-rehype
-
-[vfile]: https://github.com/vfile/vfile
-
-[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
-
-[github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
-[dfn-literal]: https://github.com/syntax-tree/hast#literal
 
 [api-default-footnote-back-content]: #defaultfootnotebackcontentreferenceindex-rereferenceindex
 
@@ -1723,3 +1643,87 @@ abide by its terms.
 [api-state]: #state
 
 [api-to-hast]: #tohasttree-options
+
+[author]: https://wooorm.com
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[build]: https://github.com/syntax-tree/mdast-util-to-hast/actions
+
+[build-badge]: https://github.com/syntax-tree/mdast-util-to-hast/workflows/main/badge.svg
+
+[chat]: https://github.com/syntax-tree/unist/discussions
+
+[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
+
+[clobber-example]: https://github.com/rehypejs/rehype-sanitize#example-headings-dom-clobbering
+
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
+
+[collective]: https://opencollective.com/unified
+
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+
+[coverage]: https://codecov.io/github/syntax-tree/mdast-util-to-hast
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-to-hast.svg
+
+[dfn-literal]: https://github.com/syntax-tree/hast#literal
+
+[downloads]: https://www.npmjs.com/package/mdast-util-to-hast
+
+[downloads-badge]: https://img.shields.io/npm/dm/mdast-util-to-hast.svg
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
+
+[hast]: https://github.com/syntax-tree/hast
+
+[hast-element]: https://github.com/syntax-tree/hast#element
+
+[hast-node]: https://github.com/syntax-tree/hast#nodes
+
+[hast-util-raw]: https://github.com/syntax-tree/hast-util-raw
+
+[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+
+[hast-util-table-cell-style]: https://github.com/mapbox/hast-util-table-cell-style
+
+[hast-util-to-html]: https://github.com/syntax-tree/hast-util-to-html
+
+[hast-util-to-mdast]: https://github.com/syntax-tree/hast-util-to-mdast
+
+[license]: license
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[mdast-definition]: https://github.com/syntax-tree/mdast#definition
+
+[mdast-html]: https://github.com/syntax-tree/mdast#html
+
+[mdast-node]: https://github.com/syntax-tree/mdast#nodes
+
+[mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[properties]: https://github.com/syntax-tree/hast#properties
+
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
+
+[size]: https://bundlejs.com/?q=mdast-util-to-hast
+
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size\&query=$.size.compressedSize\&url=https://deno.bundlejs.com/?q=mdast-util-to-hast
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[typescript]: https://www.typescriptlang.org
+
+[vfile]: https://github.com/vfile/vfile
+
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting

@@ -28,7 +28,7 @@ test('toHast', async function (t) {
           true
         ]
       })
-    })
+    }, TypeError)
   })
 
   await t.test('should prefer `data.hName` to tag names', async function () {
@@ -301,7 +301,7 @@ test('toHast', async function (t) {
           file,
           handlers: {
             paragraph(state, /** @type {Paragraph} */ node) {
-              assert(state.options.file)
+              assert.ok(state.options.file)
               state.options.file.message('Warning!')
               return defaultHandlers.paragraph(state, node)
             }
