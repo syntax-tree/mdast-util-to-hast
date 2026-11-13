@@ -69,12 +69,6 @@ In Node.js (version 16+), install with [npm][npmjs-install]:
 npm install mdast-util-to-hast
 ```
 
-In Deno with [`esm.sh`][esmsh]:
-
-```js
-import {toHast} from 'https://esm.sh/mdast-util-to-hast@13'
-```
-
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
